@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Select, { type ActionMeta, type SingleValue } from 'react-select';
 import {
     FixedSizeList as List,
     type ListChildComponentProps,
 } from 'react-window';
 import { Dialog } from '../additionalComponents/Dialog';
-import { selectStyles } from '../customization/ComponentStyles';
+import { Select, type SelectValue } from '../additionalComponents/Select';
 import {
     entrancePoolsSelector,
     exitsSelector,
@@ -14,13 +13,6 @@ import {
 } from '../tracker/Selectors';
 import { mapEntrance } from '../tracker/Slice';
 import { mapValues } from '../utils/Collections';
-
-type Entrance = {
-    value: string;
-    label: string;
-};
-
-const RESET_OPTION = 'RESET';
 
 function EntranceTracker({
     open,
@@ -43,7 +35,7 @@ function EntranceTracker({
         setEntranceSearch('');
     };
 
-    const entranceOptions: Record<string, Entrance[]> = useMemo(
+    const entranceOptions: Record<string, SelectValue<string>[]> = useMemo(
         () =>
             mapValues(entrancePools, (poolValue, pool) => {
                 const entrances = poolValue.entrances
@@ -54,27 +46,20 @@ function EntranceTracker({
                     )
                     .map(({ id, name }) => ({
                         value: id,
+                        payload: id,
                         label: name,
                     }));
-
-                entrances.unshift({ value: RESET_OPTION, label: 'Reset' });
 
                 return entrances;
             }),
         [entrancePools, usedEntrances],
     );
 
-    const onEntranceChange = (
-        from: string,
-        selectedOption: SingleValue<Entrance>,
-        meta: ActionMeta<Entrance>,
-    ) => {
-        if (meta.action === 'select-option') {
-            if (!selectedOption || selectedOption.value === RESET_OPTION) {
-                dispatch(mapEntrance({ from, to: undefined }));
-            } else {
-                dispatch(mapEntrance({ from, to: selectedOption.value }));
-            }
+    const onEntranceChange = (from: string, entrance: string | undefined) => {
+        if (!entrance) {
+            dispatch(mapEntrance({ from, to: undefined }));
+        } else {
+            dispatch(mapEntrance({ from, to: entrance }));
         }
     };
 
@@ -120,29 +105,25 @@ function EntranceTracker({
                 </div>
                 <div style={{ flex: '1', minWidth: 0 }}>
                     <Select
-                        styles={selectStyles<false, Entrance>()}
-                        value={
+                        selectedValue={
                             exit.entrance && {
                                 label: exit.entrance.name,
+                                payload: exit.entrance.id,
                                 value: exit.entrance.id,
                             }
                         }
-                        onChange={(...args) =>
+                        onValueChange={(...args) =>
                             onEntranceChange(exit.exit.id, ...args)
                         }
                         options={
                             exit.canAssign
                                 ? entranceOptions[exit.rule.pool]
-                                : undefined
+                                : []
                         }
-                        name={exit.entrance?.name}
-                        isDisabled={!exit.canAssign}
-                        filterOption={(option, search) =>
-                            matches(
-                                option.data.label.toLowerCase(),
-                                search.toLowerCase(),
-                            )
-                        }
+                        label={exit.exit.name}
+                        disabled={!exit.canAssign}
+                        searchable
+                        clearable
                     />
                 </div>
                 <div>

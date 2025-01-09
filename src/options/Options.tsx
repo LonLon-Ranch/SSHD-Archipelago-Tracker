@@ -9,16 +9,15 @@ import React, {
     useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Select, {
-    type ActionMeta,
-    type MultiValue,
-    type SingleValue,
-} from 'react-select';
 import semverSatisfies from 'semver/functions/satisfies';
 import DiscordButton from '../additionalComponents/DiscordButton';
+import {
+    MultiSelect,
+    Select,
+    type SelectValue,
+} from '../additionalComponents/Select';
 import * as Tabs from '../additionalComponents/Tabs';
 import Tooltip from '../additionalComponents/Tooltip';
-import { selectStyles } from '../customization/ComponentStyles';
 import { ImportButton } from '../ImportExport';
 import {
     LATEST_STRING,
@@ -292,7 +291,7 @@ function LaunchButtons({
 
 const leastSupportedRelease = '>=2.1.1';
 
-function useRemoteOptions() {
+function useRemoteOptions(): SelectValue<RemoteReference>[] {
     const githubReleases = useReleases();
 
     return useMemo(() => {
@@ -306,20 +305,31 @@ function useRemoteOptions() {
             }
         };
 
-        const remotes = wellKnownRemotes.map(({ prettyName, remoteName }) => ({
-            value: parseRemote(remoteName)!,
-            label: niceRemoteName(remoteName, prettyName),
-        }));
+        const remotes = wellKnownRemotes.map(({ prettyName, remoteName }) => {
+            const remote = parseRemote(remoteName)!;
+            return {
+                value: JSON.stringify(remote),
+                payload: remote,
+                label: niceRemoteName(remoteName, prettyName),
+            };
+        });
 
         if (githubReleases) {
             const supportedReleases = githubReleases.releases.filter((r) =>
                 semverSatisfies(r, leastSupportedRelease),
             );
             remotes.push(
-                ...supportedReleases.map((r) => ({
-                    value: { type: 'releaseVersion', versionTag: r } as const,
-                    label: r,
-                })),
+                ...supportedReleases.map((r) => {
+                    const remote = {
+                        type: 'releaseVersion',
+                        versionTag: r,
+                    } as const;
+                    return {
+                        value: JSON.stringify(remote),
+                        payload: remote,
+                        label: r,
+                    };
+                }),
             );
         }
         return remotes;
@@ -350,12 +360,9 @@ function LogicChooser({
         [dispatch],
     );
 
-    const onRemoteChange = (
-        selectedOption: SingleValue<{ label: string; value: RemoteReference }>,
-        meta: ActionMeta<{ label: string; value: RemoteReference }>,
-    ) => {
-        if (meta.action === 'select-option' && selectedOption) {
-            setSelectedRemote(selectedOption.value);
+    const onRemoteChange = (option: RemoteReference | undefined) => {
+        if (option) {
+            setSelectedRemote(option);
         }
     };
 
@@ -382,15 +389,11 @@ function LogicChooser({
                     <Tabs.Trigger value="raw">Beta Feature</Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="wellKnown">
-                    <Select
-                        styles={selectStyles<
-                            false,
-                            { label: string; value: RemoteReference }
-                        >()}
-                        value={activeOption}
-                        onChange={onRemoteChange}
+                    <Select<RemoteReference>
+                        selectedValue={activeOption}
+                        onValueChange={onRemoteChange}
                         options={wellKnownSelectOptions}
-                        name="Select remote"
+                        label="Select remote"
                     />
                 </Tabs.Content>
                 <Tabs.Content value="raw">
@@ -604,22 +607,18 @@ function Setting({
                     </div>
                     <div>
                         <Select
-                            styles={selectStyles<
-                                false,
-                                { label: string; value: number }
-                            >()}
-                            isSearchable={false}
-                            value={{
-                                value: value as number,
+                            selectedValue={{
+                                value: (value as number).toString(),
+                                payload: value as number,
                                 label: (value as number).toString(),
                             }}
-                            onChange={(e) => e && setValue(e.value)}
+                            onValueChange={(e) => e && setValue(e)}
                             options={range(def.min, def.max + 1).map((val) => ({
-                                value: val,
+                                value: val.toString(),
+                                payload: val,
                                 label: val.toString(),
                             }))}
-                            name={def.name}
-                            id={def.name}
+                            label={def.name}
                         />
                     </div>
                 </>
@@ -632,52 +631,29 @@ function Setting({
                     </div>
                     <div>
                         <Select
-                            styles={selectStyles<
-                                false,
-                                { label: string; value: string }
-                            >()}
-                            isSearchable={false}
-                            value={{
+                            selectedValue={{
                                 value: value as string,
+                                payload: value as string,
                                 label: value as string,
                             }}
-                            onChange={(e) => e && setValue(e.value)}
+                            onValueChange={(e) => e && setValue(e)}
                             options={def.choices.map((val) => ({
                                 value: val,
+                                payload: val,
                                 label: val,
                             }))}
-                            name={def.name}
-                            id={def.name}
+                            label={def.name}
                         />
                     </div>
                 </>
             );
         case 'multichoice': {
-            type Option = {
-                value: string;
-                label: string;
-            };
             const numPaddingDigits = 4;
-            const onChange = (
-                selectedOption: MultiValue<Option>,
-                meta: ActionMeta<Option>,
-            ) => {
-                if (
-                    meta.action === 'select-option' ||
-                    meta.action === 'remove-value'
-                ) {
-                    setValue(
-                        selectedOption.map((o) =>
-                            o.value.slice(0, -numPaddingDigits),
-                        ),
-                    );
-                } else if (meta.action === 'clear') {
-                    setValue([]);
-                }
-            };
+            const onChange = (selected: string[]) => setValue(selected);
             // Hack: Ensure unique keys...........
             const options = def.choices.map((val, idx) => ({
                 value: val + idx.toString().padStart(numPaddingDigits, '0'),
+                payload: val,
                 label: val,
             }));
             return (
@@ -686,23 +662,21 @@ function Setting({
                         <OptionLabel option={def} />
                     </div>
                     <div>
-                        <Select
-                            styles={selectStyles<
-                                true,
-                                { label: string; value: string }
-                            >()}
-                            isMulti
-                            value={(value as string[]).map((val, idx) => ({
-                                value:
-                                    val +
-                                    idx
-                                        .toString()
-                                        .padStart(numPaddingDigits, '0'),
-                                label: val,
-                            }))}
-                            onChange={onChange}
+                        <MultiSelect
+                            selectedValue={(value as string[]).map(
+                                (val, idx) => ({
+                                    value:
+                                        val +
+                                        idx
+                                            .toString()
+                                            .padStart(numPaddingDigits, '0'),
+                                    payload: val,
+                                    label: val,
+                                }),
+                            )}
+                            onValueChange={onChange}
                             options={options}
-                            name={def.name}
+                            label={def.name}
                             id={def.name}
                         />
                     </div>

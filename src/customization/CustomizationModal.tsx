@@ -1,7 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Select, { type ActionMeta, type MultiValue } from 'react-select';
 import { Dialog } from '../additionalComponents/Dialog';
+import {
+    MultiSelect,
+    Select,
+    type SelectValue,
+} from '../additionalComponents/Select';
 import Tooltip from '../additionalComponents/Tooltip';
 import { optionsSelector } from '../logic/Selectors';
 import { type ThunkResult, useAppDispatch } from '../store/Store';
@@ -11,7 +15,6 @@ import {
     darkColorScheme,
     lightColorScheme,
 } from './ColorScheme';
-import { selectStyles } from './ComponentStyles';
 import styles from './CustomizationModal.module.css';
 import {
     colorSchemeSelector,
@@ -44,17 +47,17 @@ const defaultColorSchemes = {
     Dark: darkColorScheme,
 };
 
-const locationLayouts = [
-    { value: 'list', label: 'List Layout' },
-    { value: 'map', label: 'Map Layout' },
+const locationLayouts: SelectValue<LocationLayout>[] = [
+    { value: 'list', payload: 'list', label: 'List Layout' },
+    { value: 'map', payload: 'map', label: 'Map Layout' },
 ];
-const itemLayouts = [
-    { value: 'inventory', label: 'In-Game Inventory' },
-    { value: 'grid', label: 'Grid Layout' },
+const itemLayouts: SelectValue<ItemLayout>[] = [
+    { value: 'inventory', payload: 'inventory', label: 'In-Game Inventory' },
+    { value: 'grid', payload: 'grid', label: 'Grid Layout' },
 ];
-const counterBases = [
-    { value: 'logic', label: 'In Logic' },
-    { value: 'semilogic', label: 'Semilogic' },
+const counterBases: SelectValue<CounterBasis>[] = [
+    { value: 'logic', payload: 'logic', label: 'In Logic' },
+    { value: 'semilogic', payload: 'semilogic', label: 'Semilogic' },
 ];
 
 const colors: { key: keyof ColorScheme; name: string }[] = [
@@ -167,37 +170,22 @@ export default function CustomizationModal({
 
             <Setting name="Item Tracker Settings">
                 <Select
-                    styles={selectStyles<
-                        false,
-                        { label: string; value: string }
-                    >()}
-                    isDisabled={hasCustomLayout}
-                    isSearchable={false}
-                    value={itemLayouts.find((l) => l.value === layout)}
-                    onChange={(e) =>
-                        e && dispatch(setItemLayout(e.value as ItemLayout))
-                    }
+                    disabled={hasCustomLayout}
+                    selectedValue={itemLayouts.find((l) => l.value === layout)}
+                    onValueChange={(e) => e && dispatch(setItemLayout(e))}
                     options={itemLayouts}
-                    name="Item Layout"
+                    label="Item Layout"
                 />
             </Setting>
             <Setting name="Location Tracker Settings">
                 <Select
-                    styles={selectStyles<
-                        false,
-                        { label: string; value: string }
-                    >()}
-                    isDisabled={hasCustomLayout}
-                    isSearchable={false}
-                    value={locationLayouts.find(
+                    disabled={hasCustomLayout}
+                    selectedValue={locationLayouts.find(
                         (l) => l.value === locationLayout,
                     )}
-                    onChange={(e) =>
-                        e &&
-                        dispatch(setLocationLayout(e.value as LocationLayout))
-                    }
+                    onValueChange={(e) => e && dispatch(setLocationLayout(e))}
                     options={locationLayouts}
-                    name="Location Layout"
+                    label="Location Layout"
                 />
             </Setting>
             <Setting
@@ -222,17 +210,12 @@ export default function CustomizationModal({
                 tooltip="Choose whether the Area/Total Locations Accessible counters should include items in semilogic."
             >
                 <Select
-                    styles={selectStyles<
-                        false,
-                        { label: string; value: string }
-                    >()}
-                    isSearchable={false}
-                    value={counterBases.find((l) => l.value === counterBasis)}
-                    onChange={(e) =>
-                        e && dispatch(setCounterBasis(e.value as CounterBasis))
-                    }
+                    selectedValue={counterBases.find(
+                        (l) => l.value === counterBasis,
+                    )}
+                    onValueChange={(e) => e && dispatch(setCounterBasis(e))}
                     options={counterBases}
-                    name="Counter Basis"
+                    label="Counter Basis"
                 />
             </Setting>
             <Setting name="Additional Settings">
@@ -280,30 +263,14 @@ export default function CustomizationModal({
     );
 }
 
-interface Option {
-    label: string;
-    value: string;
-}
-
 function TricksChooser({ enabled }: { enabled: boolean }) {
     const dispatch = useDispatch();
     const options = useSelector(optionsSelector);
     const enabledTricks = useSelector(trickSemiLogicTrickListSelector);
 
     const onChange = useCallback(
-        (selectedOption: MultiValue<Option>, meta: ActionMeta<Option>) => {
-            if (
-                meta.action === 'select-option' ||
-                meta.action === 'remove-value'
-            ) {
-                dispatch(
-                    setEnabledSemilogicTricks(
-                        selectedOption.map((o) => o.value),
-                    ),
-                );
-            } else if (meta.action === 'clear') {
-                // do not allow accidentally clearing everything until we have an undo
-            }
+        (tricks: string[]) => {
+            dispatch(setEnabledSemilogicTricks(tricks));
         },
         [dispatch],
     );
@@ -317,24 +284,25 @@ function TricksChooser({ enabled }: { enabled: boolean }) {
                         o.command === 'enabled-tricks-glitched',
                 )
                 .flatMap((o) => (o.type === 'multichoice' ? o.choices : []))
-                .map((o) => ({ value: o, label: o })),
+                .map((o) => ({ value: o, payload: o, label: o })),
         [options],
     );
 
     const value = useMemo(
-        () => [...enabledTricks].map((o) => ({ value: o, label: o })),
+        () =>
+            [...enabledTricks].map((o) => ({ value: o, payload: o, label: o })),
         [enabledTricks],
     );
 
     return (
-        <Select
-            styles={selectStyles<true, Option>()}
-            isMulti
-            isDisabled={!enabled}
-            value={value}
-            onChange={onChange}
+        <MultiSelect<string>
+            disabled={!enabled}
+            selectedValue={value}
+            onValueChange={onChange}
             options={choices}
-            name="Enabled Tricks"
+            label="Enabled Tricks"
+            searchable
+            clearable={false}
         />
     );
 }
