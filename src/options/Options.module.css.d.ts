@@ -3,6 +3,7 @@ declare const classNames: {
     readonly optionsPage: 'optionsPage';
     readonly logicAndPermalink: 'logicAndPermalink';
     readonly logicChooser: 'logicChooser';
+    readonly plaintextLogicInput: 'plaintextLogicInput';
     readonly permalinkChooser: 'permalinkChooser';
     readonly launchButtons: 'launchButtons';
     readonly continueButton: 'continueButton';

@@ -37,6 +37,14 @@
     grid-area: logic;
 }
 
+.plaintextLogicInput {
+    margin: 4px;
+    display: flex;
+    > input {
+        flex: 1;
+    }
+}
+
 .permalinkChooser {
     grid-area: permalink;
 }

@@ -352,7 +352,7 @@ function LogicChooser({
     const wellKnownSelectOptions = useRemoteOptions();
 
     const activeOption = wellKnownSelectOptions.find((option) =>
-        isEqual(option.value, selectedRemote),
+        isEqual(option.payload, selectedRemote),
     );
 
     const setSelectedRemote = useCallback(
@@ -437,7 +437,7 @@ function PlaintextLogicInput({
     useImperativeHandle(ref, () => ({ setInput }), []);
 
     return (
-        <div>
+        <div className={styles.plaintextLogicInput}>
             <input
                 type="text"
                 className={clsx('tracker-input', {
@@ -509,6 +509,11 @@ function PermalinkChooser({
                     value={permalink ?? ''}
                     onChange={(e) => onChangePermalink(e.target.value)}
                 />
+            </div>
+            <div>
+                Paste the settings string from the Randomizer here. Settings
+                strings are version-specific — you must select the correct
+                release first.
             </div>
         </div>
     );
