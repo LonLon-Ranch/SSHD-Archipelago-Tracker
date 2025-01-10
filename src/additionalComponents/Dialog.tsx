@@ -2,19 +2,19 @@ import * as RadixDialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import styles from './Dialog.module.css';
 
-export function Root(
+function Root(
     props: RadixDialog.DialogProps & React.RefAttributes<HTMLDivElement>,
 ) {
     return <RadixDialog.Root {...props} />;
 }
 
-export function Portal(
+function Portal(
     props: RadixDialog.DialogPortalProps & React.RefAttributes<HTMLDivElement>,
 ) {
     return <RadixDialog.Portal {...props} />;
 }
 
-export function Overlay(
+function Overlay(
     props: RadixDialog.DialogOverlayProps & React.RefAttributes<HTMLDivElement>,
 ) {
     const { className, ...rest } = props;
@@ -26,7 +26,7 @@ export function Overlay(
     );
 }
 
-export function Content(
+function Content(
     props: RadixDialog.DialogContentProps &
         React.RefAttributes<HTMLDivElement> & { narrow?: boolean },
 ) {
@@ -42,17 +42,17 @@ export function Content(
     );
 }
 
-export function Title(
+function Title(
     props: RadixDialog.DialogTitleProps & React.RefAttributes<HTMLDivElement>,
 ) {
     return <RadixDialog.Title {...props} />;
 }
 
-export function Footer({ children }: { children: React.ReactNode }) {
+function Footer({ children }: { children: React.ReactNode }) {
     return <div className={styles.footer}>{children}</div>;
 }
 
-export function Close(
+function Close(
     props: RadixDialog.DialogCloseProps &
         React.RefAttributes<HTMLButtonElement>,
 ) {
