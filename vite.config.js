@@ -45,6 +45,10 @@ export default defineConfig(({ mode }) => {
             }),
         ],
         test: {
+            coverage: {
+                include: ['src/'],
+                provider: 'v8',
+            },
             globals: true,
             environment: 'jsdom',
         },

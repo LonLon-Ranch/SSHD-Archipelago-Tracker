@@ -1,3 +1,4 @@
+import { compareBy } from '../utils/Compare';
 import PackedBitsReader from './PackedBitsReader';
 import PackedBitsWriter from './PackedBitsWriter';
 import type {
@@ -38,11 +39,19 @@ export function decodePermalink(
     return settings as AllTypedOptions;
 }
 
+function defaultSetting(option: Option) {
+    return option.type === 'multichoice'
+        ? [...option.default].sort(
+              compareBy((entry) => option.choices.indexOf(entry)),
+          )
+        : option.default;
+}
+
 export function defaultSettings(optionDefs: OptionDefs): AllTypedOptions {
     const settings: Partial<Record<OptionsCommand, OptionValue>> = {};
     for (const option of optionDefs) {
         if (option.permalink !== false) {
-            settings[option.command] = option.default;
+            settings[option.command] = defaultSetting(option);
         }
     }
     return settings as AllTypedOptions;
@@ -83,7 +92,8 @@ export function validateSettings(
         }
         const key = optionDef.command;
         const value = userSettings[key];
-        settings[key] = validateValue(optionDef, value) ?? optionDef.default;
+        settings[key] =
+            validateValue(optionDef, value) ?? defaultSetting(optionDef);
     }
 
     return settings as AllTypedOptions;
