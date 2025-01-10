@@ -1,6 +1,7 @@
 import { load } from 'js-yaml';
 import type { RawLogic, RawPresets } from '../logic/UpstreamTypes';
 import type { MultiChoiceOption, OptionDefs } from '../permalink/SettingsTypes';
+import { compareBy } from '../utils/Compare';
 import { convertError } from '../utils/Errors';
 import { getLatestRelease } from './ReleasesLoader';
 
@@ -168,13 +169,17 @@ export async function getAndPatchLogic(
     const excludedLocsIndex = options.findIndex(
         (x) => x.command === 'excluded-locations' && x.type === 'multichoice',
     );
+    const excludedLocsOption = options[excludedLocsIndex] as MultiChoiceOption;
 
     const choices = Object.values(logic.checks).map((c) => c.short_name);
 
     const patchedOptions = options.slice();
     patchedOptions[excludedLocsIndex] = {
-        ...(options[excludedLocsIndex] as MultiChoiceOption),
+        ...excludedLocsOption,
         choices,
+        default: [...excludedLocsOption.default].sort(
+            compareBy((entry) => choices.indexOf(entry)),
+        ),
     };
 
     return [logic, patchedOptions, presets] as const;
