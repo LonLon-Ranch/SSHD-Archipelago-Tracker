@@ -9,7 +9,7 @@ import type { LogicalState } from './logic/Locations';
 import type { TypedOptions } from './permalink/SettingsTypes';
 import type { AppAction, RootState, SyncThunkResult } from './store/Store';
 import { createTestLogic } from './testing/TestingUtils';
-import { clickCheck } from './tracker/Actions';
+import { checkOrUncheckAll, clickCheck } from './tracker/Actions';
 import {
     allSettingsSelector,
     areasSelector,
@@ -20,6 +20,7 @@ import {
 } from './tracker/Selectors';
 import {
     acceptSettings,
+    cancelItemAssignment,
     clickDungeonName,
     clickItem,
     mapEntrance,
@@ -275,14 +276,50 @@ describe('full logic tests', () => {
 
     it('does not track gratitude crystals', () => {
         dispatch(setAutoItemAssignment(true));
-        const fledgesGiftId = tester.findCheckId(
+        const crystalCheckId = tester.findCheckId(
             'Upper Skyloft',
             'Crystal in Knight Academy Plant',
         );
+        dispatch(clickCheck({ checkId: crystalCheckId }));
+        dispatch(clickItem({ item: 'Ruby Tablet', take: false }));
+        const hintedItem = readSelector(checkHintSelector(crystalCheckId));
+        expect(hintedItem).toBeUndefined();
+    });
+
+    it('cancels tracking when unmarking', () => {
+        dispatch(setAutoItemAssignment(true));
+        const fledgesGiftId = tester.findCheckId(
+            'Upper Skyloft',
+            "Fledge's Gift",
+        );
+        dispatch(clickCheck({ checkId: fledgesGiftId }));
         dispatch(clickCheck({ checkId: fledgesGiftId }));
         dispatch(clickItem({ item: 'Ruby Tablet', take: false }));
         const hintedItem = readSelector(checkHintSelector(fledgesGiftId));
         expect(hintedItem).toBeUndefined();
+    });
+
+    it('cancels tracking when cancelling', () => {
+        dispatch(setAutoItemAssignment(true));
+        const fledgesGiftId = tester.findCheckId(
+            'Upper Skyloft',
+            "Fledge's Gift",
+        );
+        dispatch(clickCheck({ checkId: fledgesGiftId }));
+        dispatch(cancelItemAssignment());
+        dispatch(clickItem({ item: 'Ruby Tablet', take: false }));
+        const hintedItem = readSelector(checkHintSelector(fledgesGiftId));
+        expect(hintedItem).toBeUndefined();
+    });
+
+    it('can bulk mark / unmark', () => {
+        dispatch(checkOrUncheckAll('Upper Skyloft', true, true));
+        let area = tester.findArea('Upper Skyloft');
+        expect(area.checks.numRemaining).toBeLessThan(area.checks.numTotal);
+        expect(area.checks.numRemaining).toBeGreaterThan(0);
+        dispatch(checkOrUncheckAll('Upper Skyloft', false));
+        area = tester.findArea('Upper Skyloft');
+        expect(area.checks.numRemaining).toEqual(area.checks.numTotal);
     });
 
     it('handles semilogic counters', () => {
