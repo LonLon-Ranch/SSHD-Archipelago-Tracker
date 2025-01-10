@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 import generateFile from 'vite-plugin-generate-file';
 import sassDts from 'vite-plugin-sass-dts';
 import makeManifest from './manifest.js';
@@ -49,6 +49,7 @@ export default defineConfig(({ mode }) => {
                 include: ['src/'],
                 provider: 'v8',
             },
+            setupFiles: ['@vitest/web-worker'],
             globals: true,
             environment: 'jsdom',
         },

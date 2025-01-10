@@ -27,12 +27,10 @@ export interface NonterminalRequirement {
 
 export type TooltipExpression = TerminalRequirement | NonterminalRequirement;
 
-export interface RootTooltipExpression {
-    op: 'and';
-    items: TooltipExpression[];
-}
+export type RootTooltipExpression = NonterminalRequirement & { op: 'and' };
 
 const impossible: RootTooltipExpression = {
+    type: 'expr',
     op: 'and',
     items: [
         {
@@ -44,6 +42,7 @@ const impossible: RootTooltipExpression = {
 };
 
 const nothing: RootTooltipExpression = {
+    type: 'expr',
     op: 'and',
     items: [
         {
@@ -124,11 +123,13 @@ export function booleanExprToTooltipExpr(
 
     if (ntExpr.op === 'and') {
         return {
+            type: 'expr',
             items: ntExpr.items,
             op: ntExpr.op,
         };
     } else {
         return {
+            type: 'expr',
             items: [ntExpr],
             op: 'and',
         };

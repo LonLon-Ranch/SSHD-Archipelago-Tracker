@@ -33,7 +33,7 @@ let g: GlobalState;
 
 console.log('Hello from worker!');
 
-onmessage = (ev: MessageEvent<WorkerRequest>) => {
+self.onmessage = (ev: MessageEvent<WorkerRequest>) => {
     const start = performance.now();
     switch (ev.data.type) {
         case 'initialize': {
