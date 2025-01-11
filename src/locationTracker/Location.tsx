@@ -85,10 +85,10 @@ function CheckLocation({ id }: { id: string }) {
                         </>
                     )}
                     {isBanned && (
-                        <span className={styles.tooltipNote}>
+                        <div className={styles.tooltipNote}>
                             This location is excluded by current settings and
                             will never be logically required.
-                        </span>
+                        </div>
                     )}
                 </>
             }
