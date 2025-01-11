@@ -54,6 +54,10 @@ npm start
 ```
 4. Access the application at http://localhost:5173/
 
+## Contributing
+
+Run `npm run prepare` once to set up a convenient pre-commit hook that automatically formats your code.
+
 ## Shoutouts
 
 Also see the [Acknowledgements](https://robojumper.github.io/SS-Randomizer-Tracker/acknowledgement) page.
