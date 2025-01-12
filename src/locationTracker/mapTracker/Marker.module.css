@@ -26,6 +26,16 @@
     &.circle {
         border-radius: 200px;
     }
+
+    &.droppable {
+        /* background-color: color-mix(in srgb, #0d6efd 60%, var(--scheme-background)); */
+        filter: drop-shadow(0 0 10px #0d6efd);
+    }
+
+    &.droppableHover {
+        /* background-color: color-mix(in srgb, #0d6efd 100%, var(--scheme-background)); */
+        filter: drop-shadow(0 0 20px #0d6efd);
+    }
 }
 
 .submarkers {

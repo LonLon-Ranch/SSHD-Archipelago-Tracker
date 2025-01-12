@@ -1,5 +1,8 @@
+import { mergeProps, mergeRefs } from '@react-aria/utils';
 import clsx from 'clsx';
 import { last } from 'es-toolkit';
+import { useDraggable } from '../dragAndDrop/DragAndDrop';
+import type { InventoryItem } from '../logic/Inventory';
 import keyDownWrapper from '../utils/KeyDownWrapper';
 import './BasicItem.css';
 
@@ -17,6 +20,7 @@ export function BasicItem({
     onClick,
     children,
     style,
+    dragItemName,
     ...restProps
 }: {
     /** A human-readable accessibility name */
@@ -31,6 +35,8 @@ export function BasicItem({
     count: number;
     /** Click callback for the main item */
     onClick: (take: boolean) => void;
+    /** If this item can be dragged and dropped, this is the item that will be dragged */
+    dragItemName?: InventoryItem;
     children?: React.ReactNode;
 } & Omit<React.HTMLProps<HTMLDivElement>, 'onClick'>) {
     const handleClick = (e: React.UIEvent) => {
@@ -42,18 +48,32 @@ export function BasicItem({
         }
     };
 
+    const { listeners, setNodeRef } = useDraggable(
+        {
+            type: 'item',
+            item: dragItemName!,
+        },
+        !dragItemName,
+    );
+
     return (
         <div
+            {...mergeProps(listeners, restProps)}
             className={clsx('item-container', className)}
             onClick={handleClick}
             onContextMenu={handleClick}
             onKeyDown={keyDownWrapper(handleClick)}
             role="button"
+            draggable
             tabIndex={0}
             style={{ width: imgWidth, ...style }}
-            {...restProps}
+            ref={mergeRefs(setNodeRef, restProps.ref)}
         >
-            <img src={images[count] ?? last(images)} alt={itemName} />
+            <img
+                draggable={false}
+                src={images[count] ?? last(images)}
+                alt={itemName}
+            />
             {children}
         </div>
     );

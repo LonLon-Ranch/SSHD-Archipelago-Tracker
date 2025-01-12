@@ -6,7 +6,9 @@ import Tooltip from '../additionalComponents/Tooltip';
 import exitImg from '../assets/dungeons/entrance.png';
 import goddessCubeImg from '../assets/sidequests/goddess_cube.png';
 import gossipStoneImg from '../assets/sidequests/gossip_stone.png';
+import { useDroppable } from '../dragAndDrop/DragAndDrop';
 import images, { findRepresentativeIcon } from '../itemTracker/Images';
+import type { InventoryItem } from '../logic/Inventory';
 import type { Check } from '../logic/Locations';
 import { useAppDispatch, type RootState } from '../store/Store';
 import { useEntrancePath, useTooltipExpr } from '../tooltips/TooltipHooks';
@@ -73,6 +75,13 @@ function CheckLocation({ id }: { id: string }) {
     const expr = useTooltipExpr(id);
     const path = useEntrancePath(id);
 
+    const { setNodeRef, active, isOver } = useDroppable({
+        type: 'location',
+        checkId: id,
+    });
+
+    const draggedItem = active?.type === 'item' ? active.item : undefined;
+
     return (
         <Tooltip
             content={
@@ -96,6 +105,8 @@ function CheckLocation({ id }: { id: string }) {
             <div
                 className={clsx(styles.location, {
                     [styles.checked]: check.checked,
+                    [styles.droppable]: Boolean(draggedItem),
+                    [styles.droppableHover]: draggedItem && isOver,
                 })}
                 style={style}
                 role="button"
@@ -103,16 +114,27 @@ function CheckLocation({ id }: { id: string }) {
                 onKeyDown={keyDownWrapper(onClick)}
                 onContextMenu={displayMenu}
                 data-check-id={id}
+                ref={setNodeRef}
             >
                 <span className={styles.text}>{check.checkName}</span>
-                <CheckIcon check={check} />
+                <CheckIcon
+                    check={check}
+                    overrideHint={isOver ? draggedItem : undefined}
+                />
             </div>
         </Tooltip>
     );
 }
 
-function CheckIcon({ check }: { check: Check }) {
-    const hintItem = useSelector(checkHintSelector(check.checkId));
+function CheckIcon({
+    check,
+    overrideHint,
+}: {
+    check: Check;
+    overrideHint?: InventoryItem;
+}) {
+    let hintItem = useSelector(checkHintSelector(check.checkId));
+    let preview = false;
     const isCheckBanned = useSelector(isCheckBannedSelector);
     let name: string | undefined = undefined;
     let src: string | undefined = undefined;
@@ -132,14 +154,22 @@ function CheckIcon({ check }: { check: Check }) {
             name += ' (not required)';
         }
         src = images['Gratitude Crystals Grid'][banned ? 0 : 1];
-    } else if (hintItem) {
-        name = hintItem;
-        src = findRepresentativeIcon(hintItem);
+    } else {
+        if (overrideHint) {
+            hintItem = overrideHint;
+            preview = true;
+        }
+        if (hintItem) {
+            name = hintItem;
+            src = findRepresentativeIcon(hintItem);
+        }
     }
 
     if (src && name) {
         return (
-            <div className={styles.hintItem}>
+            <div
+                className={clsx(styles.hintItem, { [styles.preview]: preview })}
+            >
                 <img src={src} height={36} title={name} alt={name} />
             </div>
         );

@@ -2,6 +2,10 @@ import { useCallback } from 'react';
 import type { TriggerEvent } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import type { ColorScheme } from '../../customization/ColorScheme';
+import {
+    draggableToRegionHint,
+    useDroppable,
+} from '../../dragAndDrop/DragAndDrop';
 import { decodeHint } from '../../hints/Hints';
 import { hintsToSubmarkers } from '../../hints/HintsParser';
 import { logicSelector } from '../../logic/Selectors';
@@ -11,7 +15,7 @@ import {
     areaHintSelector,
     areasSelector,
     exitsByIdSelector,
-    inLogicBitsSelector,
+    getRequirementLogicalStateSelector,
 } from '../../tracker/Selectors';
 import { useContextMenu } from '../context-menu';
 import HintDescription from '../HintsDescription';
@@ -50,7 +54,9 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
     const exit = useSelector(
         (state: RootState) => exitsByIdSelector(state)[exitId],
     );
-    const inLogicBits = useSelector(inLogicBitsSelector);
+    const getRequirementLogicalState = useSelector(
+        getRequirementLogicalStateSelector,
+    );
     const logic = useSelector(logicSelector);
     const isDungeon = Object.values(
         logic.areaGraph.linkedEntrancePools['dungeons'],
@@ -62,7 +68,7 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
     );
 
     const hasConnection = area !== undefined;
-    const canReach = inLogicBits.test(logic.itemBits[exit.exit.id]);
+    const canReach = getRequirementLogicalState(exit.exit.id) === 'inLogic';
     const isUnrequiredDungeon =
         isDungeon &&
         exit.rule.type === 'random' &&
@@ -123,7 +129,26 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
         ],
     );
 
-    const hints = useSelector(areaHintSelector(destinationRegionName ?? ''));
+    let hints = useSelector(areaHintSelector(destinationRegionName ?? ''));
+    const {
+        setNodeRef,
+        active: draggableActive,
+        isOver,
+    } = useDroppable(
+        {
+            type: 'hintRegion',
+            hintRegion: destinationRegionName!,
+        },
+        !destinationRegionName,
+    );
+
+    const dragPreviewHint =
+        draggableActive &&
+        destinationRegionName &&
+        draggableToRegionHint(draggableActive);
+    if (dragPreviewHint && isOver) {
+        hints = [...hints, dragPreviewHint];
+    }
 
     // Only calculate tooltip if this region is shown
     const requirements = useTooltipExpr(exit.exit.id, active);
@@ -180,6 +205,7 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
 
     return (
         <Marker
+            ref={setNodeRef}
             x={markerX}
             y={markerY}
             variant={title.includes('Trial Gate') ? 'circle' : 'square'}
@@ -188,6 +214,9 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
             onClick={handleClick}
             onContextMenu={displayMenu}
             selected={selected}
+            previewStyle={
+                dragPreviewHint ? (isOver ? 'hover' : 'droppable') : undefined
+            }
             submarkerPlacement={submarkerPlacement}
             submarkers={
                 data && [...getSubmarkerData(data), ...hintsToSubmarkers(hints)]

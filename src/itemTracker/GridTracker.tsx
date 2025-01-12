@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import noTablets from '../assets/tablets/no_tablets.png';
 import { tumbleweedSelector } from '../customization/Selectors';
+import { useDraggable } from '../dragAndDrop/DragAndDrop';
 import {
     rawItemCountSelector,
     totalGratitudeCrystalsSelector,
@@ -50,6 +51,11 @@ export default function GridTracker({ width }: { width: number }) {
     const walletCount = useSelector(rawItemCountSelector('Extra Wallet')) ?? 0;
     const crystalCount = useSelector(totalGratitudeCrystalsSelector);
     const tumbleweed = useSelector(tumbleweedSelector);
+
+    const { listeners, setNodeRef } = useDraggable({
+        type: 'item',
+        item: 'Extra Wallet',
+    });
 
     return (
         <div className={styles.itemGrid}>
@@ -133,7 +139,10 @@ export default function GridTracker({ width }: { width: number }) {
                     onClick={handleExtraWalletClick}
                     onKeyDown={handleExtraWalletClick}
                     tabIndex={0}
+                    draggable
+                    ref={setNodeRef}
                     role="button"
+                    {...listeners}
                 >
                     {`+${walletCount * 300}`}
                 </div>

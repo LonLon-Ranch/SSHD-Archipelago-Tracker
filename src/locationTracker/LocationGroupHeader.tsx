@@ -3,6 +3,10 @@ import { useCallback } from 'react';
 import type { TriggerEvent } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import Tooltip from '../additionalComponents/Tooltip';
+import {
+    draggableToRegionHint,
+    useDroppable,
+} from '../dragAndDrop/DragAndDrop';
 import { decodeHint } from '../hints/Hints';
 import type { HintRegion } from '../logic/Locations';
 import { areaHintSelector } from '../tracker/Selectors';
@@ -44,6 +48,17 @@ export default function LocationGroupHeader({
 
     const hints = areaHint.map(decodeHint);
 
+    const { setNodeRef, active, isOver } = useDroppable({
+        type: 'hintRegion',
+        hintRegion: area.name,
+    });
+
+    const dragPreviewHint = active && draggableToRegionHint(active);
+    const canDrop = Boolean(dragPreviewHint);
+    if (dragPreviewHint && isOver) {
+        hints.push({ ...decodeHint(dragPreviewHint), preview: true });
+    }
+
     return (
         <div
             onClick={onClick}
@@ -51,11 +66,20 @@ export default function LocationGroupHeader({
             role="button"
             tabIndex={0}
             onContextMenu={displayMenu}
-            className={styles.locationGroupHeader}
+            className={clsx(styles.locationGroupHeader, {
+                [styles.droppable]: canDrop,
+                [styles.droppableHover]: canDrop && isOver,
+            })}
+            ref={setNodeRef}
         >
             <div className={styles.name}>{area.name}</div>
             {hints.map((hint, idx) => (
-                <div key={idx} className={styles.hint}>
+                <div
+                    key={idx}
+                    className={clsx(styles.hint, {
+                        [styles.preview]: hint.preview,
+                    })}
+                >
                     <Tooltip
                         content={
                             <span
