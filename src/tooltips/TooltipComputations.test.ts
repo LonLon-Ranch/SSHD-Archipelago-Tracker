@@ -145,5 +145,15 @@ describe('tooltips', () => {
                 `"(Goddess Cube on top of Skyview and (Beetle or Bow or Clawshots or Slingshot))"`,
             );
         });
+
+        it('correctly factors out combinations', async () => {
+            const result = await getTooltipExpression(
+                computer,
+                tester.findCheckId('Faron Woods', 'Deep Woods Chest'),
+            );
+            expect(formatExpr(result)).toMatchInlineSnapshot(
+                `"(Emerald Tablet and (Clawshots or ((Bomb Bag or Practice Sword) and (Beetle or Bow or Slingshot))))"`,
+            );
+        });
     });
 });

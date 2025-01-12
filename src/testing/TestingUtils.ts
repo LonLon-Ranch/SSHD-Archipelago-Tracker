@@ -1,4 +1,10 @@
+import {
+    renderHook as renderHookTLR,
+    type RenderHookResult,
+} from '@testing-library/react';
 import fs from 'node:fs';
+import { createElement, type ReactNode } from 'react';
+import { Provider, type ProviderProps } from 'react-redux';
 import { resetCustomizationForTest } from '../customization/Slice';
 import { getAndPatchLogic, type RemoteReference } from '../loader/LogicLoader';
 import { logicSelector } from '../logic/Selectors';
@@ -29,6 +35,19 @@ const main: RemoteReference = {
 export function createTestLogic() {
     let store: Store;
     let defaultSet: AllTypedOptions;
+
+    function ReduxWrapper({ children }: { children: ReactNode }) {
+        // Typing crime required here because the Redux provider
+        // requires children that we can't put in props
+        return createElement<ProviderProps>(
+            Provider,
+            { store } satisfies Omit<
+                ProviderProps,
+                'children'
+            > as ProviderProps,
+            children,
+        );
+    }
 
     const tester = {
         async beforeAll() {
@@ -72,6 +91,12 @@ export function createTestLogic() {
 
         dispatch(action: SyncThunkResult | AppAction) {
             return store.dispatch(action);
+        },
+
+        renderHook<Result, Props>(
+            render: (initialProps: Props) => Result,
+        ): RenderHookResult<Result, Props> {
+            return renderHookTLR(render, { wrapper: ReduxWrapper });
         },
 
         tryFindCheckId(areaName: string, checkName: string) {
