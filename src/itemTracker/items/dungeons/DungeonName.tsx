@@ -38,7 +38,7 @@ const DungeonName = (props: DungeonNameProps) => {
     };
 
     const { listeners, setNodeRef } = useDraggable({
-        type: 'requiredDungeon',
+        type: 'dungeon',
         dungeon: dungeonName,
     });
 

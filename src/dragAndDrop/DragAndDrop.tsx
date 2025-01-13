@@ -25,7 +25,7 @@ export type TrackerDraggable =
           item: InventoryItem;
       }
     | {
-          type: 'requiredDungeon';
+          type: 'dungeon';
           dungeon: DungeonName;
       };
 
@@ -75,7 +75,7 @@ export function draggableToRegionHint(draggable: TrackerDraggable): Hint {
                 item: draggable.item,
             };
         }
-        case 'requiredDungeon': {
+        case 'dungeon': {
             return {
                 type: 'path',
                 index: dungeonNames.indexOf(draggable.dungeon),
@@ -90,46 +90,51 @@ export function DragAndDropContext({
     children: React.ReactNode;
 }) {
     const dispatch = useDispatch();
-    const [draggingItem, setDraggingItem] = useState<string | undefined>();
+    const [dragPreview, setDragPreview] = useState<string | undefined>();
     const handleDragStart = useCallback((event: DragStartEvent) => {
-        const item = event.active.data.current as TrackerDraggable;
-        if (item.type === 'item') {
-            setDraggingItem(findRepresentativeIcon(item.item));
-        } else if (item.type === 'requiredDungeon') {
-            setDraggingItem(dungeonToPathImage[item.dungeon]);
+        const dragged = event.active.data.current as
+            | TrackerDraggable
+            | undefined;
+        if (!dragged) {
+            return;
+        }
+        if (dragged.type === 'item') {
+            setDragPreview(findRepresentativeIcon(dragged.item));
+        } else if (dragged.type === 'dungeon') {
+            setDragPreview(dungeonToPathImage[dragged.dungeon]);
         }
     }, []);
     const handleDragEnd = useCallback(
         (event: DragEndEvent) => {
-            const item = event.active.data.current as
+            const dragged = event.active.data.current as
                 | TrackerDraggable
                 | undefined;
-            if (!item) {
+            if (!dragged) {
                 return;
             }
-            const location =
+            const target =
                 event.over &&
                 (event.over.data.current as TrackerDroppable | undefined);
-            if (location?.type === 'hintRegion') {
-                const hint = draggableToRegionHint(item);
+            if (target?.type === 'hintRegion') {
+                const hint = draggableToRegionHint(dragged);
                 if (hint) {
                     dispatch(
                         setHint({
-                            areaId: location.hintRegion,
+                            areaId: target.hintRegion,
                             hint,
                         }),
                     );
                 }
             }
-            if (item.type === 'item' && location?.type === 'location') {
+            if (dragged.type === 'item' && target?.type === 'location') {
                 dispatch(
                     setCheckHint({
-                        checkId: location.checkId,
-                        hint: item.item,
+                        checkId: target.checkId,
+                        hint: dragged.item,
                     }),
                 );
             }
-            setDraggingItem(undefined);
+            setDragPreview(undefined);
         },
         [dispatch],
     );
@@ -150,9 +155,9 @@ export function DragAndDropContext({
             {children}
             <DragOverlay dropAnimation={null} modifiers={[snapCenterToCursor]}>
                 <div style={{ position: 'relative', width: 72, height: 72 }}>
-                    {draggingItem ? (
+                    {dragPreview ? (
                         <img
-                            src={draggingItem}
+                            src={dragPreview}
                             style={{
                                 position: 'absolute',
                                 transform: 'translate(36px, 36px)',
