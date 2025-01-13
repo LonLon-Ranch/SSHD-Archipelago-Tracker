@@ -5,6 +5,7 @@
     justify-items: center;
     align-items: center;
     gap: 2px;
+    user-select: none;
 
     :global(.item-container) {
         margin: auto;

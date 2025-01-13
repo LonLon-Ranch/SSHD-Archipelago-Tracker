@@ -1,4 +1,5 @@
 .inGameTracker {
+    user-select: none;
     :global(.item-container) {
         position: absolute;
     }
