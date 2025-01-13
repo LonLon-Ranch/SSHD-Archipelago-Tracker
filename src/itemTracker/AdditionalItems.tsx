@@ -59,7 +59,7 @@ export default function AdditionalItems({ width }: { width: number }) {
     const scrapperWidth = width / 6.5;
     return (
         <div id="misc-items" style={{ display: 'flex' }}>
-            <img src={miscItemBlock} alt="" width={width} />
+            <img src={miscItemBlock} alt="" width={width} draggable={false} />
             <div style={pouchStyle}>
                 <Item itemName="Progressive Pouch" imgWidth={pouchWidth} />
             </div>

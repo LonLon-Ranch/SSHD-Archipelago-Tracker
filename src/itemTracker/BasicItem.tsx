@@ -49,11 +49,12 @@ export function BasicItem({
     };
 
     const { listeners, setNodeRef } = useDraggable(
-        {
-            type: 'item',
-            item: dragItemName!,
-        },
-        !dragItemName,
+        dragItemName
+            ? {
+                  type: 'item',
+                  item: dragItemName,
+              }
+            : undefined,
     );
 
     return (

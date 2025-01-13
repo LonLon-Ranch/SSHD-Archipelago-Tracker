@@ -81,7 +81,12 @@ export default function GridTracker({ width }: { width: number }) {
                     gridColumn: '6 / span 2',
                 }}
             >
-                <img src={noTablets} alt="" width={emptyTabWidth} />
+                <img
+                    src={noTablets}
+                    alt=""
+                    width={emptyTabWidth}
+                    draggable={false}
+                />
                 <div style={amberTabletStyle}>
                     <Item imgWidth={amberWidth} itemName="Amber Tablet" />
                 </div>

@@ -10,6 +10,7 @@ import { useDroppable } from '../dragAndDrop/DragAndDrop';
 import images, { findRepresentativeIcon } from '../itemTracker/Images';
 import type { InventoryItem } from '../logic/Inventory';
 import type { Check } from '../logic/Locations';
+import { isRegularItemCheck } from '../logic/Logic';
 import { useAppDispatch, type RootState } from '../store/Store';
 import { useEntrancePath, useTooltipExpr } from '../tooltips/TooltipHooks';
 import { clickCheck } from '../tracker/Actions';
@@ -74,13 +75,20 @@ function CheckLocation({ id }: { id: string }) {
 
     const expr = useTooltipExpr(id);
     const path = useEntrancePath(id);
+    const canAssignItemHint =
+        check.type !== 'exit' && isRegularItemCheck(check.type);
 
-    const { setNodeRef, active, isOver } = useDroppable({
-        type: 'location',
-        checkId: id,
-    });
+    const { setNodeRef, active, isOver } = useDroppable(
+        canAssignItemHint
+            ? {
+                  type: 'location',
+                  checkId: id,
+              }
+            : undefined,
+    );
 
-    const draggedItem = active?.type === 'item' ? active.item : undefined;
+    const draggedItem =
+        active?.type === 'item' && canAssignItemHint ? active.item : undefined;
 
     return (
         <Tooltip

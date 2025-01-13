@@ -72,6 +72,7 @@ function WorldMap({
                 <>
                     {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
                     <img
+                        draggable={false}
                         src={skyMap}
                         alt="World Map"
                         width="100%"

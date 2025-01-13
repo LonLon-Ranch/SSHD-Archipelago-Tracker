@@ -104,7 +104,7 @@ export default function SongBlock({ width: width }: { width: number }) {
 
     return (
         <div>
-            <img src={songBlock} alt="" width={width} />
+            <img src={songBlock} alt="" width={width} draggable={false} />
 
             <div style={sailclothStyle}>
                 <Item itemName="Sailcloth" imgWidth={sailclothWidth} />

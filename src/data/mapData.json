@@ -14,7 +14,8 @@
             {
                 "region": "Upper Skyloft",
                 "markerX": 38,
-                "markerY": 35
+                "markerY": 35,
+                "submarkerPlacement": "left"
             },
             {
                 "region": "Central Skyloft",
@@ -48,7 +49,8 @@
                 "exitPool": "silent_realms",
                 "entryName": "Skyloft Silent Realm",
                 "markerX": 45,
-                "markerY": 85
+                "markerY": 85,
+                "submarkerPlacement": "left"
             }
         ]
     },

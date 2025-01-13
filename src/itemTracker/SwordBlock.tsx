@@ -63,7 +63,7 @@ export default function SwordBlock({ width }: { width: number }) {
 
     return (
         <div>
-            <img src={swordBlock} alt="" width={width} />
+            <img src={swordBlock} alt="" width={width} draggable={false} />
             <div style={swordStyle}>
                 <Item itemName="Progressive Sword" imgWidth={swordWidth} />
             </div>

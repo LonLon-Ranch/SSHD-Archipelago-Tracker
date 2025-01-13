@@ -39,30 +39,31 @@ export type TrackerDroppable =
           hintRegion: string;
       };
 
-export function useDraggable(data: TrackerDraggable, disabled = false) {
+export function useDraggable(data: TrackerDraggable | undefined) {
     const id = useId();
     const { listeners, setNodeRef } = useDraggableDndKit({
         id,
         data,
-        disabled,
+        disabled: !data,
     });
 
     return { listeners, setNodeRef };
 }
 
-export function useDroppable(data: TrackerDroppable, disabled = false) {
+export function useDroppable(data: TrackerDroppable | undefined) {
     const id = useId();
     const { active, isOver, setNodeRef } = useDroppableDndKit({
         id,
         data,
-        disabled,
+        disabled: !data,
     });
 
     return {
         isOver,
         setNodeRef,
         active:
-            (active && (active.data.current as TrackerDraggable)) ?? undefined,
+            (active && (active.data.current as TrackerDraggable | undefined)) ??
+            undefined,
     };
 }
 
@@ -100,9 +101,15 @@ export function DragAndDropContext({
     }, []);
     const handleDragEnd = useCallback(
         (event: DragEndEvent) => {
-            const item = event.active.data.current as TrackerDraggable;
+            const item = event.active.data.current as
+                | TrackerDraggable
+                | undefined;
+            if (!item) {
+                return;
+            }
             const location =
-                event.over && (event.over.data.current as TrackerDroppable);
+                event.over &&
+                (event.over.data.current as TrackerDroppable | undefined);
             if (location?.type === 'hintRegion') {
                 const hint = draggableToRegionHint(item);
                 if (hint) {

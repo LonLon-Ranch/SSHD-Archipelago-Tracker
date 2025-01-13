@@ -135,11 +135,12 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
         active: draggableActive,
         isOver,
     } = useDroppable(
-        {
-            type: 'hintRegion',
-            hintRegion: destinationRegionName!,
-        },
-        !destinationRegionName,
+        destinationRegionName
+            ? {
+                  type: 'hintRegion',
+                  hintRegion: destinationRegionName,
+              }
+            : undefined,
     );
 
     const dragPreviewHint =
