@@ -1,10 +1,12 @@
 import clsx from 'clsx';
+import type React from 'react';
 import type { CSSProperties } from 'react';
 import type { TriggerEvent } from 'react-contexify';
 import Tooltip from '../../additionalComponents/Tooltip';
 import type { ColorScheme } from '../../customization/ColorScheme';
 import styles from './Marker.module.css';
 
+export type PreviewStyle = 'droppable' | 'hover';
 export type MarkerVariant = 'square' | 'rounded' | 'circle';
 export type SubmarkerPlacement = 'left' | 'right';
 export interface SubmarkerData {
@@ -31,6 +33,8 @@ export function Marker({
     onClick,
     onContextMenu,
     selected,
+    previewStyle,
+    ref,
 }: {
     variant: MarkerVariant;
     color: keyof ColorScheme;
@@ -43,6 +47,8 @@ export function Marker({
     onClick: (ev: TriggerEvent) => void;
     onContextMenu?: (ev: React.MouseEvent) => void;
     selected: boolean;
+    previewStyle?: PreviewStyle;
+    ref?: React.Ref<HTMLDivElement>;
 }) {
     const positionVars = {
         '--map-marker-y': `${y}%`,
@@ -69,7 +75,11 @@ export function Marker({
                         onContextMenu?.(ev);
                     }}
                     style={{ ...markerStyle, ...positionVars }}
-                    className={clsx(styles.marker, borderRadiuses[variant])}
+                    className={clsx(styles.marker, borderRadiuses[variant], {
+                        [styles.droppable]: previewStyle === 'droppable',
+                        [styles.droppableHover]: previewStyle === 'hover',
+                    })}
+                    ref={ref}
                 >
                     <span>{children}</span>
                 </div>

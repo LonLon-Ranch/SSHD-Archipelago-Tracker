@@ -1,6 +1,7 @@
 import dungeonData from '../data/dungeons.json';
 import type { SubmarkerData } from '../locationTracker/mapTracker/Marker';
 import { itemMaxes } from '../logic/Inventory';
+import { dungeonNames, isDungeon } from '../logic/Locations';
 import { decodeHint, type Hint } from './Hints';
 
 const barrenSots = /^([a-z0-9\s']+) (barren|dead|sots)$/;
@@ -112,12 +113,10 @@ export function parseHintsText(
         if (pathMatch) {
             const from = identifyRegion(pathMatch[1]);
             const to = identifyRegion(pathMatch[2]);
-            if (from && to) {
+            if (from && to && isDungeon(to)) {
                 (result[from] ??= []).push({
                     type: 'path',
-                    index: dungeonData.findIndex(
-                        (data) => data.hintRegion === to,
-                    ),
+                    index: dungeonNames.indexOf(to),
                 });
             }
             continue;

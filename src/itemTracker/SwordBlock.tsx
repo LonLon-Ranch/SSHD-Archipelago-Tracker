@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import swordBlock from '../assets/Sword_Block.png';
+import { useDraggable } from '../dragAndDrop/DragAndDrop';
 import { rawItemCountSelector } from '../tracker/Selectors';
 import { clickItem } from '../tracker/Slice';
 import keyDownWrapper from '../utils/KeyDownWrapper';
@@ -55,9 +56,14 @@ export default function SwordBlock({ width }: { width: number }) {
 
     const extraWalletCount = useSelector(rawItemCountSelector('Extra Wallet'));
 
+    const { listeners, setNodeRef } = useDraggable({
+        type: 'item',
+        item: 'Extra Wallet',
+    });
+
     return (
         <div>
-            <img src={swordBlock} alt="" width={width} />
+            <img src={swordBlock} alt="" width={width} draggable={false} />
             <div style={swordStyle}>
                 <Item itemName="Progressive Sword" imgWidth={swordWidth} />
             </div>
@@ -91,6 +97,9 @@ export default function SwordBlock({ width }: { width: number }) {
                 onKeyDown={keyDownWrapper(handleExtraWalletClick)}
                 tabIndex={0}
                 role="button"
+                draggable
+                ref={setNodeRef}
+                {...listeners}
             >
                 {`+${extraWalletCount * 300}`}
             </div>

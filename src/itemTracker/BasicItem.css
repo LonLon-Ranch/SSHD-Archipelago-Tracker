@@ -4,6 +4,7 @@
         user-select: none;
         outline-style: none;
         display: flex;
+        touch-action: none;
         > img {
             width: 100%;
         }

@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDraggable } from '../../../dragAndDrop/DragAndDrop';
 import type { DungeonName as DungeonNameType } from '../../../logic/Locations';
 import type { RootState } from '../../../store/Store';
 import {
@@ -36,13 +37,21 @@ const DungeonName = (props: DungeonNameProps) => {
         e.preventDefault();
     };
 
+    const { listeners, setNodeRef } = useDraggable({
+        type: 'dungeon',
+        dungeon: dungeonName,
+    });
+
     return (
         <div
+            ref={setNodeRef}
             onClick={dungeonChange}
             onKeyDown={keyDownWrapper(dungeonChange)}
             role="button"
             tabIndex={0}
             onContextMenu={onRightClick}
+            draggable
+            {...listeners}
         >
             <span
                 className={clsx(styles.dungeonName, {

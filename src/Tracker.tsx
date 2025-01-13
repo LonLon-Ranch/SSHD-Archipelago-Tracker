@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import CustomizationModal from './customization/CustomizationModal';
 import { hasCustomLayoutSelector } from './customization/Selectors';
+import { DragAndDropContext } from './dragAndDrop/DragAndDrop';
 import EntranceTracker from './entranceTracker/EntranceTracker';
 import { ExportButton } from './ImportExport';
 import { TrackerLayoutCustom } from './layouts/TrackerLayoutCustom';
@@ -25,7 +26,9 @@ export default function TrackerContainer() {
 
     return (
         <MakeTooltipsAvailable>
-            <Tracker />
+            <DragAndDropContext>
+                <Tracker />
+            </DragAndDropContext>
             <TrackerStateSaver />
         </MakeTooltipsAvailable>
     );

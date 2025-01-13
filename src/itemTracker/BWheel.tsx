@@ -18,7 +18,7 @@ export default function BWheel({ width }: { width: number }) {
 
     return (
         <div>
-            <img src={wheel} alt="" width={width} />
+            <img src={wheel} alt="" width={width} draggable={false} />
             <div
                 style={{
                     position: 'relative',

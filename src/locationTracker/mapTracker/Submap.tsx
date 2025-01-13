@@ -187,6 +187,7 @@ const Submap = ({
                 width="100%"
                 style={{ position: 'relative' }}
                 onContextMenu={handleBack}
+                draggable={false}
             />
             {markers.map((marker) => {
                 if (marker.type === 'hint_region') {
@@ -233,6 +234,7 @@ const Submap = ({
                 tabIndex={0}
             >
                 <img
+                    draggable={false}
                     alt="Back to Sky"
                     src={images[exitParams.image]}
                     width={`${exitParams.width}%`}

@@ -1,6 +1,7 @@
 import barrenImage from '../assets/hints/barren.png';
 import sotsImage from '../assets/hints/sots.png';
 
+import dreadfuse from '../assets/bosses/dreadfuse.png';
 import g1 from '../assets/hints/g1.png';
 import g2 from '../assets/hints/g2.png';
 import koloktos from '../assets/hints/koloktos.png';
@@ -9,6 +10,7 @@ import scaldera from '../assets/hints/scaldera.png';
 import tentalus from '../assets/hints/tentalus.png';
 import type { ColorScheme } from '../customization/ColorScheme';
 import { findRepresentativeIcon } from '../itemTracker/Images';
+import type { DungeonName } from '../logic/Locations';
 
 export type Hint =
     | { type: 'barren' }
@@ -17,6 +19,15 @@ export type Hint =
     | { type: 'item'; item: string };
 
 export const pathImages = [g1, scaldera, moldarach, koloktos, tentalus, g2];
+export const dungeonToPathImage: Record<DungeonName, string> = {
+    Skyview: g1,
+    'Earth Temple': scaldera,
+    'Lanayru Mining Facility': moldarach,
+    'Ancient Cistern': koloktos,
+    Sandship: tentalus,
+    'Fire Sanctuary': g2,
+    'Sky Keep': dreadfuse,
+};
 
 export const bosses = [
     'Ghirahim 1',
@@ -31,6 +42,7 @@ export interface DecodedHint {
     image: string;
     description: string;
     style: keyof ColorScheme;
+    preview?: boolean;
 }
 
 export function decodeHint(hint: Hint): DecodedHint {

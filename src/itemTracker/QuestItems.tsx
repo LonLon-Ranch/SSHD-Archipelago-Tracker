@@ -44,7 +44,7 @@ export default function QuestItems({ width }: { width: number }) {
 
     return (
         <div id="quest-items" style={{ display: 'flex' }}>
-            <img src={questItemBlock} alt="" width={width} />
+            <img src={questItemBlock} alt="" width={width} draggable={false} />
             <div style={letterStyle}>
                 <Item itemName="Cawlin's Letter" imgWidth={letterWidth} />
             </div>

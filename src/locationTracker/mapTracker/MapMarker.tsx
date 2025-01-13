@@ -1,6 +1,10 @@
 import { type MouseEvent, useCallback } from 'react';
 import type { TriggerEvent } from 'react-contexify';
 import { useSelector } from 'react-redux';
+import {
+    draggableToRegionHint,
+    useDroppable,
+} from '../../dragAndDrop/DragAndDrop';
 import { decodeHint } from '../../hints/Hints';
 import { hintsToSubmarkers } from '../../hints/HintsParser';
 import type { RootState } from '../../store/Store';
@@ -46,7 +50,17 @@ const MapMarker = (props: MapMarkerProps) => {
         [area, show],
     );
 
-    const hints = useSelector(areaHintSelector(title));
+    let hints = useSelector(areaHintSelector(title));
+
+    const { setNodeRef, active, isOver } = useDroppable({
+        type: 'hintRegion',
+        hintRegion: area.name,
+    });
+
+    const dragPreviewHint = active && draggableToRegionHint(active);
+    if (dragPreviewHint && isOver) {
+        hints = [...hints, dragPreviewHint];
+    }
 
     const tooltip = (
         <center>
@@ -70,6 +84,7 @@ const MapMarker = (props: MapMarkerProps) => {
 
     return (
         <Marker
+            ref={setNodeRef}
             x={markerX}
             y={markerY}
             variant="rounded"
@@ -79,6 +94,9 @@ const MapMarker = (props: MapMarkerProps) => {
             onContextMenu={displayMenu}
             selected={selected}
             submarkerPlacement={submarkerPlacement}
+            previewStyle={
+                dragPreviewHint ? (isOver ? 'hover' : 'droppable') : undefined
+            }
             submarkers={[
                 ...getSubmarkerData(data),
                 ...hintsToSubmarkers(hints),
