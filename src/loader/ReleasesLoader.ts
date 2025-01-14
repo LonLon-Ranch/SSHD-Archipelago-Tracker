@@ -1,5 +1,5 @@
 import { memoize } from 'es-toolkit';
-import { useCallback, useId, useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from 'react';
 import { dedupePromise } from '../utils/Promises';
 
 /*
@@ -15,18 +15,18 @@ import { dedupePromise } from '../utils/Promises';
 
 const ONE_HOUR = 1000 * 60 * 60;
 
-const listeners: { [id: string]: () => void } = {};
+const listeners: Set<() => void> = new Set();
 
-function subscribe(id: string, callback: () => void) {
-    listeners[id] = callback;
+function subscribe(callback: () => void) {
+    listeners.add(callback);
     // Intentionally dangling promise here - ideally
     // we would regularly re-check but that seems overkill
     void checkForUpdates();
-    return () => delete listeners[id];
+    return () => listeners.delete(callback);
 }
 
 function notify() {
-    for (const cb of Object.values(listeners)) {
+    for (const cb of listeners.keys()) {
         cb();
     }
 }
@@ -36,12 +36,7 @@ function notify() {
  * hook that returns undefined or cached results until results are ready.
  */
 export function useReleases() {
-    const id = useId();
-    const doSubscribe = useCallback(
-        (callback: () => void) => subscribe(id, callback),
-        [id],
-    );
-    return useSyncExternalStore(doSubscribe, getStoredData);
+    return useSyncExternalStore(subscribe, getStoredData);
 }
 
 function getStoredRelease(): {

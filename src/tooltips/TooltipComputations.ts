@@ -17,7 +17,7 @@ import {
  * * A subscribeable store for tooltip components to request tooltip computations.
  */
 export class TooltipComputer {
-    subscriptions: Record<string, { checkId: string; callback: () => void }>;
+    subscriptions: Set<{ checkId: string; callback: () => void }>;
     results: Record<string, BooleanExpression>;
 
     isWorking: boolean;
@@ -32,7 +32,7 @@ export class TooltipComputer {
         trickLogicTricks: Set<string>,
         requirements: BitLogic,
     ) {
-        this.subscriptions = {};
+        this.subscriptions = new Set();
         this.results = {};
         this.isWorking = false;
         const opaqueBits = getTooltipOpaqueBits(
@@ -64,23 +64,24 @@ export class TooltipComputer {
     }
 
     notifyAll() {
-        for (const entry of Object.values(this.subscriptions)) {
+        for (const entry of this.subscriptions.keys()) {
             entry.callback();
         }
     }
 
     notify(check: string) {
-        for (const entry of Object.values(this.subscriptions)) {
+        for (const entry of this.subscriptions.keys()) {
             if (entry.checkId === check) {
                 entry.callback();
             }
         }
     }
 
-    subscribe(subscriptionId: string, checkId: string, callback: () => void) {
-        this.subscriptions[subscriptionId] = { checkId, callback };
+    subscribe(checkId: string, callback: () => void) {
+        const entry = { checkId, callback };
+        this.subscriptions.add(entry);
         this.checkForTask();
-        return () => delete this.subscriptions[subscriptionId];
+        return () => this.subscriptions.delete(entry);
     }
 
     getSnapshot(checkId: string): BooleanExpression | undefined {
@@ -93,16 +94,12 @@ export class TooltipComputer {
     }
 
     getNextTask() {
-        const checkId = Object.values(this.subscriptions).find(
-            (check) => !this.results[check.checkId],
-        )?.checkId;
-        if (!checkId) {
-            return undefined;
+        for (const { checkId } of this.subscriptions.keys()) {
+            if (!this.results[checkId]) {
+                return { checkId };
+            }
         }
-
-        return {
-            checkId,
-        };
+        return undefined;
     }
 
     acceptTaskResult(checkId: string, result: BooleanExpression) {

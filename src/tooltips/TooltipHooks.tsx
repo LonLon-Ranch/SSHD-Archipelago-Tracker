@@ -4,7 +4,6 @@ import {
     useCallback,
     useContext,
     useEffect,
-    useId,
     useMemo,
     useState,
     useSyncExternalStore,
@@ -86,7 +85,6 @@ export function useTooltipExpr(
     checkId: string,
     active = true,
 ): RootTooltipExpression | undefined {
-    const id = useId();
     const store = useContext(TooltipsContext);
     const logic = useSelector(logicSelector);
     const getRequirementLogicalState = useSelector(
@@ -95,8 +93,8 @@ export function useTooltipExpr(
 
     const subscribe = useCallback(
         (callback: () => void) =>
-            (active && store?.subscribe(id, checkId, callback)) || noop,
-        [active, checkId, id, store],
+            (active && store?.subscribe(checkId, callback)) || noop,
+        [active, checkId, store],
     );
     const getSnapshot = useCallback(
         () => (active && store?.getSnapshot(checkId)) || undefined,
