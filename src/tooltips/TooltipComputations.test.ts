@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import {
     trickSemiLogicSelector,
     trickSemiLogicTrickListSelector,
@@ -68,8 +67,7 @@ describe('tooltips', () => {
             // We only await once here, and thus verify there are no spurious wakeups.
             // React's useSyncExternalStore can deal with spurious wakeups but this
             // seems fine and I don't want to deal with more promises.
-            const id = uuidv4();
-            const unsubscribe = computer.subscribe(id, checkId, doResolve!);
+            const unsubscribe = computer.subscribe(checkId, doResolve!);
             await resultPromise;
             expr = computer.getSnapshot(checkId);
             unsubscribe();
