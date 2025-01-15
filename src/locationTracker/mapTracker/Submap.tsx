@@ -1,33 +1,14 @@
-import { useCallback } from 'react';
 import type { TriggerEvent } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import leaveEldin from '../../assets/maps/leaveEldin.png';
 import leaveFaron from '../../assets/maps/leaveFaron.png';
 import leaveLanayru from '../../assets/maps/leaveLanayru.png';
 import leaveSkyloft from '../../assets/maps/leaveSkyloft.png';
-import { decodeHint } from '../../hints/Hints';
 import { areaGraphSelector } from '../../logic/Selectors';
-import type { RootState } from '../../store/Store';
-import {
-    areaHintSelector,
-    areasSelector,
-    checkSelector,
-    exitsByIdSelector,
-    settingSelector,
-} from '../../tracker/Selectors';
 import keyDownWrapper from '../../utils/KeyDownWrapper';
-import HintDescription from '../HintsDescription';
 import EntranceMarker from './EntranceMarker';
 import MapMarker from './MapMarker';
 import type { MapHintRegion } from './MapModel';
-import {
-    combineRegionCounters,
-    getMarkerColor,
-    getRegionData,
-    getSubmarkerData,
-    initialRegionData,
-} from './MapUtils';
-import { Marker } from './Marker';
 
 export type ExitParams = {
     image: string;
@@ -43,29 +24,18 @@ const images: Record<string, string> = {
     leaveLanayru,
 };
 
-function SubmapHint({ area }: { area: string }) {
-    const hints = useSelector(areaHintSelector(area));
-    return hints.map((hint, idx) => (
-        <HintDescription key={idx} hint={decodeHint(hint)} area={area} />
-    ));
-}
-
 function Submap({
     onSubmapChange,
     onGroupChange,
     onChooseEntrance,
     provinceId,
     title,
-    markerX,
-    markerY,
     map,
     activeSubmap,
     markers,
     exitParams,
     currentRegionOrExit,
 }: {
-    markerX: number;
-    markerY: number;
     title: string;
     provinceId: string;
     onGroupChange: (region: string | undefined) => void;
@@ -77,76 +47,7 @@ function Submap({
     exitParams: ExitParams;
     currentRegionOrExit: string | undefined;
 }) {
-    const areas = useSelector(areasSelector);
-    const exits = useSelector(exitsByIdSelector);
-    let data = initialRegionData();
-    for (const marker of markers) {
-        const area = areas.find((area) => area.name === marker.hintRegion);
-        if (area) {
-            data = combineRegionCounters(data, getRegionData(area));
-        }
-    }
-
     const areaGraph = useSelector(areaGraphSelector);
-
-    let markerColor = getMarkerColor(data.checks);
-
-    const birdSanityOn = useSelector(settingSelector('random-start-statues'));
-    const birdStatueSanityPool =
-        birdSanityOn && areaGraph.birdStatueSanity[title];
-    const needsBirdStatueSanityExit =
-        birdStatueSanityPool &&
-        exits[birdStatueSanityPool.exit].entrance === undefined;
-    const exitCheck = useSelector(
-        (state: RootState) =>
-            needsBirdStatueSanityExit &&
-            checkSelector(birdStatueSanityPool.exit)(state),
-    );
-
-    if (
-        exitCheck &&
-        exitCheck.logicalState !== 'outLogic' &&
-        data.checks.numAccessible === 0
-    ) {
-        markerColor = exitCheck.logicalState;
-    }
-
-    const tooltip = (
-        <center>
-            <div>
-                {title} ({data.checks.numAccessible}/{data.checks.numRemaining})
-            </div>
-            <div>Click to Expand</div>
-            {needsBirdStatueSanityExit && (
-                <div>Right-click to choose Statue</div>
-            )}
-            {markers.map((marker, idx) =>
-                marker.hintRegion ? (
-                    <SubmapHint key={idx} area={marker.hintRegion} />
-                ) : undefined,
-            )}
-        </center>
-    );
-
-    const handleClick = (e: TriggerEvent | React.UIEvent) => {
-        if (e.type === 'contextmenu') {
-            e.preventDefault();
-        } else {
-            onSubmapChange(provinceId);
-        }
-    };
-
-    const birdStatueExitId = birdStatueSanityPool && birdStatueSanityPool.exit;
-
-    const displayMenu = useCallback(
-        (e: React.UIEvent) => {
-            if (birdStatueExitId) {
-                onChooseEntrance(birdStatueExitId);
-            }
-            e.preventDefault();
-        },
-        [birdStatueExitId, onChooseEntrance],
-    );
 
     const handleBack = (e: TriggerEvent | React.UIEvent) => {
         if (e.type === 'contextmenu') {
@@ -157,28 +58,7 @@ function Submap({
         }
     };
 
-    const markerElement = (
-        <Marker
-            x={markerX}
-            y={markerY}
-            variant={title.includes('Silent Realm') ? 'circle' : 'rounded'}
-            color={markerColor}
-            tooltip={tooltip}
-            onClick={handleClick}
-            onContextMenu={displayMenu}
-            selected={currentRegionOrExit === birdStatueExitId}
-            submarkerPlacement={'right'}
-            submarkers={getSubmarkerData(data)}
-        >
-            {data.checks.numAccessible > 0
-                ? data.checks.numAccessible
-                : needsBirdStatueSanityExit
-                  ? '?'
-                  : ''}
-        </Marker>
-    );
-
-    const mapElement = (
+    return (
         <div>
             {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
             <img
@@ -244,17 +124,6 @@ function Submap({
                         top: `${exitParams.top}%`,
                     }}
                 />
-            </div>
-        </div>
-    );
-
-    return (
-        <div>
-            <div style={{ display: provinceId === activeSubmap ? '' : 'none' }}>
-                {mapElement}
-            </div>
-            <div style={{ display: !activeSubmap ? '' : 'none' }}>
-                {markerElement}
             </div>
         </div>
     );

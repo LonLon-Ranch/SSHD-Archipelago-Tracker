@@ -9,6 +9,7 @@ import type {
     InterfaceAction,
     InterfaceState,
 } from '../../tracker/TrackerInterfaceReducer';
+import { SubmapMarker } from '../SubmapMarker';
 import MapMarker from './MapMarker';
 import { mapModelSelector } from './Selectors';
 import StartingEntranceMarker from './StartingEntranceMarker';
@@ -89,43 +90,63 @@ function WorldMap({
                         }
                         selected={currentRegionOrExit === '\\Start'}
                     />
+                    {mapModel.provinces.map((submap) => {
+                        const entry = mapData[submap.provinceId];
+                        return (
+                            <SubmapMarker
+                                key={submap.provinceId}
+                                provinceId={submap.provinceId}
+                                markerX={entry.markerX}
+                                markerY={entry.markerY}
+                                title={submap.name}
+                                onSubmapChange={handleSubmapClick}
+                                onChooseEntrance={onChooseEntrance}
+                                markers={submap.regions}
+                                currentRegionOrExit={currentRegionOrExit}
+                            />
+                        );
+                    })}
+                    {mapModel.regions.map((marker) => (
+                        <div key={marker.hintRegion}>
+                            <MapMarker
+                                markerX={marker.markerX}
+                                markerY={marker.markerY}
+                                title={marker.hintRegion!}
+                                onGlickGroup={handleGroupClick}
+                                submarkerPlacement="right"
+                                selected={
+                                    marker.hintRegion === currentRegionOrExit
+                                }
+                            />
+                        </div>
+                    ))}
                 </>
             )}
-            {mapModel.regions.map((marker) => (
-                <div
-                    key={marker.hintRegion}
-                    style={{ display: !activeSubmap ? '' : 'none' }}
-                >
-                    <MapMarker
-                        markerX={marker.markerX}
-                        markerY={marker.markerY}
-                        title={marker.hintRegion!}
-                        onGlickGroup={handleGroupClick}
-                        submarkerPlacement="right"
-                        selected={marker.hintRegion === currentRegionOrExit}
-                    />
-                </div>
-            ))}
-            {mapModel.provinces.map((submap) => {
-                const entry = mapData[submap.provinceId];
-                return (
-                    <Submap
-                        key={submap.provinceId}
-                        provinceId={submap.provinceId}
-                        markerX={entry.markerX}
-                        markerY={entry.markerY}
-                        title={submap.name}
-                        onGroupChange={handleGroupClick}
-                        onSubmapChange={handleSubmapClick}
-                        onChooseEntrance={onChooseEntrance}
-                        markers={submap.regions}
-                        map={images[entry.map]}
-                        exitParams={entry.exitParams}
-                        activeSubmap={activeSubmap}
-                        currentRegionOrExit={currentRegionOrExit}
-                    />
-                );
-            })}
+            {activeSubmap && (
+                <>
+                    {mapModel.provinces.map((submap) => {
+                        if (submap.provinceId !== activeSubmap) {
+                            return null;
+                        }
+                        const entry = mapData[submap.provinceId];
+                        return (
+                            <Submap
+                                key={submap.provinceId}
+                                provinceId={submap.provinceId}
+                                title={submap.name}
+                                onGroupChange={handleGroupClick}
+                                onSubmapChange={handleSubmapClick}
+                                onChooseEntrance={onChooseEntrance}
+                                markers={submap.regions}
+                                map={images[entry.map]}
+                                exitParams={entry.exitParams}
+                                activeSubmap={activeSubmap}
+                                currentRegionOrExit={currentRegionOrExit}
+                            />
+                        );
+                    })}
+                </>
+            )}
         </div>
     );
 }
