@@ -37,8 +37,8 @@ function EntranceTracker({
 
     const entranceOptions: Record<string, SelectValue<string>[]> = useMemo(
         () =>
-            mapValues(entrancePools, (poolValue, pool) => {
-                const entrances = poolValue.entrances
+            mapValues(entrancePools, (poolValue, pool) =>
+                poolValue.entrances
                     .filter(
                         (entrance) =>
                             !poolValue.usedEntrancesExcluded ||
@@ -48,10 +48,8 @@ function EntranceTracker({
                         value: id,
                         payload: id,
                         label: name,
-                    }));
-
-                return entrances;
-            }),
+                    })),
+            ),
         [entrancePools, usedEntrances],
     );
 

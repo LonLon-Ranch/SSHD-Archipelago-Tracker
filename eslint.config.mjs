@@ -1,11 +1,11 @@
 import react from '@eslint-react/eslint-plugin';
-import reactPlugin from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import sonarjs from 'eslint-plugin-sonarjs';
-import importPlugin from 'eslint-plugin-import';
 import { fixupPluginRules } from '@eslint/compat';
 import eslint from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import sonarjs from 'eslint-plugin-sonarjs';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -22,7 +22,17 @@ export default tseslint.config(
         },
     },
     ...tseslint.configs.recommendedTypeChecked,
-    { name: 'sonarjs/recommended', ...sonarjs.configs.recommended },
+    {
+        name: 'sonarjs/recommended',
+        ...sonarjs.configs.recommended,
+        rules: {
+            'sonarjs/no-alphabetical-sort': 'error',
+            'sonarjs/no-dead-store': 'error',
+            'sonarjs/no-redundant-jump': 'error',
+            'sonarjs/no-duplicated-branches': 'error',
+            'sonarjs/prefer-immediate-return': 'error',
+        },
+    },
     {
         name: 'react',
         ...reactPlugin.configs.flat.recommended,
@@ -142,10 +152,7 @@ export default tseslint.config(
                 'scheduler',
             ],
 
-            'import/no-cycle': [
-                'error',
-                { ignoreExternal: true },
-            ],
+            'import/no-cycle': ['error', { ignoreExternal: true }],
 
             'react/require-default-props': ['off'],
             'react/react-in-jsx-scope': 'off',
@@ -155,6 +162,12 @@ export default tseslint.config(
                     extensions: ['.jsx', 'tsx'],
                 },
             ],
+            'react/prefer-stateless-function': 'warn',
+            'react/no-access-state-in-setstate': 'error',
+            'react/no-this-in-sfc': 'error',
+            'react/no-children-prop': 'error',
+            'react/no-unused-state': 'error',
+            'react/button-has-type': 'error',
 
             '@eslint-react/prefer-read-only-props': 'off',
             '@eslint-react/no-array-index-key': 'off',
@@ -183,27 +196,12 @@ export default tseslint.config(
 
             'react-hooks/exhaustive-deps': 'warn',
             'react-hooks/rules-of-hooks': 'error',
-
-            'sonarjs/cognitive-complexity': 'off',
-            'sonarjs/function-return-type': 'off',
-            'sonarjs/no-array-index-key': 'off',
-            'sonarjs/no-duplicate-string': 'off',
-            'sonarjs/no-nested-conditional': 'off',
-            'sonarjs/no-nested-template-literals': 'off',
-            'sonarjs/slow-regex': 'off',
-            'sonarjs/prefer-read-only-props': 'off',
-            'sonarjs/prefer-regexp-exec': 'off',
-            'sonarjs/max-params': 'off',
-            'sonarjs/different-types-comparison': 'off',
-            'sonarjs/no-nested-assignment': 'off',
-            'sonarjs/no-unused-expressions': 'off',
-            'sonarjs/todo-tag': 'off',
         },
         settings: {
             'import/resolver': {
                 ...importPlugin.configs.typescript.settings['import/resolver'],
             },
-            'import/extensions': ['.js', '.jsx', '.ts', '.tsx']
+            'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
         },
     },
     {

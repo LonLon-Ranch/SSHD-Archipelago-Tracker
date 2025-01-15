@@ -11,7 +11,7 @@ export function isEmpty<T extends object | undefined | null>(obj: T) {
     if (!obj) {
         return true;
     }
-    // eslint-disable-next-line sonarjs/no-unused-vars
+
     for (const _key in obj) {
         return false;
     }
