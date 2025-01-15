@@ -27,7 +27,17 @@ import RequirementsTooltip from '../RequirementsTooltip';
 import { getMarkerColor, getRegionData, getSubmarkerData } from './MapUtils';
 import { Marker } from './Marker';
 
-type EntranceMarkerProps = {
+function EntranceMarker({
+    title,
+    exitId,
+    markerX,
+    markerY,
+    submarkerPlacement,
+    active,
+    onGlickGroup,
+    onChooseEntrance,
+    selected,
+}: {
     markerX: number;
     markerY: number;
     submarkerPlacement: 'left' | 'right';
@@ -37,20 +47,7 @@ type EntranceMarkerProps = {
     onGlickGroup: (group: string) => void;
     onChooseEntrance: (exitId: string) => void;
     selected: boolean;
-};
-
-const EntranceMarker = (props: EntranceMarkerProps) => {
-    const {
-        title,
-        exitId,
-        markerX,
-        markerY,
-        submarkerPlacement,
-        active,
-        onGlickGroup,
-        onChooseEntrance,
-        selected,
-    } = props;
+}) {
     const exit = useSelector(
         (state: RootState) => exitsByIdSelector(state)[exitId],
     );
@@ -227,6 +224,6 @@ const EntranceMarker = (props: EntranceMarkerProps) => {
             {!hasConnection && '?'}
         </Marker>
     );
-};
+}
 
 export default EntranceMarker;

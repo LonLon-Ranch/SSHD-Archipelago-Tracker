@@ -4,7 +4,7 @@ import unknown from '../assets/hints/unknown.png';
 import unrequired from '../assets/No_Entrance.png';
 import keyDownWrapper from '../utils/KeyDownWrapper';
 
-const HintMarker = () => {
+function HintMarker() {
     const [current, setCurrent] = useState(0);
 
     const images = [unknown, unrequired, required];
@@ -30,6 +30,6 @@ const HintMarker = () => {
             />
         </div>
     );
-};
+}
 
 export default HintMarker;

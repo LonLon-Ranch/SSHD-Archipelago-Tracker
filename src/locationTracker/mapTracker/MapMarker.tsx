@@ -15,24 +15,21 @@ import { useContextMenu } from '../context-menu';
 import { getMarkerColor, getRegionData, getSubmarkerData } from './MapUtils';
 import { Marker } from './Marker';
 
-type MapMarkerProps = {
+function MapMarker({
+    onGlickGroup,
+    title,
+    markerX,
+    markerY,
+    submarkerPlacement,
+    selected,
+}: {
     markerX: number;
     markerY: number;
     submarkerPlacement: 'left' | 'right';
     title: string;
     onGlickGroup: (region: string) => void;
     selected: boolean;
-};
-
-const MapMarker = (props: MapMarkerProps) => {
-    const {
-        onGlickGroup,
-        title,
-        markerX,
-        markerY,
-        submarkerPlacement,
-        selected,
-    } = props;
+}) {
     const area = useSelector((state: RootState) =>
         areasSelector(state).find((a) => a.name === title),
     )!;
@@ -105,6 +102,6 @@ const MapMarker = (props: MapMarkerProps) => {
             {Boolean(data.checks.numAccessible) && data.checks.numAccessible}
         </Marker>
     );
-};
+}
 
 export default MapMarker;

@@ -11,14 +11,15 @@ import { clickDungeonName } from '../../../tracker/Slice';
 import keyDownWrapper from '../../../utils/KeyDownWrapper';
 import styles from './DungeonName.module.css';
 
-type DungeonNameProps = {
+function DungeonName({
+    dungeonName,
+    dungeonAbbr,
+    setActiveArea,
+}: {
     dungeonAbbr: string;
     dungeonName: DungeonNameType;
     setActiveArea: (area: string) => void;
-};
-
-const DungeonName = (props: DungeonNameProps) => {
-    const { dungeonName, dungeonAbbr, setActiveArea } = props;
+}) {
     const required = useSelector((state: RootState) =>
         requiredDungeonsSelector(state).includes(dungeonName),
     );
@@ -63,6 +64,6 @@ const DungeonName = (props: DungeonNameProps) => {
             </span>
         </div>
     );
-};
+}
 
 export default DungeonName;

@@ -50,7 +50,7 @@ function SubmapHint({ area }: { area: string }) {
     ));
 }
 
-const Submap = ({
+function Submap({
     onSubmapChange,
     onGroupChange,
     onChooseEntrance,
@@ -76,7 +76,7 @@ const Submap = ({
     map: string;
     exitParams: ExitParams;
     currentRegionOrExit: string | undefined;
-}) => {
+}) {
     const areas = useSelector(areasSelector);
     const exits = useSelector(exitsByIdSelector);
     let data = initialRegionData();
@@ -258,6 +258,6 @@ const Submap = ({
             </div>
         </div>
     );
-};
+}
 
 export default Submap;
