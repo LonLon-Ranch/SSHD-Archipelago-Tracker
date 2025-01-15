@@ -363,6 +363,7 @@ items:
 - Nonlethal Hot Cave
 - Upgraded Skyward Strike option
 - FS Lava Flow option
+- No Random Puzzles option
 - GoT Opening Requirement
 - GoT Raising Requirement
 - Horde Door Requirement
@@ -703,7 +704,6 @@ items:
 - \Can Hit Switch
 - \Can Hit Timeshift Stone
 - \Can Hit Timeshift Stone in Minecart
-- \Early Lake Floria Tricks
 - \Can bypass Boko Base Watch Tower
 - \Can Defeat Bokoblins
 - \Can Defeat Moblins
@@ -896,10 +896,8 @@ items:
 - \Faron\Faron Woods\Amber Relic Farming
 - \Faron\Faron Woods\Hit Vine to Deep Woods
 - \Faron\Faron Woods\Open Trial Gate
-- \Faron\Faron Woods\Open Door to Lake Floria
 - \Faron\Faron Woods\Rupee on Hollow Tree Root
 - \Faron\Faron Woods\Rupee on Hollow Tree Branch
-- \Faron\Faron Woods\Rupee on Platform near Floria Door
 - \Faron\Faron Woods\All Kikwis Saved
 - \Faron\Faron Woods\Kikwi Elder's Reward
 - \Faron\Faron Woods\Item on Tree
@@ -913,6 +911,9 @@ items:
 - \Faron\Faron Woods\Clawshot Target Branch\Goddess Cube on East Great Tree with Clawshots
   Target
 - \Faron\Faron Woods\Rope Branch\Goddess Cube on East Great Tree with Rope
+- \Faron\Faron Woods\Door to Lake Floria\Hit Vine
+- \Faron\Faron Woods\Door to Lake Floria\Open Door to Lake Floria
+- \Faron\Faron Woods\Door to Lake Floria\Rupee on Platform near Floria Door
 - \Faron\Faron Woods\Great Tree\Lower Area\Path to Chest\Chest inside Great Tree
 - \Faron\Faron Woods\Great Tree\Upper Area\Remove Void Plane
 - \Faron\Faron Woods\Great Tree\Top\Unlock Statue
@@ -1108,7 +1109,7 @@ items:
 - \Lanayru\Desert\North Part\Lightning Node\Present\Timeshift Stone
 - \Lanayru\Desert\North Part\Lightning Node\Past\First Chest
 - \Lanayru\Desert\North Part\Lightning Node\Past\Second Chest
-- \Lanayru\Desert\North Part\Lightning Node\Past\Lightning Node
+- \Lanayru\Desert\North Part\Lightning Node\Past\Activate Lightning Node
 - \Lanayru\Desert\North Part\Lightning Node\Present from afar\Raised Chest near Generator
 - \Lanayru\Desert\East\Open Wall Shortcut
 - \Lanayru\Desert\East\Unlock Statue
@@ -1122,7 +1123,7 @@ items:
 - \Lanayru\Desert\East\Fire Node\Past after Void\Open Grate
 - \Lanayru\Desert\East\Fire Node\Past after Grate\Left Ending Chest
 - \Lanayru\Desert\East\Fire Node\Past after Grate\Right Ending Chest
-- \Lanayru\Desert\East\Fire Node\Past after Grate\Fire Node
+- \Lanayru\Desert\East\Fire Node\Past after Grate\Activate Fire Node
 - \Lanayru\Temple of Time\South East\Unlock Statue
 - \Lanayru\Temple of Time\Front\Gossip Stone in Temple of Time Area
 - \Lanayru\Temple of Time\Front\Blow up Rock for Timeshift Stone
@@ -1198,6 +1199,7 @@ items:
 - \Sandship\Main\Deck\Captain's Cabin\Bars
 - \Sandship\Main\Deck\Captain's Cabin\Boss Key Chest
 - \Sandship\Main\Before Ship's Bow\Chest before 4-Door Corridor
+- \Sandship\Main\Ship's Bow\Defeat Scervo
 - \Sandship\Main\Ship's Bow\Chest after Scervo Fight
 - \Sandship\Main\Starboard Rooms\Switch
 - \Sandship\Main\Starboard Rooms\Generator
@@ -1308,6 +1310,7 @@ items:
 - \Sky\Thunderhead\Bug Heaven\Bug Heaven Goddess Chest
 - \Sky\Thunderhead\Bug Heaven\Gossip Stone near Bug Heaven
 - \Skyloft\Upper Skyloft\Owlan's Gift
+- \Skyloft\Upper Skyloft\Ring Knight Academy Bell
 - \Skyloft\Upper Skyloft\Chest near Goddess Statue
 - \Skyloft\Upper Skyloft\Pumpkin Archery -- 600 Points
 - \Skyloft\Upper Skyloft\Knight Academy\Fledge's Gift
@@ -1378,6 +1381,7 @@ items:
 - \Skyloft\Skyloft Village\Sparrot's House\Start Sparrot's Quest
 - \Skyloft\Skyloft Village\Sparrot's House\Sparrot's Crystals
 - \Skyloft\Skyloft Village\Mallara's House\Mallara's Crystals
+- \Skyloft\Skyloft Village\Rupin's House\Can Sell Treasures
 - \Skyloft\Skyloft Village\Batreaux's House\5 Crystals
 - \Skyloft\Skyloft Village\Batreaux's House\10 Crystals
 - \Skyloft\Skyloft Village\Batreaux's House\30 Crystals
@@ -1523,6 +1527,7 @@ items:
 - \Faron\Faron Woods\West Branch
 - \Faron\Faron Woods\Clawshot Target Branch
 - \Faron\Faron Woods\Rope Branch
+- \Faron\Faron Woods\Door to Lake Floria
 - \Faron\Faron Woods\Great Tree\Near Underwater Hole
 - \Faron\Faron Woods\Great Tree\Lower Area\Path to Chest
 - \Faron\Faron Woods\Great Tree\Lower Area\Near Exit
@@ -1923,7 +1928,7 @@ items:
 - \Faron\Faron Woods\Shared Statue Exit
 - \Faron\Faron Woods\Entry\Exit to Behind the Temple
 - \Faron\Faron Woods\Ledge To Deep Woods\Exit to Deep Woods
-- \Faron\Faron Woods\Lake Floria Dive
+- \Faron\Faron Woods\Door to Lake Floria\Lake Floria Dive
 - \Faron\Faron Woods\Ledge to Lake Floria\Shortcut Exit to Floria Waterfall
 - \Faron\Faron Woods\Trial Gate Exit
 - \Faron\Faron Silent Realm\Exit
@@ -1936,11 +1941,11 @@ items:
 - \Faron\Faron Woods\Great Tree\Upper Area\Exit to Top
 - \Faron\Faron Woods\Great Tree\Lower Area\Underwater Tunnel Exit
 - \Faron\Faron Woods\Great Tree\Upper Area\Exit to Flooded Great Tree
-- \Faron\Flooded Faron Woods\Flooded Great Tree\Exit
+- \Faron\Flooded Faron Woods\Flooded Great Tree\Exit to Great Tree
 - \Faron\Flooded Faron Woods\Flooded Great Tree\Exit to Upper Flooded Faron Woods
-- \Faron\Flooded Faron Woods\Flooded Great Tree\Exit to Lower Flooded Faron Woods
+- \Faron\Flooded Faron Woods\Flooded Great Tree\Underwater Tunnel Exit
 - \Faron\Flooded Faron Woods\Exit to Upper Flooded Great Tree
-- \Faron\Flooded Faron Woods\Exit to Lower Flooded Great Tree
+- \Faron\Flooded Faron Woods\Underwater Hole Exit
 - \Faron\Faron Woods\Deep Woods\Shared Statue Exit
 - \Faron\Faron Woods\Deep Woods\Entry\Exit to Faron Woods
 - \Faron\Faron Woods\Deep Woods\Exit to Skyview Temple
@@ -2218,13 +2223,12 @@ items:
 - \Faron\Faron Woods\Great Tree\Upper Area\Entrance from Top
 - \Faron\Faron Woods\Great Tree\Lower Area\Underwater Tunnel Entrance
 - \Faron\Faron Woods\Great Tree\Upper Area\Entrance from Flooded Great Tree
-- \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance
+- \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Great Tree
 - \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Upper Flooded Faron
   Woods
-- \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Lower Flooded Faron
-  Woods
+- \Faron\Flooded Faron Woods\Flooded Great Tree\Underwater Tunnel Entrance
 - \Faron\Flooded Faron Woods\Entrance from Upper Flooded Great Tree
-- \Faron\Flooded Faron Woods\Entrance from Lower Flooded Great Tree
+- \Faron\Flooded Faron Woods\Underwater Hole Entrance
 - \Faron\Faron Woods\Deep Woods\Forest Temple Statue Entrance
 - \Faron\Faron Woods\Deep Woods\Deep Woods Statue Entrance
 - \Faron\Faron Woods\Deep Woods\Entry\Entrance from Faron Woods
@@ -2410,8 +2414,9 @@ areas:
       \ Wallet)"
     Can Afford 1600 Rupees: "\\Can High Rupee Farm & ((\\Big Wallet & \\2 Extra Wallets)\
       \ | \\Giant Wallet)"
-    Can Medium Rupee Farm: "\\Sky\\North East\\Bamboo Island\\Inside\\Clean Cut Minigame\
-      \ | \\Can High Rupee Farm"
+    Can Medium Rupee Farm: "(\\Sky\\North East\\Bamboo Island\\Inside\\Clean Cut Minigame\
+      \ & \\Skyloft\\Skyloft Village\\Rupin's House\\Can Sell Treasures) | \\Can High\
+      \ Rupee Farm"
     Can High Rupee Farm: "\\Sky\\South West\\Fun Fun Island\\Fun Fun Island Minigame\
       \ | \\Eldin\\Volcano\\Thrill Digger Cave\\Thrill Digger Minigame"
     Song of the Hero: "Faron Song of the Hero Part & Eldin Song of the Hero Part &\
@@ -2470,8 +2475,6 @@ areas:
     Can Hit Switch: "\\Sword | Bomb Bag | Whip | \\Distance Activator"
     Can Hit Timeshift Stone: "\\Sword | Bomb Bag | Whip | \\Distance Activator"
     Can Hit Timeshift Stone in Minecart: "\\Sword | Bomb Bag | \\Distance Activator"
-    Early Lake Floria Tricks: "(Early Lake Floria - Fence Hop Trick & \\Practice Sword)\
-      \ | Early Lake Floria - Swordless Rope Floria Trick"
     Can bypass Boko Base Watch Tower: "\\Bow | Bomb Bag | \\Slingshot"
     Can Defeat Bokoblins: \Damaging Item
     Can Defeat Moblins: \Damaging Item
@@ -3978,18 +3981,18 @@ areas:
             \Faron\Faron Woods\Entry: 'True'
             Shared Statue Exit: "\\Faron\\Faron Woods\\Unlock In the Woods Statue\
               \ | \\Faron\\Faron Woods\\Unlock Viewing Platform Statue"
+            \Faron\Faron Woods\Door to Lake Floria: "\\Sword | Bomb Bag | \\Faron\\\
+              Faron Woods\\Door to Lake Floria\\Hit Vine"
             Trial Gate Exit: \Faron\Faron Woods\Open Trial Gate
             \Faron\Faron Woods\Great Tree\Near Underwater Hole: Water Dragon's Scale
             \Faron\Faron Woods\Great Tree\Platforms: Clawshots
             \Faron\Faron Woods\Clawshot Target Branch: Clawshots
-            Lake Floria Dive: "\\Faron\\Faron Woods\\Open Door to Lake Floria | \\\
-              Early Lake Floria Tricks"
             \Faron\Faron Woods\Ledge to Lake Floria: \Faron\Faron Woods\Ledge to Lake
               Floria\Push Log
             \Faron\Faron Woods\Ledge To Deep Woods: \Faron\Faron Woods\Hit Vine to
               Deep Woods
             \Faron\Faron Woods\Behind the Crawlspace and Rope: "Bomb Bag | \\Faron\\\
-              Faron Woods\\Ledge to Lake Floria\\Push Log"
+              Faron Woods\\Behind the Crawlspace and Rope\\Push Log"
           hint_region: Faron Woods
           locations:
             Unlock Viewing Platform Statue: 'True'
@@ -3998,14 +4001,12 @@ areas:
             Amber Relic Farming: 'True'
             Hit Vine to Deep Woods: \Distance Activator
             Open Trial Gate: "Goddess's Harp & Farore's Courage"
-            Open Door to Lake Floria: "(Open Lake Floria option & Water Dragon's Scale)\
-              \ | (\\Faron\\Faron Woods\\Great Tree\\Top\\Talk to Yerbal & (\\Goddess\
-              \ Sword | Talk to Yerbal option))"
             Rupee on Hollow Tree Root: 'True'
             Rupee on Hollow Tree Branch: \Beetle
-            Rupee on Platform near Floria Door: \Beetle
             All Kikwis Saved: "(\\Sword | \\Beetle) & \\Can Defeat Bokoblins"
             Kikwi Elder's Reward: \Faron\Faron Woods\All Kikwis Saved
+            \Faron\Faron Woods\Door to Lake Floria\Hit Vine: "\\Beetle | Clawshots\
+              \ | \\Bow"
             Item on Tree: 'True'
             Item behind Lower Bombable Rock: Bomb Bag
             Chest behind Upper Bombable Rock: Bomb Bag
@@ -4025,6 +4026,8 @@ areas:
                 \Faron\Faron Woods: "\\Sword | Bomb Bag | Clawshots | \\Faron\\Faron\
                   \ Woods\\Push Log to Sealed Grounds"
                 Exit to Behind the Temple: 'True'
+                \Faron\Faron Woods\Ledge to Lake Floria: Early Lake Floria - Swordless
+                  Rope Floria Trick
               hint_region: Faron Woods
               locations:
                 Unlock Statue: 'True'
@@ -4040,8 +4043,7 @@ areas:
               - Shortcut Entrance from Floria Waterfall
               exits:
                 \Faron\Faron Woods: 'True'
-                Shortcut Exit to Floria Waterfall: "\\Faron\\Faron Woods\\Open Door\
-                  \ to Lake Floria | \\Early Lake Floria Tricks"
+                Shortcut Exit to Floria Waterfall: 'True'
               hint_region: Faron Woods
               locations:
                 Push Log: 'True'
@@ -4119,6 +4121,29 @@ areas:
               locations:
                 Goddess Cube on East Great Tree with Rope: \Goddess Sword
               name: \Faron\Faron Woods\Rope Branch
+              sub_areas: {}
+              toplevel_alias: null
+            Door to Lake Floria:
+              abstract: false
+              allowed_time_of_day: 1
+              can_save: false
+              can_sleep: false
+              entrances: []
+              exits:
+                \Faron\Faron Woods: 'True'
+                Lake Floria Dive: "\\Faron\\Faron Woods\\Door to Lake Floria\\Open\
+                  \ Door to Lake Floria | (Early Lake Floria - Fence Hop Trick & \\\
+                  Practice Sword)"
+                \Faron\Faron Woods\Ledge to Lake Floria: "Early Lake Floria - Fence\
+                  \ Hop Trick & \\Practice Sword"
+              hint_region: Faron Woods
+              locations:
+                Hit Vine: "\\Sword | Bomb Bag"
+                Open Door to Lake Floria: "(Open Lake Floria option & Water Dragon's\
+                  \ Scale) | (\\Faron\\Faron Woods\\Great Tree\\Top\\Talk to Yerbal\
+                  \ & (\\Goddess Sword | Talk to Yerbal option))"
+                Rupee on Platform near Floria Door: \Beetle
+              name: \Faron\Faron Woods\Door to Lake Floria
               sub_areas: {}
               toplevel_alias: null
             Great Tree:
@@ -4335,10 +4360,10 @@ areas:
           can_sleep: false
           entrances:
           - Entrance from Upper Flooded Great Tree
-          - Entrance from Lower Flooded Great Tree
+          - Underwater Hole Entrance
           exits:
             Exit to Upper Flooded Great Tree: 'True'
-            Exit to Lower Flooded Great Tree: Water Dragon's Scale
+            Underwater Hole Exit: Water Dragon's Scale
           hint_region: Flooded Faron Woods
           locations:
             Yellow Tadtone under Lilypad: Water Dragon's Scale
@@ -4370,13 +4395,13 @@ areas:
               can_save: false
               can_sleep: false
               entrances:
-              - Entrance
+              - Entrance from Great Tree
               - Entrance from Upper Flooded Faron Woods
-              - Entrance from Lower Flooded Faron Woods
+              - Underwater Tunnel Entrance
               exits:
-                Exit: 'True'
+                Exit to Great Tree: 'True'
                 Exit to Upper Flooded Faron Woods: 'True'
-                Exit to Lower Flooded Faron Woods: Water Dragon's Scale
+                Underwater Tunnel Exit: Water Dragon's Scale
               hint_region: Flooded Faron Woods
               locations:
                 Water Dragon's Reward: "Group of Tadtones x 17 & \\Faron\\Flooded\
@@ -5566,8 +5591,9 @@ areas:
       hint_region: null
       locations:
         All Three Nodes: "LMF Nodes On option | (\\Lanayru\\Desert\\North Part\\Water\
-          \ Node & \\Lanayru\\Desert\\North Part\\Lightning Node\\Past\\Lightning\
-          \ Node & \\Lanayru\\Desert\\East\\Fire Node\\Past after Grate\\Fire Node)"
+          \ Node & \\Lanayru\\Desert\\North Part\\Lightning Node\\Past\\Activate Lightning\
+          \ Node & \\Lanayru\\Desert\\East\\Fire Node\\Past after Grate\\Activate\
+          \ Fire Node)"
         Raise Lanayru Mining Facility: "Open LMF option | \\Lanayru\\Desert\\North\
           \ Part\\Activate Main Node"
         Can Navigate in Oasis: "\\Can Defeat Ampilus | \\Hook Beetle | \\Skyloft\\\
@@ -5988,7 +6014,7 @@ areas:
                       locations:
                         First Chest: 'True'
                         Second Chest: 'True'
-                        Lightning Node: \Sword
+                        Activate Lightning Node: \Sword
                       name: \Lanayru\Desert\North Part\Lightning Node\Past
                       sub_areas: {}
                       toplevel_alias: null
@@ -6131,7 +6157,7 @@ areas:
                       locations:
                         Left Ending Chest: 'True'
                         Right Ending Chest: 'True'
-                        Fire Node: \Sword
+                        Activate Fire Node: \Sword
                       name: \Lanayru\Desert\East\Fire Node\Past after Grate
                       sub_areas: {}
                       toplevel_alias: null
@@ -6146,7 +6172,7 @@ areas:
           entrances: []
           exits:
             Shared Statue Exit: 'False'
-          hint_region: null
+          hint_region: Lanayru Desert
           locations: {}
           name: \Lanayru\Temple of Time
           sub_areas:
@@ -6164,7 +6190,7 @@ areas:
                   East\Unlock Statue
                 \Lanayru\Temple of Time\Front: "\\Hook Beetle | (\\Slingshot & Temple\
                   \ of Time - Slingshot Shot Trick)"
-              hint_region: null
+              hint_region: Lanayru Desert
               locations:
                 Unlock Statue: 'True'
                 \Ancient Flower Farming: \Distance Activator
@@ -6181,7 +6207,7 @@ areas:
                 \Lanayru\Temple of Time\Inside: 'True'
                 \Lanayru\Temple of Time\Near Goddess Cube: \Lanayru\Temple of Time\Near
                   Goddess Cube\Timeshift Stone
-              hint_region: null
+              hint_region: Lanayru Desert
               locations:
                 Gossip Stone in Temple of Time Area: 'True'
                 Blow up Rock for Timeshift Stone: "\\Hook Beetle | (Bomb Throws Trick\
@@ -6209,7 +6235,7 @@ areas:
                   Statue
                 Exit to Lanayru Mining Facility: 'True'
                 \Lanayru\Temple of Time\Front: 'True'
-              hint_region: null
+              hint_region: Lanayru Desert
               locations:
                 Unlock Statue: 'True'
               name: \Lanayru\Temple of Time\Inside
@@ -6223,7 +6249,7 @@ areas:
               entrances: []
               exits:
                 \Lanayru\Temple of Time\North East: 'True'
-              hint_region: null
+              hint_region: Lanayru Desert
               locations:
                 Timeshift Stone: 'False'
                 Goddess Cube at Ride near Temple of Time: \Goddess Sword
@@ -6240,7 +6266,7 @@ areas:
               exits:
                 \Lanayru\Temple of Time\South East: \Distance Activator
                 North Exit to Desert: 'True'
-              hint_region: null
+              hint_region: Lanayru Desert
               locations:
                 \Ancient Flower Farming: \Distance Activator
               name: \Lanayru\Temple of Time\North East
@@ -6762,10 +6788,12 @@ areas:
               can_sleep: false
               entrances: []
               exits:
-                \Sandship\Main\Before Ship's Bow: \Lanayru\Caves\Chest
+                \Sandship\Main\Before Ship's Bow: \Sandship\Main\Ship's Bow\Defeat
+                  Scervo
               hint_region: Sandship
               locations:
-                Chest after Scervo Fight: \Can Defeat Scervo/Dreadfuse
+                Defeat Scervo: \Can Defeat Scervo/Dreadfuse
+                Chest after Scervo Fight: \Sandship\Main\Ship's Bow\Defeat Scervo
               name: \Sandship\Main\Ship's Bow
               sub_areas: {}
               toplevel_alias: null
@@ -6837,8 +6865,8 @@ areas:
               hint_region: Sandship
               locations:
                 Combination Lock: "(Gust Bellows | \\Sandship\\Main\\Deck\\Freely\
-                  \ Usable Timeshift Stone | Sandship - No Combination Hint Trick)\
-                  \ & \\Can Unlock Combination Lock"
+                  \ Usable Timeshift Stone | (Sandship - No Combination Hint Trick\
+                  \ & No Random Puzzles option)) & \\Can Unlock Combination Lock"
                 Chest behind Combination Lock: \Sandship\Main\Before Boss Door\Combination
                   Lock
                 Open Boss Door: "\\Sandship\\Main\\Deck\\Freely Usable Timeshift Stone\
@@ -7859,6 +7887,8 @@ areas:
           hint_region: Upper Skyloft
           locations:
             Owlan's Gift: Day
+            Ring Knight Academy Bell: "\\Distance Activator | Gust Bellows | (Bomb\
+              \ Bag & Bomb Throws Trick)"
             Chest near Goddess Statue: 'True'
             Pumpkin Archery -- 600 Points: "\\Bow & Day"
           name: \Skyloft\Upper Skyloft
@@ -8355,7 +8385,8 @@ areas:
               exits:
                 Exit: 'True'
               hint_region: Skyloft Village
-              locations: {}
+              locations:
+                Can Sell Treasures: Night
               name: \Skyloft\Skyloft Village\Rupin's House
               sub_areas: {}
               toplevel_alias: null
@@ -8847,6 +8878,10 @@ checks:
     original item: Progressive Sword
     type: null
     short_name: Upper Skyloft - Sparring Hall Chest
+  \Skyloft\Upper Skyloft\Ring Knight Academy Bell:
+    original item: Green Rupee
+    type: null
+    short_name: Upper Skyloft - Ring Knight Academy Bell
   \Skyloft\Upper Skyloft\Chest near Goddess Statue:
     original item: Red Rupee
     type: null
@@ -9279,7 +9314,7 @@ checks:
     original item: 'Red Rupee #27'
     type: Rupees (No Quick Beetle)
     short_name: Faron Woods - Rupee on Hollow Tree Branch
-  \Faron\Faron Woods\Rupee on Platform near Floria Door:
+  \Faron\Faron Woods\Door to Lake Floria\Rupee on Platform near Floria Door:
     original item: 'Red Rupee #26'
     type: Rupees (No Quick Beetle)
     short_name: Faron Woods - Rupee on Platform near Floria Door
@@ -10831,7 +10866,7 @@ exits:
     vanilla: Deep Woods - Entrance from Faron Woods
     stage: F100
     short_name: Faron Woods - Exit to Deep Woods
-  \Faron\Faron Woods\Lake Floria Dive:
+  \Faron\Faron Woods\Door to Lake Floria\Lake Floria Dive:
     type: exit
     vanilla: Lake Floria - Dive from Faron Woods
     stage: F100
@@ -10891,28 +10926,28 @@ exits:
     short_name: Great Tree - Underwater Tunnel Exit
   \Faron\Faron Woods\Great Tree\Upper Area\Exit to Flooded Great Tree:
     type: exit
-    vanilla: Flooded Great Tree - Entrance
+    vanilla: Flooded Great Tree - Entrance from Great Tree
     short_name: Great Tree - Exit to Flooded Great Tree
-  \Faron\Flooded Faron Woods\Flooded Great Tree\Exit:
+  \Faron\Flooded Faron Woods\Flooded Great Tree\Exit to Great Tree:
     type: exit
-    vanilla: Entrance from Flooded Great Tree
-    short_name: Flooded Great Tree - Exit
+    vanilla: Great Tree - Entrance from Flooded Great Tree
+    short_name: Flooded Great Tree - Exit to Great Tree
   \Faron\Flooded Faron Woods\Flooded Great Tree\Exit to Upper Flooded Faron Woods:
     type: exit
     vanilla: Flooded Faron Woods - Entrance from Upper Flooded Great Tree
     short_name: Flooded Great Tree - Exit to Upper Flooded Faron Woods
-  \Faron\Flooded Faron Woods\Flooded Great Tree\Exit to Lower Flooded Faron Woods:
+  \Faron\Flooded Faron Woods\Flooded Great Tree\Underwater Tunnel Exit:
     type: exit
-    vanilla: Flooded Faron Woods - Entrance from Lower Flooded Great Tree
-    short_name: Flooded Great Tree - Exit to Lower Flooded Faron Woods
+    vanilla: Flooded Faron Woods - Underwater Hole Entrance
+    short_name: Flooded Great Tree - Underwater Tunnel Exit
   \Faron\Flooded Faron Woods\Exit to Upper Flooded Great Tree:
     type: exit
     vanilla: Flooded Great Tree - Entrance from Upper Flooded Faron Woods
     short_name: Flooded Faron Woods - Exit to Upper Flooded Great Tree
-  \Faron\Flooded Faron Woods\Exit to Lower Flooded Great Tree:
+  \Faron\Flooded Faron Woods\Underwater Hole Exit:
     type: exit
-    vanilla: Flooded Great Tree - Entrance from Lower Flooded Faron Woods
-    short_name: Flooded Faron Woods - Exit to Lower Flooded Great Tree
+    vanilla: Flooded Great Tree - Underwater Tunnel Entrance
+    short_name: Flooded Faron Woods - Underwater Hole Exit
   \Faron\Faron Woods\Deep Woods\Shared Statue Exit:
     type: exit
     vanilla: Sky - Faron Pillar - Entrance
@@ -10937,10 +10972,10 @@ exits:
     type: exit
     vanilla: Farore's Lair - Entrance from Lake Floria
     stage: F102
-    short_name: Lake Floria - Exit to Farore's Lair
+    short_name: Lake Floria - Below Rock - Exit to Farore's Lair
   \Faron\Lake Floria\Farore's Lair\Exit to Lake Floria:
     type: exit
-    vanilla: Lake Floria - Entrance from Farore's Lair
+    vanilla: Lake Floria - Below Rock - Entrance from Farore's Lair
     stage: F102_2
     short_name: Farore's Lair - Exit to Lake Floria
   \Faron\Lake Floria\Farore's Lair\Exit to Waterfall:
@@ -12094,28 +12129,38 @@ entrances:
     can-start-at: false
     allowed_time_of_day: 1
     short_name: Great Tree - Entrance from Flooded Great Tree
-  \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance:
-    type: entrance
-    allowed_time_of_day: 1
-    short_name: Flooded Great Tree - Entrance
-  \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Upper Flooded Faron Woods:
-    type: entrance
-    allowed_time_of_day: 1
-    short_name: Flooded Great Tree - Entrance from Upper Flooded Faron Woods
-  \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Lower Flooded Faron Woods:
-    type: entrance
-    allowed_time_of_day: 1
-    short_name: Flooded Great Tree - Entrance from Lower Flooded Faron Woods
-  \Faron\Flooded Faron Woods\Entrance from Upper Flooded Great Tree:
-    type: entrance
-    allowed_time_of_day: 1
-    short_name: Flooded Faron Woods - Entrance from Upper Flooded Great Tree
-  \Faron\Flooded Faron Woods\Entrance from Lower Flooded Great Tree:
+  \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Great Tree:
     type: entrance
     province: Faron Province
     can-start-at: false
     allowed_time_of_day: 1
-    short_name: Flooded Faron Woods - Entrance from Lower Flooded Great Tree
+    short_name: Flooded Great Tree - Entrance from Great Tree
+  \Faron\Flooded Faron Woods\Flooded Great Tree\Entrance from Upper Flooded Faron Woods:
+    type: entrance
+    province: Faron Province
+    stage: F103_1
+    allowed_time_of_day: 1
+    short_name: Flooded Great Tree - Entrance from Upper Flooded Faron Woods
+  \Faron\Flooded Faron Woods\Flooded Great Tree\Underwater Tunnel Entrance:
+    type: entrance
+    province: Faron Province
+    can-start-at: false
+    stage: F103_1
+    allowed_time_of_day: 1
+    short_name: Flooded Great Tree - Underwater Tunnel Entrance
+  \Faron\Flooded Faron Woods\Entrance from Upper Flooded Great Tree:
+    type: entrance
+    province: Faron Province
+    stage: F103
+    allowed_time_of_day: 1
+    short_name: Flooded Faron Woods - Entrance from Upper Flooded Great Tree
+  \Faron\Flooded Faron Woods\Underwater Hole Entrance:
+    type: entrance
+    province: Faron Province
+    can-start-at: false
+    stage: F103
+    allowed_time_of_day: 1
+    short_name: Flooded Faron Woods - Underwater Hole Entrance
   \Faron\Faron Woods\Deep Woods\Forest Temple Statue Entrance:
     type: entrance
     subtype: bird-statue-entrance
@@ -12163,7 +12208,7 @@ entrances:
     can-start-at: false
     stage: F102
     allowed_time_of_day: 1
-    short_name: Lake Floria - Entrance from Farore's Lair
+    short_name: Lake Floria - Below Rock - Entrance from Farore's Lair
   \Faron\Lake Floria\Farore's Lair\Entrance from Lake Floria:
     type: entrance
     province: Faron Province
