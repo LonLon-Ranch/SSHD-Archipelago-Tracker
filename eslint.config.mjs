@@ -174,6 +174,7 @@ export default tseslint.config(
             '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect':
                 'off',
 
+            '@typescript-eslint/consistent-type-assertions': 'warn',
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-unsafe-argument': 'error',
             '@typescript-eslint/no-unsafe-assignment': 'error',

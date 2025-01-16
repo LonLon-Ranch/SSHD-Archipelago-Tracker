@@ -14,4 +14,5 @@
     outline: 1px solid var(--scheme-text);
     margin: 0 1px 1px 0;
     break-inside: avoid;
+    display: grid;
 }
