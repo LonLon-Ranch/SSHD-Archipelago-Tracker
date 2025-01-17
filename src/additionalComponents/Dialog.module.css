@@ -24,9 +24,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90vw;
-    width: 900px;
+    max-width: 90vw;
     max-height: 85vh;
+    width: 900px;
     padding: 25px;
     animation: contentShow 250ms ease-in-out;
 
@@ -35,7 +35,7 @@
     gap: 8px;
 
     &.narrow {
-        max-width: 600px;
+        width: 600px;
     }
 
     &[data-state='closed'] {
