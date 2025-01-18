@@ -375,7 +375,7 @@ function LogicChooser({
                     : loadedRemoteName && `: ${loadedRemoteName}`}
             </legend>
             <Tabs.Root
-                defaultValue="wellKnown"
+                defaultValue={activeOption ? 'wellKnown' : 'raw'}
                 onValueChange={(e) => {
                     if (e === 'raw') {
                         inputRef.current?.setInput(
