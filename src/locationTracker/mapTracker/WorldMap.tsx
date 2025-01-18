@@ -23,6 +23,8 @@ const images: Record<string, string> = {
     lanayruMap,
 };
 
+const imagesToPrefetch = [...Object.values(images), skyMap];
+
 export const WORLD_MAP_ASPECT_RATIO = 843 / 465;
 
 function usePrefetchImages(images: string[]) {
@@ -32,13 +34,15 @@ function usePrefetchImages(images: string[]) {
     const ref = useRef<HTMLImageElement[] | null>(null);
 
     useEffect(() => {
-        if (ref.current === null) {
-            ref.current = images.map((src) => {
-                const img = new Image();
-                img.src = src;
-                return img;
-            });
-        }
+        ref.current = images.map((src) => {
+            const img = new Image();
+            img.src = src;
+            return img;
+        });
+
+        return () => {
+            ref.current = null;
+        };
     }, [images]);
 }
 
@@ -54,7 +58,7 @@ function WorldMap({
     const mapModel = useSelector(mapModelSelector);
     // Preload large images since we don't render all maps at the
     // same time
-    usePrefetchImages([...Object.values(images), skyMap]);
+    usePrefetchImages(imagesToPrefetch);
 
     const activeSubmap = interfaceState.mapView;
     const handleGroupClick = (hintRegion: string | undefined) => {
