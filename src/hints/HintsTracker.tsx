@@ -22,6 +22,7 @@ export function HintsTracker() {
     return (
         <div className={styles.hintsTracker}>
             <textarea
+                spellCheck={false}
                 className={clsx('tracker-input', styles.hintsTextArea)}
                 placeholder={hintsPlaceholder}
                 value={hintsText}

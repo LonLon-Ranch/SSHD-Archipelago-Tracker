@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import eldinMap from '../../assets/maps/Eldin.png';
 import faronMap from '../../assets/maps/Faron.png';
@@ -24,6 +25,23 @@ const images: Record<string, string> = {
 
 export const WORLD_MAP_ASPECT_RATIO = 843 / 465;
 
+function usePrefetchImages(images: string[]) {
+    // This ref won't be used by the actual component
+    // but the ref is kept in React memory as long as
+    // the component is mounted
+    const ref = useRef<HTMLImageElement[] | null>(null);
+
+    useEffect(() => {
+        if (ref.current === null) {
+            ref.current = images.map((src) => {
+                const img = new Image();
+                img.src = src;
+                return img;
+            });
+        }
+    }, [images]);
+}
+
 function WorldMap({
     width,
     interfaceState,
@@ -34,6 +52,9 @@ function WorldMap({
     interfaceDispatch: React.Dispatch<InterfaceAction>;
 }) {
     const mapModel = useSelector(mapModelSelector);
+    // Preload large images since we don't render all maps at the
+    // same time
+    usePrefetchImages([...Object.values(images), skyMap]);
 
     const activeSubmap = interfaceState.mapView;
     const handleGroupClick = (hintRegion: string | undefined) => {
