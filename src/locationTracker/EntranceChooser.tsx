@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -7,10 +6,11 @@ import {
     usedEntrancesSelector,
 } from '../tracker/Selectors';
 import { mapEntrance } from '../tracker/Slice';
+import { emptyArray } from '../utils/Collections';
 import keyDownWrapper from '../utils/KeyDownWrapper';
 import styles from './EntranceChooser.module.css';
 import locationStyles from './Location.module.css';
-import locationGroupStyles from './LocationGroup.module.css';
+import LocationGrid from './LocationGrid';
 
 const RESET_OPTION = 'RESET';
 
@@ -93,31 +93,21 @@ export default function EntranceChooser({
                 onChange={(e) => setFilterText(e.target.value)}
             />
             <div className={styles.entrances}>
-                <div
-                    className={clsx(locationGroupStyles.locationGroup, {
-                        [locationGroupStyles.wide]: wide,
-                    })}
-                >
+                <LocationGrid wide={wide}>
                     {entranceOptions?.map(({ value, label }) => (
                         <div
                             key={value}
-                            className={locationGroupStyles.locationCell}
+                            className={locationStyles.location}
+                            role="button"
+                            onClick={() => onClickEntrance(value)}
+                            onKeyDown={keyDownWrapper(() =>
+                                onClickEntrance(value),
+                            )}
                         >
-                            <div
-                                className={locationStyles.location}
-                                role="button"
-                                onClick={() => onClickEntrance(value)}
-                                onKeyDown={keyDownWrapper(() =>
-                                    onClickEntrance(value),
-                                )}
-                            >
-                                <span className={locationStyles.text}>
-                                    {label}
-                                </span>
-                            </div>
+                            <span className={locationStyles.text}>{label}</span>
                         </div>
-                    ))}
-                </div>
+                    )) ?? emptyArray()}
+                </LocationGrid>
             </div>
         </div>
     );

@@ -1,6 +1,5 @@
-import clsx from 'clsx';
 import Location from './Location';
-import styles from './LocationGroup.module.css';
+import LocationGrid from './LocationGrid';
 
 export default function LocationGroup({
     wide,
@@ -13,19 +12,10 @@ export default function LocationGroup({
     onChooseEntrance: (exitId: string) => void;
 }) {
     return (
-        <div
-            className={clsx(styles.locationGroup, {
-                [styles.wide]: wide,
-            })}
-        >
-            {locations.map((location) => (
-                <div key={location} className={styles.locationCell}>
-                    <Location
-                        onChooseEntrance={onChooseEntrance}
-                        id={location}
-                    />
-                </div>
+        <LocationGrid wide={wide}>
+            {locations.map((l) => (
+                <Location key={l} onChooseEntrance={onChooseEntrance} id={l} />
             ))}
-        </div>
+        </LocationGrid>
     );
 }
