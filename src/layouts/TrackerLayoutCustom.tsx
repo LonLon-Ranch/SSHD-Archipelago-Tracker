@@ -76,6 +76,7 @@ const components: Record<string, TrackerComponentFactory> = {
             style={{ width: '100%', height: '100%', overflow: 'visible auto' }}
         >
             <LocationGroupList
+                interfaceState={interaction.interfaceState}
                 interfaceDispatch={interaction.interfaceDispatch}
             />
         </div>

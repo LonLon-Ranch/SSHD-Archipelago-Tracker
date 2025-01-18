@@ -95,6 +95,7 @@ export function TrackerLayout({
                             }}
                         >
                             <LocationGroupList
+                                interfaceState={interfaceState}
                                 interfaceDispatch={interfaceDispatch}
                             />
                         </div>

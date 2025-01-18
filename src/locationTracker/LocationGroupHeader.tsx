@@ -20,10 +20,12 @@ export default function LocationGroupHeader({
     area,
     setActiveArea,
     alignCounters,
+    isActive,
 }: {
     area: HintRegion;
     setActiveArea: (area: string) => void;
     alignCounters?: boolean;
+    isActive?: boolean;
 }) {
     const onClick = useCallback(
         () => setActiveArea(area.name),
@@ -69,6 +71,7 @@ export default function LocationGroupHeader({
             className={clsx(styles.locationGroupHeader, {
                 [styles.droppable]: canDrop,
                 [styles.droppableHover]: canDrop && isOver,
+                [styles.selected]: isActive,
             })}
             ref={setNodeRef}
         >
