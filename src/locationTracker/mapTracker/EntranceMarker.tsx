@@ -158,7 +158,7 @@ function EntranceMarker({
             <center>
                 <div>{title}</div>
                 <div>
-                    {region} ({data.checks.numAccessible}/
+                    ↳{region} ({data.checks.numAccessible}/
                     {data.checks.numRemaining})
                 </div>
                 <div style={{ textAlign: 'left' }}>
@@ -179,7 +179,7 @@ function EntranceMarker({
                     <RequirementsTooltip requirements={requirements} />
                 </div>
                 <div>
-                    Click to Attach {isDungeon ? 'Dungeon' : 'Silent Realm'}
+                    ↳Click to Attach {isDungeon ? 'Dungeon' : 'Silent Realm'}
                 </div>
             </center>
         );

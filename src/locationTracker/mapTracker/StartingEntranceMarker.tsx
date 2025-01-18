@@ -27,8 +27,12 @@ function StartingEntranceMarker({
     const tooltip = (
         <center>
             <div>Starting Entrance</div>
-            <div>Click to choose starting entrance</div>
-            {startMapping.entrance && <div>{startMapping.entrance.name}</div>}
+            <div>
+                ↳
+                {startMapping.entrance
+                    ? startMapping.entrance.name
+                    : 'Click to choose starting entrance'}
+            </div>
         </center>
     );
 

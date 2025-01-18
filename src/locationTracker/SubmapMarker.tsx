@@ -88,8 +88,12 @@ export function SubmapMarker({
                 {title} ({data.checks.numAccessible}/{data.checks.numRemaining})
             </div>
             <div>Click to Expand</div>
-            {needsBirdStatueSanityExit && (
-                <div>Right-click to choose Statue</div>
+            {birdStatueSanityPool && (
+                <div>
+                    {exits[birdStatueSanityPool.exit].entrance
+                        ? `↳${exits[birdStatueSanityPool.exit].entrance!.name}`
+                        : '↳Right-click to choose Starting Statue'}
+                </div>
             )}
             {markers.map((marker, idx) =>
                 marker.hintRegion ? (
