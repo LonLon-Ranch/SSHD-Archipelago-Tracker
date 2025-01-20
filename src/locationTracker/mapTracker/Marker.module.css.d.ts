@@ -3,8 +3,8 @@ declare const classNames: {
     readonly square: 'square';
     readonly rounded: 'rounded';
     readonly circle: 'circle';
-    readonly droppable: 'droppable';
-    readonly droppableHover: 'droppableHover';
+    readonly droppableOutline: 'droppableOutline';
+    readonly droppableOutlineHover: 'droppableOutlineHover';
     readonly submarkers: 'submarkers';
     readonly left: 'left';
     readonly submarker: 'submarker';

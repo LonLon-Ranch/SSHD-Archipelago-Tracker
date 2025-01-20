@@ -1,5 +1,6 @@
 :root {
     --map-marker-size: 5.55cqw;
+    --map-marker-droppable-radius: 4px;
 }
 
 .marker {
@@ -26,15 +27,23 @@
     &.circle {
         border-radius: 200px;
     }
+}
 
-    &.droppable {
-        /* background-color: color-mix(in srgb, #0d6efd 60%, var(--scheme-background)); */
-        filter: drop-shadow(0 0 10px #0d6efd);
-    }
+.droppableOutline {
+    position: absolute;
 
-    &.droppableHover {
-        /* background-color: color-mix(in srgb, #0d6efd 100%, var(--scheme-background)); */
-        filter: drop-shadow(0 0 20px #0d6efd);
+    top: calc(var(--map-marker-y) - var(--map-marker-droppable-radius));
+    left: calc(var(--map-marker-x) - var(--map-marker-droppable-radius));
+    width: calc(
+        var(--map-marker-size) + 2 * var(--map-marker-droppable-radius)
+    );
+    height: calc(
+        var(--map-marker-size) + 2 * var(--map-marker-droppable-radius)
+    );
+    border: 4px solid #0d6efd99;
+
+    &.droppableOutlineHover {
+        border: 4px solid #0d6efdff;
     }
 }
 

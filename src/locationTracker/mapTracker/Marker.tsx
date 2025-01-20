@@ -75,15 +75,22 @@ export function Marker({
                         onContextMenu?.(ev);
                     }}
                     style={{ ...markerStyle, ...positionVars }}
-                    className={clsx(styles.marker, borderRadiuses[variant], {
-                        [styles.droppable]: previewStyle === 'droppable',
-                        [styles.droppableHover]: previewStyle === 'hover',
-                    })}
+                    className={clsx(styles.marker, borderRadiuses[variant])}
                     ref={ref}
                 >
                     <span>{children}</span>
                 </div>
             </Tooltip>
+            {previewStyle && (
+                <div
+                    style={positionVars as CSSProperties}
+                    className={clsx({
+                        [styles.droppableOutline]: Boolean(previewStyle),
+                        [styles.droppableOutlineHover]:
+                            previewStyle === 'hover',
+                    })}
+                ></div>
+            )}
             {submarkers && (
                 <div
                     className={clsx(styles.submarkers, {
