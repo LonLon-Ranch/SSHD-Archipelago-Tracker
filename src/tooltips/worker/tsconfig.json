@@ -1,7 +1,7 @@
 {
     "extends": "../../../tsconfig.base.json",
     "compilerOptions": {
-      "lib": ["ES2015", "webworker"],
+      "lib": ["ES2023", "webworker"],
     },
     "include": ["./", "../../"]
   }
