@@ -2,14 +2,14 @@ import { keyBy } from 'es-toolkit';
 import { BitVector } from './bitlogic/BitVector';
 import type { ExitMapping } from './Locations';
 import type { AreaGraph } from './Logic';
-import { TimeOfDay } from './UpstreamTypes';
+import { TimeOfDay, type TTimeOfDay } from './Mappers';
 
 /*
 The pathfinding algorithm starts at the Start entrance with its specific time of day,
 and then walks the area graph (potentially with its requirements).
 */
 
-type SpecificTimeOfDay = TimeOfDay.DayOnly | TimeOfDay.NightOnly;
+type SpecificTimeOfDay = TTimeOfDay['DayOnly'] | TTimeOfDay['NightOnly'];
 
 export interface ExplorationNode {
     area: string;

@@ -1,17 +1,16 @@
 import type { OptionValue } from '../permalink/SettingsTypes';
 
-export enum TimeOfDay {
-    DayOnly = 1,
-    NightOnly = 2,
-    Both = 3,
-}
+export type TimeOfDayInt =
+    | /** DayOnly */ 1
+    | /** NightOnly */ 2
+    | /** Both */ 3;
 
 export interface RawArea {
     name: string;
     abstract: boolean;
     can_sleep: boolean;
     hint_region: string | null;
-    allowed_time_of_day: TimeOfDay;
+    allowed_time_of_day: TimeOfDayInt;
     entrances: string[] | undefined;
     exits: Record<string, string> | undefined;
     sub_areas: {
@@ -23,7 +22,7 @@ export interface RawArea {
 export interface RawEntrance {
     type: 'entrance';
     'can-start-at': boolean | undefined;
-    allowed_time_of_day: TimeOfDay;
+    allowed_time_of_day: TimeOfDayInt;
     subtype: string | undefined;
     stage: string | undefined;
     province: string | undefined;
@@ -32,7 +31,7 @@ export interface RawEntrance {
 
 export interface RawExit {
     type: 'exit';
-    allowed_time_of_day: TimeOfDay;
+    allowed_time_of_day: TimeOfDayInt;
     vanilla: string | undefined;
     stage: string | undefined;
     short_name: string;

@@ -2,11 +2,11 @@ import { groupBy, last } from 'es-toolkit';
 import { isEmpty, mapValues } from '../utils/Collections';
 import { chainComparators, compareBy } from '../utils/Compare';
 import {
-    type Requirements,
     mergeRequirements,
     removeDuplicates,
     shallowSimplify,
     unifyRequirements,
+    type Requirements,
 } from './bitlogic/BitLogic';
 import { BitVector } from './bitlogic/BitVector';
 import { LogicalExpression } from './bitlogic/LogicalExpression';
@@ -17,17 +17,18 @@ import {
 import { itemName } from './Inventory';
 import { dungeonNames } from './Locations';
 import { LogicBuilder } from './LogicBuilder';
+import { TimeOfDay, type TTimeOfDay } from './Mappers';
 import {
     cubeCheckToCubeCollected,
     cubeCollectedToCubeCheck,
     dungeonCompletionItems,
 } from './TrackerModifications';
-import {
-    type RawArea,
-    type RawEntrance,
-    type RawExit,
-    type RawLogic,
-    TimeOfDay,
+import type {
+    RawArea,
+    RawEntrance,
+    RawExit,
+    RawLogic,
+    TimeOfDayInt,
 } from './UpstreamTypes';
 
 export interface Logic {
@@ -76,7 +77,7 @@ export interface LogicalCheck {
  * Time-of-day-restricted locations are only available if you can logically reach the area
  * with the correct time of day.
  */
-export type LocationAvailability = TimeOfDay | 'abstract';
+export type LocationAvailability = TimeOfDayInt | 'abstract';
 
 export type LinkedEntrancePool = keyof RawLogic['linked_entrances'];
 export type TrackerLinkedEntrancePool =
@@ -172,8 +173,8 @@ interface CommonArea {
  * The actual area name doesn't exist in logic, instead we have _DAY and _NIGHT versions.
  */
 export interface DualTodArea extends CommonArea {
-    availability: TimeOfDay.Both;
-    locations: Location<DayNightRequirements, TimeOfDay.Both>[];
+    availability: TTimeOfDay['Both'];
+    locations: Location<DayNightRequirements, TTimeOfDay['Both']>[];
     abstract: false;
 }
 
@@ -184,10 +185,10 @@ export interface DualTodArea extends CommonArea {
  * with the opposite ToD is an immediate out-of-logic.
  */
 export interface SingleTodArea extends CommonArea {
-    availability: TimeOfDay.DayOnly | TimeOfDay.NightOnly;
+    availability: TTimeOfDay['DayOnly'] | TTimeOfDay['NightOnly'];
     locations: Location<
         LogicalExpression,
-        TimeOfDay.DayOnly | TimeOfDay.NightOnly
+        TTimeOfDay['DayOnly'] | TTimeOfDay['NightOnly']
     >[];
     canSleep: false;
     abstract: false;
@@ -506,7 +507,7 @@ export function parseLogic(raw: RawLogic): Logic {
     }
 
     function toSingleTodExpr(
-        tod: TimeOfDay.DayOnly | TimeOfDay.NightOnly | 'abstract',
+        tod: TTimeOfDay['DayOnly'] | TTimeOfDay['NightOnly'] | 'abstract',
         expr: LogicalExpression,
     ): LogicalExpression {
         if (tod === 'abstract') {
@@ -519,7 +520,7 @@ export function parseLogic(raw: RawLogic): Logic {
     }
 
     function toDualTodExpr(
-        _tod: TimeOfDay.Both,
+        _tod: TTimeOfDay['Both'],
         expr: LogicalExpression,
     ): DayNightRequirements {
         return {
