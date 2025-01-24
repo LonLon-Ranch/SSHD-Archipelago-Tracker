@@ -17,7 +17,7 @@ export function BasicItem({
     imgWidth,
     className,
     count,
-    onClick,
+    onGiveOrTake,
     children,
     style,
     dragItemName,
@@ -34,17 +34,17 @@ export function BasicItem({
     /** The item count */
     count: number;
     /** Click callback for the main item */
-    onClick: (take: boolean) => void;
+    onGiveOrTake: (take: boolean) => void;
     /** If this item can be dragged and dropped, this is the item that will be dragged */
     dragItemName?: InventoryItem;
     children?: React.ReactNode;
-} & Omit<React.HTMLProps<HTMLDivElement>, 'onClick'>) {
+} & React.HTMLProps<HTMLDivElement>) {
     const handleClick = (e: React.UIEvent) => {
         if (e.type === 'contextmenu') {
-            onClick(true);
+            onGiveOrTake(true);
             e.preventDefault();
         } else {
-            onClick(false);
+            onGiveOrTake(false);
         }
     };
 

@@ -29,7 +29,7 @@ export function GratitudeCrystals({
             images={itemImages}
             count={count}
             imgWidth={imgWidth}
-            onClick={handleClick}
+            onGiveOrTake={handleClick}
             dragItemName="Gratitude Crystal Pack"
         />
     );
