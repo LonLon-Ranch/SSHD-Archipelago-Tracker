@@ -89,7 +89,7 @@ export function Marker({
                         [styles.droppableOutlineHover]:
                             previewStyle === 'hover',
                     })}
-                ></div>
+                />
             )}
             {submarkers && (
                 <div
@@ -106,7 +106,7 @@ export function Marker({
                                 background: `var(--scheme-${data.color})`,
                             }}
                         >
-                            <img src={data.image}></img>
+                            <img src={data.image} />
                         </div>
                     ))}
                 </div>

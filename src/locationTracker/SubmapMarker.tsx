@@ -133,7 +133,7 @@ export function SubmapMarker({
             onClick={handleClick}
             onContextMenu={displayMenu}
             selected={currentRegionOrExit === birdStatueExitId}
-            submarkerPlacement={'right'}
+            submarkerPlacement="right"
             submarkers={getSubmarkerData(data)}
         >
             {data.checks.numAccessible > 0

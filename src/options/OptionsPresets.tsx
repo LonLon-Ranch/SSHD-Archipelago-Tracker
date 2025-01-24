@@ -176,7 +176,7 @@ function PresetRow({
             </div>
             <div className={styles.body}>
                 {formatRemote(preset.remote)}
-                <span className={styles.presetLogicStringSep}></span>
+                <span className={styles.presetLogicStringSep} />
                 <span className={styles.permalink}>
                     {preset.visualPermalink}
                 </span>

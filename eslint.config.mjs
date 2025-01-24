@@ -154,20 +154,34 @@ export default tseslint.config(
 
             'import/no-cycle': ['error', { ignoreExternal: true }],
 
-            'react/require-default-props': ['off'],
+            'react/jsx-uses-react': 'off',
             'react/react-in-jsx-scope': 'off',
-            'react/jsx-filename-extension': [
-                'error',
-                {
-                    extensions: ['.jsx', 'tsx'],
-                },
-            ],
+            'react/no-unescaped-entities': 'off',
+            'react/jsx-no-target-blank': 'off',
+            'react/display-name': 'off',
             'react/prefer-stateless-function': 'warn',
             'react/no-access-state-in-setstate': 'error',
             'react/no-this-in-sfc': 'error',
             'react/no-children-prop': 'error',
             'react/no-unused-state': 'error',
             'react/button-has-type': 'error',
+            'react/prop-types': 'off',
+            'react/self-closing-comp': 'error',
+            'react/function-component-definition': 'error',
+            'react/no-redundant-should-component-update': 'error',
+            'react/no-unsafe': 'error',
+            'react/jsx-no-constructed-context-values': 'error',
+            'react/jsx-pascal-case': 'error',
+            'react/jsx-curly-brace-presence': [
+                'error',
+                {
+                    props: 'never',
+                    children: 'never',
+                    propElementValues: 'always',
+                },
+            ],
+            'react/iframe-missing-sandbox': 'error',
+            'react/jsx-key': 'off',
 
             '@eslint-react/prefer-read-only-props': 'off',
             '@eslint-react/no-array-index-key': 'off',
