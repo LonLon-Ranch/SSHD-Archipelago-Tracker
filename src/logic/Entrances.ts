@@ -3,6 +3,7 @@ import type { TypedOptions } from '../permalink/SettingsTypes';
 import type { TrackerState } from '../tracker/Slice';
 import { mapValues } from '../utils/Collections';
 import { compareBy } from '../utils/Compare';
+import { appError } from '../utils/Debug';
 import type { DungeonName, ExitMapping } from './Locations';
 import type {
     LinkedEntrancePool,
@@ -353,7 +354,7 @@ export function getExits(
                 region: logic.areaGraph.entranceHintRegions[entranceId],
             };
         } else {
-            console.error('unknown entrance', entranceId);
+            appError('unknown entrance', entranceId);
         }
     };
 

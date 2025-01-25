@@ -7,6 +7,7 @@ import {
 import { BitVector } from '../../logic/bitlogic/BitVector';
 import { LogicalExpression } from '../../logic/bitlogic/LogicalExpression';
 import BooleanExpression from '../../logic/booleanlogic/BooleanExpression';
+import { appDebug } from '../../utils/Debug';
 import { dnfToRequirementExpr } from './Algorithms';
 import type { LeanLogic, WorkerRequest, WorkerResponse } from './Types';
 import {
@@ -31,7 +32,7 @@ interface GlobalState {
 
 let g: GlobalState;
 
-console.log('Hello from worker!');
+appDebug('Hello from worker!');
 
 self.onmessage = (ev: MessageEvent<WorkerRequest>) => {
     const start = performance.now();
@@ -63,7 +64,7 @@ self.onmessage = (ev: MessageEvent<WorkerRequest>) => {
             } while (
                 unifyRequirements(g.opaqueBits, g.requirementsForBottomUp)
             );
-            console.log(
+            appDebug(
                 'worker',
                 'initializing and pre-simplifying took',
                 performance.now() - start,
@@ -72,7 +73,7 @@ self.onmessage = (ev: MessageEvent<WorkerRequest>) => {
 
             const start2 = performance.now();
             bottomUpTooltipPropagation(g.opaqueBits, g.requirementsForBottomUp);
-            console.log(
+            appDebug(
                 'worker',
                 'fixpoint propagation took',
                 performance.now() - start2,
@@ -86,7 +87,7 @@ self.onmessage = (ev: MessageEvent<WorkerRequest>) => {
                 throw new Error('needs to be initialized first!!!!');
             }
             const expr = analyze(ev.data.checkId);
-            console.log(
+            appDebug(
                 'worker',
                 'total time for',
                 ev.data.checkId,
@@ -111,7 +112,7 @@ function analyze(checkId: string): BooleanExpression {
         g.logic,
         bottomUpExpression.conjunctions,
     );
-    console.log(
+    appDebug(
         '  ',
         'worker',
         'simplifying took',

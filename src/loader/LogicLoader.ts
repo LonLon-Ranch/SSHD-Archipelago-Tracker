@@ -2,6 +2,7 @@ import { load } from 'js-yaml';
 import type { RawLogic, RawPresets } from '../logic/UpstreamTypes';
 import type { MultiChoiceOption, OptionDefs } from '../permalink/SettingsTypes';
 import { compareBy } from '../utils/Compare';
+import { appError } from '../utils/Debug';
 import { convertError } from '../utils/Errors';
 import { getLatestRelease } from './ReleasesLoader';
 
@@ -36,7 +37,7 @@ async function resolveRemote(
                     latest,
                 ];
             } catch (e) {
-                console.error(
+                appError(
                     'Could not retrieve latest release from GitHub: ' +
                         (e ? convertError(e) : 'Unknown error'),
                 );

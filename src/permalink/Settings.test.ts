@@ -10,8 +10,8 @@ import {
 describe('permalink', () => {
     const tester = createTestLogic();
 
-    beforeAll(tester.beforeAll);
-    beforeEach(tester.beforeEach);
+    beforeAll(tester.initialize);
+    beforeEach(tester.reset);
 
     function getOptions() {
         return tester.readSelector(optionsSelector);

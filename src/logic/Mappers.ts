@@ -1,4 +1,5 @@
 import type { OptionDefs, TypedOptions } from '../permalink/SettingsTypes';
+import { appDebug } from '../utils/Debug';
 import type { Requirements } from './bitlogic/BitLogic';
 import { BitVector } from './bitlogic/BitVector';
 import { LogicalExpression } from './bitlogic/LogicalExpression';
@@ -47,7 +48,7 @@ export function mapSettings(
             val !== undefined &&
             (typeof expect === 'function' ? expect(val) : expect === val);
         if (match) {
-            console.log('setting', item);
+            appDebug('setting', item);
             b.set(item, b.true());
         }
     }

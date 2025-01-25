@@ -7,8 +7,8 @@ import { useTrackerInterfaceReducer } from './TrackerInterfaceReducer';
 describe('tracker interface reducer', () => {
     const tester = createTestLogic();
 
-    beforeAll(tester.beforeAll);
-    beforeEach(tester.beforeEach);
+    beforeAll(tester.initialize);
+    beforeEach(tester.reset);
 
     it('initializes with starting region', () => {
         const { result } = tester.renderHook(() =>

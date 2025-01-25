@@ -7,8 +7,8 @@ describe('hints parser', () => {
     const parse = (text: string) =>
         parseHintsText(text, tester.readSelector(logicSelector).hintRegions);
 
-    beforeAll(tester.beforeAll);
-    beforeEach(tester.beforeEach);
+    beforeAll(tester.initialize);
+    beforeEach(tester.reset);
 
     it('parses sots hints', () => {
         expect(parse('upper sots \n boko sots')).toMatchInlineSnapshot(`

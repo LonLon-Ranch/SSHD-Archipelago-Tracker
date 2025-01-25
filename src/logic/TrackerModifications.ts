@@ -2,6 +2,7 @@ import { invert } from 'es-toolkit';
 import goddessCubesList_ from '../data/goddessCubes2.json';
 import type { OptionDefs, TypedOptions } from '../permalink/SettingsTypes';
 import type { TrackerState } from '../tracker/Slice';
+import { appError } from '../utils/Debug';
 import { BitVector } from './bitlogic/BitVector';
 import { type InventoryItem, isItem, itemMaxes, itemName } from './Inventory';
 import type { DungeonName } from './Locations';
@@ -118,7 +119,7 @@ export function getTooltipOpaqueBits(
         if (bit !== undefined) {
             items.setBit(bit);
         } else {
-            console.error('unknown item', id);
+            appError('unknown item', id);
         }
     };
 

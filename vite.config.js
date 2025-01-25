@@ -30,8 +30,11 @@ export default defineConfig(({ mode }) => {
             outDir: 'build',
         },
         define: {
+            // Keep in sync with global.d.ts
             $PUBLIC_URL: JSON.stringify(baseUrl),
             $FEATURE_FLAG_HINTS_PARSER: JSON.stringify(!isProd),
+            $DEBUG_PRINTS: JSON.stringify(mode === 'development'),
+            $FATAL_APPERROR: JSON.stringify(mode === 'test'),
         },
         plugins: [
             sassDts({

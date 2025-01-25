@@ -14,6 +14,7 @@ import type {
 import type { RootState } from '../store/Store';
 import { totalCountersSelector } from '../tracker/Selectors';
 import { withCancel } from '../utils/CancelToken';
+import { appError } from '../utils/Debug';
 import { convertError } from '../utils/Errors';
 import { delay } from '../utils/Promises';
 
@@ -234,7 +235,7 @@ export function useOptionsState() {
         try {
             counters = totalCountersSelector(mergedState);
         } catch (e) {
-            console.error(e);
+            appError('failed to evaluate counters', e);
             evalError = convertError(e);
         }
 

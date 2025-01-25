@@ -50,7 +50,7 @@ export function createTestLogic() {
     }
 
     const tester = {
-        async beforeAll() {
+        async initialize() {
             store = createStore();
 
             const loader = async (fileName: string) => {
@@ -63,20 +63,20 @@ export function createTestLogic() {
                 );
             };
 
-            const [logic, options] = await getAndPatchLogic(loader);
+            const [logic, options, presets] = await getAndPatchLogic(loader);
             defaultSet = defaultSettings(options);
             store.dispatch(
                 loadLogic({
                     logic,
                     options,
-                    presets: {},
+                    presets,
                     remote: main,
                     remoteName: 'ssrando/main',
                 }),
             );
         },
 
-        beforeEach() {
+        reset() {
             store.dispatch(reset({ settings: defaultSet }));
             store.dispatch(resetCustomizationForTest());
         },

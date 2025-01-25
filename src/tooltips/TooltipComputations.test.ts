@@ -23,7 +23,7 @@ import {
 describe('tooltips', () => {
     const tester = createTestLogic();
 
-    beforeAll(tester.beforeAll);
+    beforeAll(tester.initialize);
 
     function createComputer(): TooltipComputer {
         const logic = tester.readSelector(logicSelector);
@@ -92,7 +92,7 @@ describe('tooltips', () => {
     describe('all checks enabled', () => {
         let computer: TooltipComputer;
         beforeAll(() => {
-            tester.beforeEach();
+            tester.reset();
 
             const settings = tester.readSelector(allSettingsSelector);
             tester.dispatch(

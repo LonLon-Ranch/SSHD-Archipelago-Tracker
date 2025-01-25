@@ -1,3 +1,4 @@
+import { appError } from '../utils/Debug';
 import type { Requirements } from './bitlogic/BitLogic';
 import { BitVector } from './bitlogic/BitVector';
 import { LogicalExpression } from './bitlogic/LogicalExpression';
@@ -53,11 +54,11 @@ export class LogicBuilder {
         const bit = this.bit(target);
         if (bit !== undefined) {
             if (this.requirements[bit]) {
-                console.warn('overwriting item', target);
+                appError('overwriting item', target);
             }
             this.requirements[bit] = rhs;
         } else {
-            console.error('unknown item', target);
+            appError('unknown item', target);
         }
     }
 
@@ -66,7 +67,7 @@ export class LogicBuilder {
         const bit = this.bit(target);
         if (bit !== undefined) {
             if (this.requirements[bit]) {
-                console.warn('overwriting item', target);
+                appError('overwriting item', target);
             }
             this.requirements[bit] = rhs;
         }
@@ -89,7 +90,7 @@ export class LogicBuilder {
     day(item: string) {
         const d = makeDay(item);
         if (this.bit(d) === undefined) {
-            console.error('unknown item', d);
+            appError('unknown item', d);
         }
         return d;
     }
@@ -98,7 +99,7 @@ export class LogicBuilder {
     night(item: string) {
         const d = makeNight(item);
         if (this.bit(d) === undefined) {
-            console.error('unknown item', d);
+            appError('unknown item', d);
         }
         return d;
     }

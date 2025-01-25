@@ -1,3 +1,4 @@
+import { appDebug } from '../../utils/Debug';
 import { BitVector } from './BitVector';
 import { LogicalExpression } from './LogicalExpression';
 
@@ -70,7 +71,8 @@ export function computeLeastFixedPoint(
         }
         iterations++;
     }
-    console.log(
+
+    appDebug(
         reason,
         'fixpoint iteration took',
         performance.now() - start,
@@ -385,5 +387,5 @@ export function bottomUpTooltipPropagation(
     // in our requirement graph. So our output requirements now contain all
     // possible paths.
 
-    console.log('bottom-up tooltip requirements took', rounds, 'rounds');
+    appDebug('bottom-up tooltip requirements took', rounds, 'rounds');
 }

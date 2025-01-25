@@ -1,6 +1,7 @@
 import { groupBy, last } from 'es-toolkit';
 import { isEmpty, mapValues } from '../utils/Collections';
 import { chainComparators, compareBy } from '../utils/Compare';
+import { appDebug, appWarn } from '../utils/Debug';
 import {
     mergeRequirements,
     removeDuplicates,
@@ -417,7 +418,7 @@ export function parseLogic(raw: RawLogic): Logic {
                     // check whether a check is mentioned by requirements.
                     // This should not be a thing because it means that the location
                     // cannot be banned. Again something the rando should enforce...
-                    console.error(
+                    appWarn(
                         'check location',
                         raw.checks[item].short_name,
                         'is mentioned by a requirement, which makes it unbannable',
@@ -894,7 +895,7 @@ export function parseLogic(raw: RawLogic): Logic {
 
     for (const loc of nonCheckLocations) {
         if (!mentionedBits.has(itemBits[loc])) {
-            console.warn('unused location', loc);
+            appWarn('unused location', loc);
         }
     }
 
@@ -945,7 +946,7 @@ export function parseLogic(raw: RawLogic): Logic {
         (_value, idx) => bitLogic[parseInt(idx, 10)],
     );
 
-    console.log('logic building took', performance.now() - start, 'ms');
+    appDebug('logic building took', performance.now() - start, 'ms');
 
     return {
         numRequirements: rawItems.length,

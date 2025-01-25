@@ -32,8 +32,8 @@ import {
 describe('full logic tests', () => {
     const tester = createTestLogic();
 
-    beforeAll(tester.beforeAll);
-    beforeEach(tester.beforeEach);
+    beforeAll(tester.initialize);
+    beforeEach(tester.reset);
 
     /**
      * Read the value of a selector. The result is not reactive,

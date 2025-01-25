@@ -37,6 +37,7 @@ import type {
 } from '../permalink/SettingsTypes';
 import { useAppDispatch } from '../store/Store';
 import { acceptSettings, reset } from '../tracker/Slice';
+import { appError } from '../utils/Debug';
 import Acknowledgement from './Acknowledgment';
 import styles from './Options.module.css';
 import { OptionsPresets } from './OptionsPresets';
@@ -491,7 +492,7 @@ function PermalinkChooser({
                     dispatch({ type: 'changeSettings', settings });
                 }
             } catch (e) {
-                console.error('invalid permalink', link, e);
+                appError('invalid permalink', link, e);
             }
         },
         [dispatch, options],
