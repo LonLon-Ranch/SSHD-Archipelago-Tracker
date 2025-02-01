@@ -40,10 +40,11 @@
     height: calc(
         var(--map-marker-size) + 2 * var(--map-marker-droppable-radius)
     );
-    border: 4px solid #0d6efd99;
+    border: 4px solid
+        color-mix(in srgb, var(--scheme-interact) 70%, transparent);
 
     &.droppableOutlineHover {
-        border: 4px solid #0d6efdff;
+        border: 4px solid var(--scheme-interact);
     }
 }
 

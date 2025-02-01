@@ -63,9 +63,11 @@ const counterBases: SelectValue<CounterBasis>[] = [
 const colors: { key: keyof ColorScheme; name: string }[] = [
     { key: 'background', name: 'Background' },
     { key: 'text', name: 'Foreground' },
+    { key: 'interact', name: 'Interact' },
     { key: 'inLogic', name: 'In Logic Check' },
     { key: 'outLogic', name: 'Out of Logic Check' },
     { key: 'semiLogic', name: 'Semi Logic Check' },
+    { key: 'trickLogic', name: 'Trick Logic Check' },
     { key: 'unrequired', name: 'Unrequired Dungeon' },
     { key: 'required', name: 'Required Dungeon' },
     { key: 'checked', name: 'Completed Check' },
