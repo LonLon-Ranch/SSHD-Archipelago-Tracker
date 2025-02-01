@@ -16,18 +16,16 @@ export function Checkbox({
     onCheckedChange: (value: boolean) => void;
 }) {
     return (
-        <div style={{ display: 'inline-block' }}>
-            <RadixRoot
-                className={styles.root}
-                id={id}
-                checked={checked}
-                disabled={disabled}
-                onCheckedChange={onCheckedChange}
-            >
-                <RadixIndicator className={styles.indicator}>
-                    <div className={styles.check} />
-                </RadixIndicator>
-            </RadixRoot>
-        </div>
+        <RadixRoot
+            className={styles.root}
+            id={id}
+            checked={checked}
+            disabled={disabled}
+            onCheckedChange={onCheckedChange}
+        >
+            <RadixIndicator className={styles.indicator}>
+                <div className={styles.check} />
+            </RadixIndicator>
+        </RadixRoot>
     );
 }
