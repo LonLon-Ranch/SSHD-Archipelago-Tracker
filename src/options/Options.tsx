@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import semverSatisfies from 'semver/functions/satisfies';
+import { Checkbox } from '../additionalComponents/Checkbox';
 import DiscordButton from '../additionalComponents/DiscordButton';
 import {
     MultiSelect,
@@ -595,11 +596,10 @@ function Setting({
                     </div>
                     <div className={styles.checkboxOption}>
                         <div>
-                            <input
-                                type="checkbox"
+                            <Checkbox
                                 id={def.name}
                                 checked={value as boolean}
-                                onChange={(e) => setValue(e.target.checked)}
+                                onCheckedChange={setValue}
                             />
                         </div>
                     </div>

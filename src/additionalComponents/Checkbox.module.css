@@ -1,0 +1,40 @@
+.root {
+    all: unset;
+    background-color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--scheme-interact) 20%, white);
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2px var(--scheme-interact);
+    }
+
+    &[data-state='disabled'] {
+        background-color: grey;
+    }
+
+    &[data-state='checked'],
+    &[data-state='indeterminate'] {
+        background-color: var(--scheme-interact);
+    }
+    position: relative;
+}
+
+.indicator {
+    position: absolute;
+}
+
+.check {
+    border-bottom: 2px solid white;
+    border-right: 2px solid white;
+    width: 6px;
+    height: 12px;
+    transform: translateY(-1px) rotate(45deg);
+}

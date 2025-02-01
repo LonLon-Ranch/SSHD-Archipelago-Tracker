@@ -4,6 +4,6 @@ declare const classNames: {
     readonly setting: 'setting';
     readonly header: 'header';
     readonly contents: 'contents';
-    readonly checkboxLabel: 'checkboxLabel';
+    readonly labeledCheckbox: 'labeledCheckbox';
 };
 export = classNames;

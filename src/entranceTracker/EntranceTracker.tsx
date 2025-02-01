@@ -4,6 +4,7 @@ import {
     FixedSizeList as List,
     type ListChildComponentProps,
 } from 'react-window';
+import { Checkbox } from '../additionalComponents/Checkbox';
 import { Dialog } from '../additionalComponents/Dialog';
 import { Select, type SelectValue } from '../additionalComponents/Select';
 import {
@@ -174,11 +175,10 @@ function EntranceTracker({
                 <label htmlFor="clickthrough" style={{ paddingRight: 8 }}>
                     Clickthrough
                 </label>
-                <input
-                    type="checkbox"
+                <Checkbox
                     id="clickthrough"
                     checked={clickthrough}
-                    onChange={() => setClickthrough(!clickthrough)}
+                    onCheckedChange={setClickthrough}
                 />
             </div>
             <List
