@@ -171,15 +171,20 @@ function EntranceTracker({
                     </button>
                 </div>
             </div>
-            <div>
-                <label htmlFor="clickthrough" style={{ paddingRight: 8 }}>
-                    Clickthrough
-                </label>
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    margin: 4,
+                }}
+            >
                 <Checkbox
                     id="clickthrough"
                     checked={clickthrough}
                     onCheckedChange={setClickthrough}
                 />
+                <label htmlFor="clickthrough">Clickthrough</label>
             </div>
             <List
                 itemCount={filteredRows.length}
