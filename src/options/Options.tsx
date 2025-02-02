@@ -618,7 +618,9 @@ function Setting({
                                 payload: value as number,
                                 label: (value as number).toString(),
                             }}
-                            onValueChange={(e) => e && setValue(e)}
+                            onValueChange={(e) =>
+                                e !== undefined && setValue(e)
+                            }
                             options={range(def.min, def.max + 1).map((val) => ({
                                 value: val.toString(),
                                 payload: val,
@@ -642,7 +644,9 @@ function Setting({
                                 payload: value as string,
                                 label: value as string,
                             }}
-                            onValueChange={(e) => e && setValue(e)}
+                            onValueChange={(e) =>
+                                e !== undefined && setValue(e)
+                            }
                             options={def.choices.map((val) => ({
                                 value: val,
                                 payload: val,
