@@ -27,9 +27,7 @@ export function selectStyles<IsMulti extends boolean, Option>(): StylesConfig<
         }),
         option: (baseStyles, state) => ({
             ...baseStyles,
-            color: state.isFocused
-                ? 'var(--scheme-background)'
-                : 'var(--scheme-text)',
+            color: state.isFocused ? 'white' : 'var(--scheme-text)',
             backgroundColor: state.isFocused
                 ? 'var(--scheme-interact)'
                 : 'var(--scheme-background)',
