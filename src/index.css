@@ -5,6 +5,14 @@
 @import './additionalComponents/button.css';
 @import './additionalComponents/input.css';
 
+:root {
+    --scheme-interact-hover: color-mix(
+        in srgb,
+        var(--scheme-interact) 80%,
+        black
+    );
+}
+
 @layer base {
     body {
         margin: 0;
@@ -85,9 +93,9 @@
     }
 
     a {
-        color: #0d6efd;
+        color: var(--scheme-interact);
         &:hover {
-            color: #0a58ca;
+            color: var(--scheme-interact-hover);
         }
     }
 }

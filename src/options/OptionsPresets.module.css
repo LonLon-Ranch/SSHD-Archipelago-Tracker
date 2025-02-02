@@ -13,7 +13,7 @@
     cursor: pointer;
 
     &:hover {
-        background-color: #0d6efd;
+        background-color: var(--scheme-interact);
         color: var(--scheme-background);
     }
 

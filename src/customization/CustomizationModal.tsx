@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Checkbox } from '../additionalComponents/Checkbox';
 import { Dialog } from '../additionalComponents/Dialog';
 import {
     MultiSelect,
@@ -63,9 +64,11 @@ const counterBases: SelectValue<CounterBasis>[] = [
 const colors: { key: keyof ColorScheme; name: string }[] = [
     { key: 'background', name: 'Background' },
     { key: 'text', name: 'Foreground' },
+    { key: 'interact', name: 'Interact' },
     { key: 'inLogic', name: 'In Logic Check' },
     { key: 'outLogic', name: 'Out of Logic Check' },
     { key: 'semiLogic', name: 'Semi Logic Check' },
+    { key: 'trickLogic', name: 'Trick Logic Check' },
     { key: 'unrequired', name: 'Unrequired Dungeon' },
     { key: 'required', name: 'Required Dungeon' },
     { key: 'checked', name: 'Completed Check' },
@@ -192,17 +195,14 @@ export default function CustomizationModal({
                 name="Trick Logic"
                 tooltip="Choose whether checks reachable only with tricks should be highlighted in a separate color, and which checks should be shown. An empty tricks list shows all tricks."
             >
-                <input
-                    type="checkbox"
-                    id="trickLogic"
-                    checked={trickSemiLogic}
-                    onChange={(e) =>
-                        dispatch(setTrickSemiLogic(e.target.checked))
-                    }
-                />
-                <label htmlFor="trickLogic" className={styles.checkboxLabel}>
-                    Show Trick Logic
-                </label>
+                <div className={styles.labeledCheckbox}>
+                    <Checkbox
+                        id="trickLogic"
+                        checked={trickSemiLogic}
+                        onCheckedChange={(e) => dispatch(setTrickSemiLogic(e))}
+                    />
+                    <label htmlFor="trickLogic">Show Trick Logic</label>
+                </div>
                 <TricksChooser enabled={trickSemiLogic} />
             </Setting>
             <Setting
@@ -219,32 +219,26 @@ export default function CustomizationModal({
                 />
             </Setting>
             <Setting name="Additional Settings">
-                <input
-                    type="checkbox"
-                    id="trackTim"
-                    checked={tumbleweed}
-                    onChange={(e) =>
-                        dispatch(setTrackTumbleweed(e.target.checked))
-                    }
-                />
-                <label htmlFor="trackTim" className={styles.checkboxLabel}>
-                    Track Tim
-                </label>
-                <br />
-                <input
-                    type="checkbox"
-                    id="autoItemAssignemt"
-                    checked={itemLocationAssignment}
-                    onChange={(e) =>
-                        dispatch(setAutoItemAssignment(e.target.checked))
-                    }
-                />
-                <label
-                    htmlFor="autoItemAssignemt"
-                    className={styles.checkboxLabel}
-                >
-                    Assign Items to locations while tracking
-                </label>
+                <div className={styles.labeledCheckbox}>
+                    <Checkbox
+                        id="trackTim"
+                        checked={tumbleweed}
+                        onCheckedChange={(e) => dispatch(setTrackTumbleweed(e))}
+                    />
+                    <label htmlFor="trackTim">Track Tim</label>
+                </div>
+                <div className={styles.labeledCheckbox}>
+                    <Checkbox
+                        id="autoItemAssignemt"
+                        checked={itemLocationAssignment}
+                        onCheckedChange={(e) =>
+                            dispatch(setAutoItemAssignment(e))
+                        }
+                    />
+                    <label htmlFor="autoItemAssignemt">
+                        Assign Items to locations while tracking
+                    </label>
+                </div>
             </Setting>
             <Setting name="Custom Layout (experimental!)">
                 <div>

@@ -5,10 +5,19 @@ export function selectStyles<IsMulti extends boolean, Option>(): StylesConfig<
     IsMulti
 > {
     return {
-        control: (baseStyles) => ({
+        control: (baseStyles, state) => ({
             ...baseStyles,
             color: 'var(--scheme-text)',
             backgroundColor: 'var(--scheme-background)',
+            ...(state.isFocused
+                ? {
+                      boxShadow: '0 0 0 1px var(--scheme-interact)',
+                      borderColor: 'var(--scheme-interact)',
+                  }
+                : undefined),
+            '&:hover': {
+                borderColor: 'var(--scheme-interact)',
+            },
         }),
         menu: (baseStyles) => ({
             ...baseStyles,
@@ -18,11 +27,9 @@ export function selectStyles<IsMulti extends boolean, Option>(): StylesConfig<
         }),
         option: (baseStyles, state) => ({
             ...baseStyles,
-            color: state.isFocused
-                ? 'var(--scheme-background)'
-                : 'var(--scheme-text)',
+            color: state.isFocused ? 'white' : 'var(--scheme-text)',
             backgroundColor: state.isFocused
-                ? '#0d6efd'
+                ? 'var(--scheme-interact)'
                 : 'var(--scheme-background)',
         }),
         singleValue: (baseStyles) => ({
