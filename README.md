@@ -41,7 +41,7 @@ Other builds (older releases, experimental branches) are not officially supporte
 Ran into a bug? Bugs found in the production instance should be reported [here on GitHub](https://github.com/robojumper/SS-Randomizer-Tracker/issues) or in the Discord.
 
 ## Running From Source
-Building and running an instance of the tracker locally requires Node v14 and npm. This process will allow you to run any version of the tracker.
+Building and running an instance of the tracker locally requires Node v20 and npm.
 
 1. Clone the repository
 2. Install dependcies
