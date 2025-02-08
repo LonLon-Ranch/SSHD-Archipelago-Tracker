@@ -21,6 +21,22 @@ function createApplyColorSchemeListener() {
         Object.entries(colorScheme).forEach(([key, val]) => {
             html.style.setProperty(`--scheme-${key}`, val.toString());
         });
+
+        // https://stackoverflow.com/a/33890907
+        function getContrastColor(r: number, g: number, b: number) {
+            const brightness = r * 0.299 + g * 0.587 + b * 0.114;
+            // Comments suggest 150 works better than 186 for some reason
+            return brightness > 150 ? '#000000' : '#FFFFFF';
+        }
+
+        const interactColor = colorScheme.interact.slice(1);
+        const [r, g, b] = [0, 2, 4].map((offset) =>
+            parseInt(interactColor.slice(offset, offset + 2), 16),
+        );
+        html.style.setProperty(
+            `--scheme-interact-text`,
+            getContrastColor(r, g, b),
+        );
     };
 }
 

@@ -6,6 +6,12 @@
 @import './additionalComponents/input.css';
 
 :root {
+    /*
+     * CSS Variables for color scheme: All the --scheme-{key} colors where key is
+     * keyof ColorScheme, plus --scheme-interact-text, which automatically uses
+     * black or white depending on what provides better contrast against a
+     * --scheme-interact background.
+     */
     --scheme-interact-hover: color-mix(
         in srgb,
         var(--scheme-interact) 80%,

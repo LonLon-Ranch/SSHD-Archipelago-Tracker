@@ -4,7 +4,7 @@
     .tracker-button {
         cursor: pointer;
         display: inline-block;
-        color: white;
+        color: var(--scheme-interact-text);
         background-color: var(--scheme-interact);
         text-align: center;
         transition: all 150ms ease-out;
