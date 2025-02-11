@@ -1,3 +1,4 @@
+import { isEqual } from 'es-toolkit';
 import { load } from 'js-yaml';
 import type { RawLogic, RawPresets } from '../logic/UpstreamTypes';
 import type { MultiChoiceOption, OptionDefs } from '../permalink/SettingsTypes';
@@ -20,10 +21,24 @@ export type RemoteReference =
       }
     | {
           type: 'forkBranch';
+          // not a great name, this is the GitHub account or organization name
           author: string;
+          // the GitHub project name, fallback to ssrando so that author/branchname works
+          // for forks that aren't named sslib...
           repoName: string | undefined;
           branch: string;
       };
+
+export function areRemotesEqual(left: RemoteReference, right: RemoteReference) {
+    // Ensure that the undefined value is present before comparing
+    const canonicalizeValue = (v: RemoteReference): RemoteReference => {
+        if (v.type === 'forkBranch' && v.repoName === undefined) {
+            return { ...v, repoName: undefined };
+        }
+        return v;
+    };
+    return isEqual(canonicalizeValue(left), canonicalizeValue(right));
+}
 
 async function resolveRemote(
     ref: RemoteReference,

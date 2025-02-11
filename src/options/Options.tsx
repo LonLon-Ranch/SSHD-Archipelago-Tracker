@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { isEqual, range } from 'es-toolkit';
+import { range } from 'es-toolkit';
 import React, {
     useCallback,
     useEffect,
@@ -23,6 +23,7 @@ import { ImportButton } from '../ImportExport';
 import {
     LATEST_STRING,
     type RemoteReference,
+    areRemotesEqual,
     formatRemote,
     parseRemote,
 } from '../loader/LogicLoader';
@@ -354,7 +355,7 @@ function LogicChooser({
     const wellKnownSelectOptions = useRemoteOptions();
 
     const activeOption = wellKnownSelectOptions.find((option) =>
-        isEqual(option.payload, selectedRemote),
+        areRemotesEqual(option.payload, selectedRemote),
     );
 
     const setSelectedRemote = useCallback(

@@ -1,7 +1,10 @@
-import { isEqual } from 'es-toolkit';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { type RemoteReference, loadRemoteLogic } from '../loader/LogicLoader';
+import {
+    type RemoteReference,
+    areRemotesEqual,
+    loadRemoteLogic,
+} from '../loader/LogicLoader';
 import { getStoredRemote } from '../LocalStorage';
 import type { RawLogic, RawPresets } from '../logic/UpstreamTypes';
 import { validateSettings } from '../permalink/Settings';
@@ -112,7 +115,7 @@ function optionsReducer(storedSettings: Partial<AllTypedOptions>) {
                     selectedRemote: action.remote,
                     hasChanges:
                         state.hasChanges ||
-                        !isEqual(action.remote, state.selectedRemote),
+                        !areRemotesEqual(action.remote, state.selectedRemote),
                 };
 
                 if (action.viaImport) {
@@ -173,7 +176,10 @@ export function useOptionsState() {
     useEffect(() => {
         const [cancelToken, cancel] = withCancel();
 
-        if (isEqual(state.selectedRemote, loadedBundle?.remote)) {
+        if (
+            loadedBundle &&
+            areRemotesEqual(state.selectedRemote, loadedBundle.remote)
+        ) {
             setLoadingState(undefined);
             return undefined;
         }
@@ -205,7 +211,7 @@ export function useOptionsState() {
         })();
 
         return cancel;
-    }, [dispatch, loadedBundle?.remote, state.selectedRemote]);
+    }, [dispatch, loadedBundle, loadedBundle?.remote, state.selectedRemote]);
 
     const validatedSettings = useMemo(
         () =>
