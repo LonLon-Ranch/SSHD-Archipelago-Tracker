@@ -7,23 +7,8 @@ Web based tracker for the [Skyward Sword Randomizer](https://github.com/ssrando/
 [Production](https://robojumper.github.io/SS-Randomizer-Tracker/) - the one and only deployed version of this tracker. Directly updated from the default branch of this repository within minutes of merging a Pull Request.
 
 ## Usage
-When you navigate to the tracker, you will be presented with a UI to fill in your settings. First you need to select the version of your randomizer so that the tracker knows where to load logic from. The version dropdown allows you to select official releases and the latest development build, the "Beta Features" tab can be used if you got a special randomizer build from another source.
-These builds will usually contain further instructions.
 
-After selecting a build, you can copy the settings string from the randomizer application and paste it in the tracker. If the versions match up, this automatically sets all settings to their
-correct value. You should not need to set any individual settings, though they are provided if you'd like to double check some settings or change them after the fact
-
-The *Launch New Tracker* button will bring you to the main tracker page.
-
-In the center of the tracker is the **Location Tracker**. This is where the randomizer shows you all of the available locations, and info about your current logical state in the seed. Hovering over a check will show what the requirements logically for the check are, and clicking a check will toggle it as checked/unchecked. The location tracker also allows you to connect entrances in case entrance randomization settings are enabled. Try right-clicking the invidual map parts for more shortcuts.
-
-The left side of the tracker contains the **Dungeon Tracker** and the **Inventory** areas. Clicking the name of a dungeon will mark it as required or unrequired. When unrequired dungeons are empty (Empty Unrequired Dungeons), this will also label the dungeons locations as being able to contain progression.
-
-The section on the right is populated with **Counters** informing you about the number of checked, remaining, and logically available locations and exits. There also is a freeform text area where you can write down any **Hints**.
-
-The bottom bar of the tracker contains various controls for the entire tracker. Here, you can export your tracker state to save your progress. Additionally, there are **Customization** options that allow you to configure the colors in the tracker to your liking. For content creators, we recommend using *Dark Mode* along with a Chroma Key on your capture window(s) in order to capture the tracker without a background.
-
-The tracker auto-saves its state. You can safely close the tracker and click "Continue Tracker" to continue where you left off. You can also return to the Options menu, adjust randomizer settings, and continue with your run. This can be useful for runs with unknown or random settings.
+Find instructions and detailed documentation on the tracker's features in the [Tracker User Guide](https://robojumper.github.io/SS-Randomizer-Tracker/guide).
 
 ## Supported Randomizer Version
 
