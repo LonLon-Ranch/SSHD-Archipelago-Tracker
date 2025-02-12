@@ -47,13 +47,13 @@ function Item({
     };
 
     const relevantLocations = useSelector(locationsForItemSelector(itemName));
+    const tooltipLines: string[] = [itemName];
+    if (relevantLocations.length) {
+        tooltipLines.push('Found at:', ...relevantLocations);
+    }
 
     return (
-        <Tooltip
-            delay={500}
-            content={addDividers(['Found at:', ...relevantLocations], <br />)}
-            disabled={!relevantLocations.length}
-        >
+        <Tooltip delay={500} content={addDividers(tooltipLines, <br />)}>
             <BasicItem
                 style={style}
                 className={className}

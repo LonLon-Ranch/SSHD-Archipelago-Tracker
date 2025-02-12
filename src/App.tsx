@@ -6,6 +6,7 @@ import type { ColorScheme } from './customization/ColorScheme';
 import { colorSchemeSelector } from './customization/Selectors';
 import ErrorPage from './miscPages/ErrorPage';
 import FullAcknowledgement from './miscPages/FullAcknowledgement';
+import Guide from './miscPages/guide/Guide';
 import Options from './options/Options';
 import type { RootState } from './store/Store';
 import Tracker from './Tracker';
@@ -60,6 +61,7 @@ function App() {
                         path="/acknowledgement"
                         element={<FullAcknowledgement />}
                     />
+                    <Route path="/guide" element={<Guide />} />
                 </Routes>
             </Router>
         </ErrorBoundary>

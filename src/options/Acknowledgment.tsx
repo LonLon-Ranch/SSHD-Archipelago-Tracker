@@ -44,6 +44,8 @@ export default function Acknowledgement() {
             <br />
             <div>
                 <Link to="/acknowledgement">Full Acknowledgement</Link>
+                {' ⋅ '}
+                <Link to="/guide">User Guide</Link>
             </div>
         </div>
     );

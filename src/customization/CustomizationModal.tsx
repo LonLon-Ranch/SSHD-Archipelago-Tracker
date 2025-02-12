@@ -58,7 +58,7 @@ const itemLayouts: SelectValue<ItemLayout>[] = [
 ];
 const counterBases: SelectValue<CounterBasis>[] = [
     { value: 'logic', payload: 'logic', label: 'In Logic' },
-    { value: 'semilogic', payload: 'semilogic', label: 'Semilogic' },
+    { value: 'semilogic', payload: 'semilogic', label: 'Semi-Logic' },
 ];
 
 const colors: { key: keyof ColorScheme; name: string }[] = [
@@ -67,7 +67,7 @@ const colors: { key: keyof ColorScheme; name: string }[] = [
     { key: 'interact', name: 'Interact' },
     { key: 'inLogic', name: 'In Logic Check' },
     { key: 'outLogic', name: 'Out of Logic Check' },
-    { key: 'semiLogic', name: 'Semi Logic Check' },
+    { key: 'semiLogic', name: 'Semi-Logic Check' },
     { key: 'trickLogic', name: 'Trick Logic Check' },
     { key: 'unrequired', name: 'Unrequired Dungeon' },
     { key: 'required', name: 'Required Dungeon' },
@@ -207,7 +207,7 @@ export default function CustomizationModal({
             </Setting>
             <Setting
                 name="Counter Basis"
-                tooltip="Choose whether the Area/Total Locations Accessible counters should include items in semilogic."
+                tooltip="Choose whether the Area/Total Locations Accessible counters should include items in semi-logic."
             >
                 <Select
                     selectedValue={counterBases.find(

@@ -1,0 +1,14 @@
+.guidePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.guideContent {
+    max-width: 800px;
+    margin: 20px;
+}
+
+.guideSection {
+    margin-left: 20px;
+}
