@@ -193,8 +193,8 @@ export default function Guide() {
                     <p>
                         In the <b>Item Tracker Settings</b> customization option
                         you can switch between an <b>In-Game Inventory</b> with
-                        a layout similar to the game's pause menu, while the{' '}
-                        <b>Grid Layout</b> arranges items in a plain grid
+                        a layout similar to the game's pause menu, and the{' '}
+                        <b>Grid Layout</b> that arranges items in a plain grid
                         without any background.
                     </p>
                     <p>
@@ -338,8 +338,8 @@ export default function Guide() {
                         The locations list may include regular checks (can
                         contain mostly any item), loose gratitude crystals
                         (contain a single gratitude crystal), Gossip Stones (may
-                        contain a hint), and Goddess Cubes (unlock a Goddess
-                        Chest in the Sky). Only regular checks count towards
+                        contain a hint), and goddess cubes (unlock a goddess
+                        chest in the Sky). Only regular checks count towards
                         counters. Loose gratitude crystals are shown for marking
                         even if logically excluded, but the fact that they are
                         logically excluded will be highlighted.
@@ -448,7 +448,7 @@ export default function Guide() {
                             </li>
                             <li>
                                 There may be accessible goddess cubes that, if
-                                collected, give you access to a Goddess Chest
+                                collected, give you access to a goddess chest
                             </li>
                             <li>
                                 You may have enough items to be able to
@@ -469,8 +469,8 @@ export default function Guide() {
                         accessible with additional tricks beyond those enabled
                         by the seed's settings. If no tricks are selected in the
                         customization option, the tracker will consider all
-                        trackers it knows about. If tricks are selected, only
-                        the selected tricks will be considered. If a location
+                        tricks it knows about. If tricks are selected, only the
+                        selected tricks will be considered. If a location
                         requires both semi-logic assumptions and tricks, the
                         location will be shown as accessible in trick logic.
                     </p>
