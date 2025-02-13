@@ -121,7 +121,6 @@ function CheckLocation({ id }: { id: string }) {
                 onClick={onClick}
                 onKeyDown={keyDownWrapper(onClick)}
                 onContextMenu={displayMenu}
-                data-check-id={id}
                 ref={setNodeRef}
             >
                 <span className={styles.text}>{check.checkName}</span>
@@ -240,7 +239,6 @@ function Exit({
                             }),
                         );
                     }}
-                    data-check-id={id}
                 >
                     <div className={clsx(styles.exit, styles.text)}>
                         <span style={style}>{check.checkName}</span>

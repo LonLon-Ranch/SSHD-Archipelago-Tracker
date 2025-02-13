@@ -1,6 +1,19 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DiscordButton from '../../additionalComponents/DiscordButton';
+import Tooltip, { FakeTooltip } from '../../additionalComponents/Tooltip';
+import CustomizationModal from '../../customization/CustomizationModal';
+import { BasicItem } from '../../itemTracker/BasicItem';
+import images from '../../itemTracker/Images';
+import RequirementsTooltip from '../../locationTracker/RequirementsTooltip';
+import type { RootTooltipExpression } from '../../tooltips/TooltipExpression';
 import styles from './Guide.module.css';
+import {
+    exampleTooltip,
+    impossibleTooltip,
+    semiLogicTooltip,
+    trickLogicTooltip,
+} from './GuideTooltips';
 
 export default function Guide() {
     return (
@@ -151,6 +164,9 @@ export default function Guide() {
                         this guide.
                     </p>
                     <p>
+                        <GuideCustomization />
+                    </p>
+                    <p>
                         Here is also where you can customize almost all colors
                         in this tracker to your liking. For content creators, we
                         recommend using <b>Dark Mode</b> along with a Chroma Key
@@ -190,6 +206,7 @@ export default function Guide() {
                         its count or unmark it. Note that the Dungeon Tracker
                         also includes various dungeon-related items.
                     </p>
+                    <GuideItem />
                     <p>
                         In the <b>Item Tracker Settings</b> customization option
                         you can switch between an <b>In-Game Inventory</b> with
@@ -282,25 +299,25 @@ export default function Guide() {
                         Locations will be displayed in different colors
                         depending on the logical state (note that colors can be
                         customized; these are default colors):
-                        <ul>
-                            <li>
-                                <b>Red:</b> Out of Logic, the randomizer logic
-                                does not consider this location accessible with
-                                your current items.
-                            </li>
-                            <li>
-                                <b>Orange:</b> Semi-Logic, see below
-                            </li>
-                            <li>
-                                <b>Green:</b> Trick Logic, see below
-                            </li>
-                            <li>
-                                <b>Blue:</b> In-logic, the randomizer logic
-                                considers this location accessible with your
-                                current items.
-                            </li>
-                        </ul>
                     </p>
+                    <ul>
+                        <li>
+                            <b>Red:</b> Out of Logic, the randomizer logic does
+                            not consider this location accessible with your
+                            current items.
+                        </li>
+                        <li>
+                            <b>Orange:</b> Semi-Logic, see below
+                        </li>
+                        <li>
+                            <b>Green:</b> Trick Logic, see below
+                        </li>
+                        <li>
+                            <b>Blue:</b> In-logic, the randomizer logic
+                            considers this location accessible with your current
+                            items.
+                        </li>
+                    </ul>
                     <p>
                         Note that you might be able to access some locations
                         even if the tracker shows them as Out of Logic. This can
@@ -326,6 +343,10 @@ export default function Guide() {
                         entrance you haven't tracked. Marking additional
                         entrances may change prior locations' requirements too.
                     </p>
+                    <div className={styles.guideTooltipsRow}>
+                        <GuideTooltip requirements={exampleTooltip} />
+                        <GuideTooltip requirements={impossibleTooltip} />
+                    </div>
                     <p>
                         Left-clicking an unmarked location marks it as collected
                         (strikethrough), while left-clicking a marked location
@@ -441,27 +462,28 @@ export default function Guide() {
                         accessible, but there is a simple and predictable
                         (sequence of) action(s) that makes the location
                         logically accessible:
-                        <ul>
-                            <li>
-                                There may be accessible loose crystals that, if
-                                collected, give you access to a Batreaux reward
-                            </li>
-                            <li>
-                                There may be accessible goddess cubes that, if
-                                collected, give you access to a goddess chest
-                            </li>
-                            <li>
-                                You may have enough items to be able to
-                                guarantee receiving a key from a dungeon that
-                                unlocks additional checks in that dungeon
-                            </li>
-                            <li>
-                                You may have access to a location that you
-                                marked as holding an item that in turn gives you
-                                access to more locations
-                            </li>
-                        </ul>
                     </p>
+                    <ul>
+                        <li>
+                            There may be accessible loose crystals that, if
+                            collected, give you access to a Batreaux reward
+                        </li>
+                        <li>
+                            There may be accessible goddess cubes that, if
+                            collected, give you access to a goddess chest
+                        </li>
+                        <li>
+                            You may have enough items to be able to guarantee
+                            receiving a key from a dungeon that unlocks
+                            additional checks in that dungeon
+                        </li>
+                        <li>
+                            You may have access to a location that you marked as
+                            holding an item that in turn gives you access to
+                            more locations
+                        </li>
+                    </ul>
+                    <GuideTooltip requirements={semiLogicTooltip} />
                     <p>
                         The customization option <b>Show Trick Logic</b> can
                         mark locations with a green color (or another color if
@@ -474,6 +496,7 @@ export default function Guide() {
                         requires both semi-logic assumptions and tricks, the
                         location will be shown as accessible in trick logic.
                     </p>
+                    <GuideTooltip requirements={trickLogicTooltip} />
                     <p>
                         The customization option <b>Counter Basis</b> allows you
                         to choose whether only checks that are in logic should
@@ -501,4 +524,57 @@ function Heading({
 
 function Section({ children }: { children: React.ReactNode }) {
     return <div className={styles.guideSection}>{children}</div>;
+}
+
+function GuideCustomization() {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <>
+            <button
+                type="button"
+                className="tracker-button"
+                onClick={() => setIsOpen(true)}
+            >
+                Customization
+            </button>
+            <CustomizationModal open={isOpen} onOpenChange={setIsOpen} />
+        </>
+    );
+}
+
+function GuideItem() {
+    const [count, setCount] = useState(0);
+    return (
+        <div className={styles.guideItemSection}>
+            <Tooltip content="Progressive Beetle">
+                <BasicItem
+                    className={styles.guideItem}
+                    itemName="Progressive Beetle"
+                    images={images['Progressive Beetle']}
+                    count={count}
+                    onGiveOrTake={(take: boolean) => {
+                        setCount((old) => {
+                            if (take) {
+                                return old === 0 ? 4 : old - 1;
+                            } else {
+                                return old === 4 ? 0 : old + 1;
+                            }
+                        });
+                    }}
+                />
+            </Tooltip>
+        </div>
+    );
+}
+
+function GuideTooltip({
+    requirements,
+}: {
+    requirements: RootTooltipExpression;
+}) {
+    return (
+        <FakeTooltip
+            content={<RequirementsTooltip requirements={requirements} />}
+        />
+    );
 }

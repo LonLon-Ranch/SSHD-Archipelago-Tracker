@@ -45,3 +45,9 @@
         opacity: 0;
     }
 }
+
+.fakeTooltipWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

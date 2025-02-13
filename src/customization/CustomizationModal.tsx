@@ -8,7 +8,7 @@ import {
     type SelectValue,
 } from '../additionalComponents/Select';
 import Tooltip from '../additionalComponents/Tooltip';
-import { optionsSelector } from '../logic/Selectors';
+import { isLogicLoadedSelector, optionsSelector } from '../logic/Selectors';
 import { type ThunkResult, useAppDispatch } from '../store/Store';
 import ColorBlock from './ColorBlock';
 import {
@@ -122,6 +122,7 @@ export default function CustomizationModal({
     const itemLocationAssignment = useSelector(
         itemLocationAssignmentEnabledSelector,
     );
+    const isLogicLoaded = useSelector(isLogicLoadedSelector);
 
     const updateColorScheme = useCallback(
         (scheme: ColorScheme) => dispatch(setColorScheme(scheme)),
@@ -203,7 +204,11 @@ export default function CustomizationModal({
                     />
                     <label htmlFor="trickLogic">Show Trick Logic</label>
                 </div>
-                <TricksChooser enabled={trickSemiLogic} />
+                {isLogicLoaded ? (
+                    <TricksChooser enabled={trickSemiLogic} />
+                ) : (
+                    "Cannot customize tricks here because logic isn't loaded"
+                )}
             </Setting>
             <Setting
                 name="Counter Basis"
