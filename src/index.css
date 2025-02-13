@@ -19,6 +19,12 @@
     );
 }
 
+@media not (prefers-reduced-motion) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
 @layer base {
     body {
         margin: 0;
