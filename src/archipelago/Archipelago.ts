@@ -179,12 +179,8 @@ export class APClientManager {
             this.serverName = server;
             this.slotName = slot;
             return true;
-        } catch (error: any) {
-            if (error.message.includes('InvalidSlot')) {
-                alert(`Slot ${slot} does not exist in this Archipelago room.`);
-            } else {
-                alert(error);
-            }
+        } catch (error: unknown) {
+            window.alert(error);
             return false;
         }
     }

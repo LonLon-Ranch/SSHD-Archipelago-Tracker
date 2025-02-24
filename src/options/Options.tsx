@@ -514,19 +514,21 @@ function PermalinkChooser({
             setClientConnected(true);
             setSlot(clientManager.getSlotName()!);
         }
-    }, [clientManager]);
+    }, [clientManager, setClientConnected]);
 
-    const connectToArchipelago = async () => {
+    const connectToArchipelago = () => {
         disconnectFromArchipelago();
         setConnecting(true);
-        if (await clientManager?.login(server, slot, options!)) {
-            dispatch({
-                type: 'changeSettings',
-                settings: clientManager?.getLoadedSettings()!,
-            });
-            setClientConnected(true);
+        clientManager?.login(server, slot, options!).then((connected) => {
             setConnecting(false);
-        }
+            if (connected) {
+                dispatch({
+                    type: 'changeSettings',
+                    settings: clientManager!.getLoadedSettings()!,
+                });
+                setClientConnected(true);
+            }
+        });
     };
 
     const disconnectFromArchipelago = () => {
@@ -578,10 +580,15 @@ function PermalinkChooser({
                       ? 'Connecting...'
                       : 'Enter the Archipelago address and slot name here.'}
             </div>
-            <button className="tracker-button" onClick={connectToArchipelago}>
+            <button
+                type="button"
+                className="tracker-button"
+                onClick={connectToArchipelago}
+            >
                 Connect
             </button>
             <button
+                type="button"
                 className="tracker-button"
                 onClick={disconnectFromArchipelago}
             >
