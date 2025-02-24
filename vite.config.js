@@ -22,7 +22,7 @@ const polyfills = legacy({
 
 export default defineConfig(({ mode }) => {
     const isProd = mode === 'production';
-    const baseUrl = isProd ? '/SSR-AP-Tracker' : '/';
+    const baseUrl = isProd ? '/SS-Randomizer-Tracker' : '/';
 
     return {
         base: baseUrl,
