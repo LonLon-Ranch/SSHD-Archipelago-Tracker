@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { ClientManagerContext } from './archipelago/ClientHooks';
 import CustomizationModal from './customization/CustomizationModal';
-import { hasCustomLayoutSelector } from './customization/Selectors';
+import {
+    autoRegionLoadingSelector,
+    hasCustomLayoutSelector,
+} from './customization/Selectors';
+import stageToRegion from './data/stageToRegion.json';
 import { DragAndDropContext } from './dragAndDrop/DragAndDrop';
 import EntranceTracker from './entranceTracker/EntranceTracker';
 import { ExportButton } from './ImportExport';
@@ -92,6 +96,7 @@ function TrackerContents() {
     const hasCustomLayout = useSelector(hasCustomLayoutSelector);
     const dispatch = useDispatch();
     const clientManager = useContext(ClientManagerContext);
+    const autoRegionLoading = useSelector(autoRegionLoadingSelector);
 
     useEffect(() => {
         const shortToFull: Record<string, string> = {};
@@ -115,9 +120,29 @@ function TrackerContents() {
             dispatch(setItemCounts(items));
         };
 
+        const stageCallback = (stage: string) => {
+            if (autoRegionLoading) {
+                const region =
+                    stageToRegion[stage as keyof typeof stageToRegion];
+                if (region !== undefined) {
+                    trackerInterfaceDispatch({
+                        type: 'selectHintRegion',
+                        hintRegion: region,
+                    });
+                }
+            }
+        };
+
         clientManager?.setLocationCallback(clientLocationCallback);
         clientManager?.setItemCallback(clientItemCallback);
-    }, [dispatch, logic, clientManager]);
+        clientManager?.setNewStageCallback(stageCallback);
+    }, [
+        dispatch,
+        logic,
+        clientManager,
+        autoRegionLoading,
+        trackerInterfaceDispatch,
+    ]);
 
     return (
         <>

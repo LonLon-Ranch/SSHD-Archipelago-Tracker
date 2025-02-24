@@ -21,22 +21,25 @@ function kebabToSnake(input: string): string {
 
 function optionIndicesToOptions(
     optionDefs: OptionDefs,
-    loadedOptions: Record<string, number>,
+    loadedOptions: Record<string, number | string[]>,
 ): AllTypedOptions {
+    console.log(loadedOptions);
     const settings: Partial<Record<OptionsCommand, OptionValue>> =
         defaultSettings(optionDefs);
     settings['excluded-locations'] = [];
     for (const option of optionDefs) {
         const loadedVal = loadedOptions[kebabToSnake(option.command)];
         if (option.permalink !== false && loadedVal !== undefined) {
-            if (option.type === 'boolean') {
+            if (option.command === 'excluded-locations') {
+                settings[option.command] = loadedVal;
+            } else if (option.type === 'boolean') {
                 settings[option.command] = loadedVal === 1;
             } else if (option.type === 'int') {
                 settings[option.command] = loadedVal;
             } else if (option.type === 'multichoice') {
                 // shouldn't be possible
             } else if (option.type === 'singlechoice') {
-                settings[option.command] = option.choices[loadedVal];
+                settings[option.command] = option.choices[loadedVal as number];
             }
         }
     }
@@ -53,8 +56,11 @@ export class APClientManager {
     connectedData?: ConnectedPacket;
     inventory: TrackerState['inventory'] = {};
     checkedLocations: string[] = [];
-    public resolveLocations?: (locs: string[]) => void;
-    public resolveItems?: (items: TrackerState['inventory']) => void;
+    messages: string[] = [];
+    resolveLocations?: (locs: string[]) => void;
+    resolveItems?: (items: TrackerState['inventory']) => void;
+    changeStage?: (stage: string) => void;
+    onMessage?: (messages: string[]) => void;
 
     add(item: InventoryItem, count: number = 1) {
         this.inventory[item] ??= 0;
@@ -79,6 +85,25 @@ export class APClientManager {
         this.resolveItems(this.inventory);
     }
 
+    setNewStageCallback(func: (stage: string) => void) {
+        this.changeStage = func;
+    }
+
+    setOnMessage(func: (messages: string[]) => void) {
+        this.onMessage = func;
+        this.onMessage(this.messages);
+    }
+
+    sendMessage(message: string) {
+        if (this.isHooked()) {
+            this.client!.messages.say(message);
+        }
+    }
+
+    getMessages(): string[] {
+        return this.messages;
+    }
+
     resetClient() {
         if (this.isHooked()) {
             this.client!.socket.disconnect();
@@ -89,8 +114,10 @@ export class APClientManager {
             this.connectedData = undefined;
             this.inventory = {};
             this.checkedLocations = [];
+            this.messages = [];
             this.resolveLocations = undefined;
             this.resolveItems = undefined;
+            this.changeStage = undefined;
         }
     }
 
@@ -136,7 +163,7 @@ export class APClientManager {
             ];
             this.loadedSettings = optionIndicesToOptions(
                 optionDefs,
-                content.slot_data as Record<string, number>,
+                content.slot_data as Record<string, number | string[]>,
             );
             this.resolveLocations?.(this.checkedLocations);
         });
@@ -148,6 +175,11 @@ export class APClientManager {
             this.idToItem = invert<string, number>(
                 content.data.games['Skyward Sword'].item_name_to_id,
             );
+        });
+
+        client.messages.on('message', (content) => {
+            this.messages.push(content.replace(/,/g, ''));
+            this.onMessage?.(this.messages);
         });
 
         client.socket.on('receivedItems', (content) => {
@@ -177,6 +209,13 @@ export class APClientManager {
                 );
             }
             this.resolveLocations?.(this.checkedLocations);
+        });
+
+        client.socket.on('bounced', (content) => {
+            const stage = content.data?.ss_stage_name;
+            if (stage !== undefined) {
+                this.changeStage?.(stage as string);
+            }
         });
 
         try {

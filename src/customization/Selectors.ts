@@ -24,6 +24,9 @@ export const counterBasisSelector = (state: RootState) =>
 export const tumbleweedSelector = (state: RootState) =>
     state.customization.tumbleweed;
 
+export const autoRegionLoadingSelector = (state: RootState) =>
+    state.customization.autoRegionLoading;
+
 export const hasCustomLayoutSelector = (state: RootState) =>
     Boolean(state.customization.customLayout);
 

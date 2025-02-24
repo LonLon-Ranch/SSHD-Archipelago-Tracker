@@ -1,5 +1,6 @@
 declare const classNames: {
-    readonly hintsTracker: 'hintsTracker';
+    readonly textClient: 'textClient';
+    readonly apMessages: 'apMessages';
     readonly hintsTextArea: 'hintsTextArea';
 };
 export = classNames;

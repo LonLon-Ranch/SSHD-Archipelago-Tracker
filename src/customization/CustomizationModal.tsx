@@ -18,6 +18,7 @@ import {
 } from './ColorScheme';
 import styles from './CustomizationModal.module.css';
 import {
+    autoRegionLoadingSelector,
     colorSchemeSelector,
     counterBasisSelector,
     hasCustomLayoutSelector,
@@ -33,6 +34,7 @@ import {
     type ItemLayout,
     type LocationLayout,
     setAutoItemAssignment,
+    setAutoRegionLoading,
     setColorScheme,
     setCounterBasis,
     setCustomLayout,
@@ -122,6 +124,7 @@ export default function CustomizationModal({
     const itemLocationAssignment = useSelector(
         itemLocationAssignmentEnabledSelector,
     );
+    const autoRegionLoading = useSelector(autoRegionLoadingSelector);
     const isLogicLoaded = useSelector(isLogicLoadedSelector);
 
     const updateColorScheme = useCallback(
@@ -242,6 +245,18 @@ export default function CustomizationModal({
                     />
                     <label htmlFor="autoItemAssignemt">
                         Assign Items to locations while tracking
+                    </label>
+                </div>
+                <div className={styles.labeledCheckbox}>
+                    <Checkbox
+                        id="autoRegionChange"
+                        checked={autoRegionLoading}
+                        onCheckedChange={(e) =>
+                            dispatch(setAutoRegionLoading(e))
+                        }
+                    />
+                    <label htmlFor="autoRegionChange">
+                        Automatically switch regions on reload (AP)
                     </label>
                 </div>
             </Setting>

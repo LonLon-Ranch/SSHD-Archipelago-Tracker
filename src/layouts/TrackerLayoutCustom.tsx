@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BasicCounters from '../BasicCounters';
 import { customLayoutSelector } from '../customization/Selectors';
 import { setCustomLayout } from '../customization/Slice';
-import { HintsTracker } from '../hints/HintsTracker';
+import { TextClient } from '../hints/TextClient';
 import DungeonTracker from '../itemTracker/DungeonTracker';
 import GridTracker from '../itemTracker/GridTracker';
 import ItemTracker from '../itemTracker/ItemTracker';
@@ -103,7 +103,7 @@ const components: Record<string, TrackerComponentFactory> = {
         />
     ),
     counters: () => () => <BasicCounters />,
-    hints: () => () => <HintsTracker />,
+    hints: () => () => <TextClient />,
 };
 
 interface TrackerComponentDescription {

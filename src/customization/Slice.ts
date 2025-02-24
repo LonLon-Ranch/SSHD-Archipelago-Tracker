@@ -16,6 +16,7 @@ export interface CustomizationState {
     tumbleweed: boolean;
     customLayout: string | undefined;
     itemLocationAssignment: boolean;
+    autoRegionLoading: boolean;
 }
 
 const initialState: CustomizationState = {
@@ -28,6 +29,7 @@ const initialState: CustomizationState = {
     tumbleweed: false,
     customLayout: undefined,
     itemLocationAssignment: false,
+    autoRegionLoading: false,
 };
 
 export function preloadedCustomizationState(): CustomizationState {
@@ -71,6 +73,9 @@ const customizationSlice = createSlice({
         setAutoItemAssignment: (state, action: PayloadAction<boolean>) => {
             state.itemLocationAssignment = action.payload;
         },
+        setAutoRegionLoading: (state, action: PayloadAction<boolean>) => {
+            state.autoRegionLoading = action.payload;
+        },
         resetCustomizationForTest: (_state, _action: PayloadAction<void>) => {
             return initialState;
         },
@@ -87,6 +92,7 @@ export const {
     setTrackTumbleweed,
     setCustomLayout,
     setAutoItemAssignment,
+    setAutoRegionLoading,
     resetCustomizationForTest,
 } = customizationSlice.actions;
 

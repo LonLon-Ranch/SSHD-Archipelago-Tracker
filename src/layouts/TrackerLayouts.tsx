@@ -5,7 +5,7 @@ import {
     itemLayoutSelector,
     locationLayoutSelector,
 } from '../customization/Selectors';
-import { HintsTracker } from '../hints/HintsTracker';
+import { TextClient } from '../hints/TextClient';
 import DungeonTracker from '../itemTracker/DungeonTracker';
 import GridTracker, {
     GRID_TRACKER_ASPECT_RATIO,
@@ -127,7 +127,7 @@ export function TrackerLayout({
                         <BasicCounters />
                         <DungeonTracker interfaceDispatch={interfaceDispatch} />
                         <div style={{ flex: '1', maxHeight: 450 }}>
-                            <HintsTracker />
+                            <TextClient />
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@ export function TrackerLayout({
                     >
                         <BasicCounters />
                         <div style={{ height: '100%', maxHeight: 450 }}>
-                            <HintsTracker />
+                            <TextClient />
                         </div>
                     </div>
                 </div>
