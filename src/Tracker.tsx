@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import { ClientManagerContext } from './archipelago/ClientHooks';
+import {
+    ClientManagerContext,
+    useApConnectionStatusString,
+} from './archipelago/ClientHooks';
 import CustomizationModal from './customization/CustomizationModal';
 import {
     autoRegionLoadingSelector,
@@ -169,7 +172,7 @@ function TrackerFooter() {
     const [showCustomizationDialog, setShowCustomizationDialog] =
         useState(false);
     const [showEntranceDialog, setShowEntranceDialog] = useState(false);
-    const clientManager = useContext(ClientManagerContext);
+    const statusString = useApConnectionStatusString();
 
     return (
         <>
@@ -185,9 +188,7 @@ function TrackerFooter() {
                     alignItems: 'center',
                 }}
             >
-                <div style={{ color: '#000000' }}>
-                    {clientManager?.getStatusString()}
-                </div>
+                <div style={{ color: '#000000' }}>{statusString}</div>
                 <div>
                     <Link to="/">
                         <div className="tracker-button">← Options</div>

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState, type FormEvent } from 'react';
 import { useSelector } from 'react-redux';
-import { ClientManagerContext } from '../archipelago/ClientHooks';
+import { ClientManagerContext, useIsApConnected } from '../archipelago/ClientHooks';
 import { itemLocationAssignmentEnabledSelector } from '../customization/Selectors';
 import { ItemAssignmentStatus } from './ItemAssignmentStatus';
 import styles from './TextClient.module.css';
@@ -27,6 +27,9 @@ export function TextClient() {
         clientManager?.sendMessage(currMsg);
         setCurrMsg('');
     };
+
+    const isConnected = useIsApConnected();
+
     return (
         <div className={styles.textClient}>
             <ul className={styles.apMessages}>
@@ -45,7 +48,7 @@ export function TextClient() {
                 <input
                     type="text"
                     className="tracker-input"
-                    disabled={!clientManager?.isHooked()}
+                    disabled={!isConnected}
                     placeholder="Enter a command here"
                     value={currMsg ?? ''}
                     onChange={(e) => setCurrMsg(e.target.value)}
