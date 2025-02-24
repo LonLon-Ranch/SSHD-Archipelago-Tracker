@@ -144,6 +144,7 @@ function TrackerFooter() {
     const [showCustomizationDialog, setShowCustomizationDialog] =
         useState(false);
     const [showEntranceDialog, setShowEntranceDialog] = useState(false);
+    const clientManager = useContext(ClientManagerContext);
 
     return (
         <>
@@ -159,6 +160,9 @@ function TrackerFooter() {
                     alignItems: 'center',
                 }}
             >
+                <div style={{ color: '#000000' }}>
+                    {clientManager?.getStatusString()}
+                </div>
                 <div>
                     <Link to="/">
                         <div className="tracker-button">← Options</div>

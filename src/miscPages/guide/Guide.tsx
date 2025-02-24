@@ -22,12 +22,17 @@ export default function Guide() {
                 <Heading level={1}>User Guide</Heading>
                 <Section>
                     <p>
-                        Welcome to the Skyward Sword Randomizer Tracker User
-                        Guide. This page documents all features of the tracker
-                        and contains useful information for effective tracker
-                        usage. Have a question that isn't answered by this
-                        guide? Drop by on the Skyward Sword Randomizer Discord{' '}
-                        <DiscordButton /> and ask for help there!
+                        Welcome to the Skyward Sword Randomizer Archipelago
+                        Tracker User Guide. This page documents all features of
+                        the tracker and contains useful information for
+                        effective tracker usage. Have a question that isn't
+                        answered by this guide? Drop by on the Skyward Sword
+                        Randomizer Discord <DiscordButton /> and ask for help
+                        there! TODO - Expand on AP-Specific Information. For
+                        now, please note that locations and items will be
+                        auto-tracked. Locations can be manually tracked but
+                        items cannot. You may still drag items onto locations
+                        for hint purposes.
                     </p>
 
                     <p>

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import noTablets from '../assets/tablets/no_tablets.png';
 import { tumbleweedSelector } from '../customization/Selectors';
 import { useDraggable } from '../dragAndDrop/DragAndDrop';
@@ -7,7 +7,7 @@ import {
     rawItemCountSelector,
     totalGratitudeCrystalsSelector,
 } from '../tracker/Selectors';
-import { clickItem } from '../tracker/Slice';
+// import { clickItem } from '../tracker/Slice';
 import styles from './GridTracker.module.css';
 import Item from './Item';
 import { CounterItem } from './items/CounterItem';
@@ -16,9 +16,9 @@ import { GratitudeCrystals } from './items/sidequest/GratitudeCrystals';
 export const GRID_TRACKER_ASPECT_RATIO = 1.063;
 
 export default function GridTracker({ width }: { width: number }) {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const handleExtraWalletClick = () => {
-        dispatch(clickItem({ item: 'Extra Wallet', take: false }));
+        // dispatch(clickItem({ item: 'Extra Wallet', take: false }));
     };
 
     const emeraldTabletStyle: CSSProperties = {

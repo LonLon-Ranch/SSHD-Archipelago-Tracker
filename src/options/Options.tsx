@@ -575,7 +575,7 @@ function PermalinkChooser({
             </div>
             <div>
                 {clientManager?.isHooked()
-                    ? `Connected to ${clientManager.getServer()} as ${clientManager.getSlotName()}`
+                    ? clientManager.getStatusString()
                     : connecting
                       ? 'Connecting...'
                       : 'Enter the Archipelago address and slot name here.'}

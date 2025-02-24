@@ -62,7 +62,7 @@ export class APClientManager {
     }
 
     isHooked(): boolean {
-        return this.client !== undefined;
+        return this.client !== undefined && this.client.socket.connected;
     }
 
     getLoadedSettings(): AllTypedOptions | undefined {
@@ -100,6 +100,14 @@ export class APClientManager {
 
     getSlotName(): string | undefined {
         return this.slotName;
+    }
+
+    getStatusString(): string {
+        if (this.isHooked()) {
+            return `Connected to ${this.serverName} as ${this.slotName}`;
+        }
+
+        return 'Disconnected, please reconnect.';
     }
 
     async login(
