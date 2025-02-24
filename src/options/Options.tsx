@@ -524,7 +524,7 @@ function PermalinkChooser({
             if (connected) {
                 dispatch({
                     type: 'changeSettings',
-                    settings: clientManager!.getLoadedSettings()!,
+                    settings: clientManager.getLoadedSettings()!,
                 });
                 setClientConnected(true);
             }
