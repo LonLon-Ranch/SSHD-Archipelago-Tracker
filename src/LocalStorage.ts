@@ -20,6 +20,7 @@ const trackerStateLocalStorageKey = 'ssrTrackerState';
 const customizationStateLocalStorageKey = 'ssrTrackerCustomization';
 const remoteLogicLocalStorageKey = 'ssrTrackerRemoteLogic';
 const savesLocalStorageKey = 'ssrTrackerSaves';
+const archipelagoServerLocalStorageKey = 'archipelagoServer';
 
 // Legacy
 const itemLayoutLocalStorageKey = 'ssrTrackerLayout';
@@ -132,6 +133,14 @@ export function clearStoredRemote() {
 export function getStoredSaves(): Partial<SavesState> | undefined {
     const saves = localStorage.getItem(savesLocalStorageKey);
     return saves ? (JSON.parse(saves) as SavesState) : undefined;
+}
+
+export function getStoredArchipelagoServer(): string | null {
+    return localStorage.getItem(archipelagoServerLocalStorageKey);
+}
+
+export function setStoredArchipelagoServer(slot: string) {
+    localStorage.setItem(archipelagoServerLocalStorageKey, slot);
 }
 
 // Legacy

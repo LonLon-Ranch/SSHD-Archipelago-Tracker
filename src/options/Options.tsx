@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { range } from 'es-toolkit';
 import React, {
     useCallback,
+    useContext,
     useEffect,
     useImperativeHandle,
     useMemo,
@@ -29,7 +30,9 @@ import {
 } from '../loader/LogicLoader';
 import { useReleases } from '../loader/ReleasesLoader';
 import { type LogicBundle, loadLogic } from '../logic/Slice';
-import { decodePermalink, encodePermalink } from '../permalink/Settings';
+// import { decodePermalink, encodePermalink } from '../permalink/Settings';
+import { ClientManagerContext } from '../archipelago/ClientHooks';
+import { getStoredArchipelagoServer } from '../LocalStorage';
 import type {
     AllTypedOptions,
     Option,
@@ -39,7 +42,6 @@ import type {
 } from '../permalink/SettingsTypes';
 import { useAppDispatch } from '../store/Store';
 import { acceptSettings, reset } from '../tracker/Slice';
-import { appError } from '../utils/Debug';
 import Acknowledgement from './Acknowledgment';
 import styles from './Options.module.css';
 import { OptionsPresets } from './OptionsPresets';
@@ -119,6 +121,10 @@ const wellKnownRemotes: {
     remoteName: string;
 }[] = [
     {
+        prettyName: 'Latest Archipelago Build',
+        remoteName: 'https://github.com/Battlecats59/sslib/tree/archipelago',
+    },
+    {
         prettyName: 'Latest Stable Release',
         remoteName: LATEST_STRING,
     },
@@ -151,6 +157,7 @@ export default function Options() {
     } = useOptionsState();
     const appDispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [clientConnected, setClientConnected] = useState(false);
 
     const launch = useCallback(
         (shouldReset?: boolean) => {
@@ -181,7 +188,8 @@ export default function Options() {
                 <PermalinkChooser
                     dispatch={dispatch}
                     options={loaded?.options}
-                    settings={settings}
+                    // settings={settings}
+                    setClientConnected={setClientConnected}
                 />
             </div>
             <LaunchButtons
@@ -192,6 +200,7 @@ export default function Options() {
                 dispatch={dispatch}
                 currentLogic={loaded}
                 currentSettings={settings}
+                clientConnected={clientConnected}
             />
             {loaded && (
                 <OptionsList
@@ -214,6 +223,7 @@ function LaunchButtons({
     dispatch,
     currentLogic,
     currentSettings,
+    clientConnected,
 }: {
     loaded: boolean;
     hasChanges: boolean;
@@ -224,6 +234,7 @@ function LaunchButtons({
     dispatch: React.Dispatch<OptionsAction>;
     currentLogic: LogicBundle | undefined;
     currentSettings: AllTypedOptions | undefined;
+    clientConnected: boolean;
 }) {
     const canStart = loaded;
     const canResume = loaded && Boolean(counters);
@@ -249,7 +260,7 @@ function LaunchButtons({
             <button
                 type="button"
                 className="tracker-button"
-                disabled={!canResume}
+                disabled={!canResume || !clientConnected}
                 onClick={() => confirmLaunch()}
             >
                 <div className={styles.continueButton}>
@@ -263,7 +274,7 @@ function LaunchButtons({
             <button
                 type="button"
                 className="tracker-button"
-                disabled={!canStart}
+                disabled={!canStart || !clientConnected}
                 onClick={() => confirmLaunch(true)}
             >
                 Launch New Tracker
@@ -474,22 +485,61 @@ function LoadingStateIndicator({
 /** A component to choose your logic release. */
 function PermalinkChooser({
     options,
-    settings,
+    // settings,
     dispatch,
+    setClientConnected,
 }: {
     options: OptionDefs | undefined;
-    settings: AllTypedOptions | undefined;
+    // settings: AllTypedOptions | undefined;
     dispatch: React.Dispatch<OptionsAction>;
+    setClientConnected: (connected: boolean) => void;
 }) {
+    /*
     const permalink = useMemo(
         () => options && encodePermalink(options, settings!),
         [options, settings],
     );
+    */
 
+    const storedServer = getStoredArchipelagoServer();
+    const clientManager = useContext(ClientManagerContext);
+    const [server, setServer] = useState(
+        storedServer ?? 'archipelago.gg:XXXXX',
+    );
+    const [slot, setSlot] = useState('');
+    const [connecting, setConnecting] = useState(false);
+
+    useEffect(() => {
+        if (clientManager?.isHooked()) {
+            setClientConnected(true);
+            setSlot(clientManager.getSlotName()!);
+        }
+    }, [clientManager]);
+
+    const connectToArchipelago = async () => {
+        disconnectFromArchipelago();
+        setConnecting(true);
+        if (await clientManager?.login(server, slot, options!)) {
+            dispatch({
+                type: 'changeSettings',
+                settings: clientManager?.getLoadedSettings()!,
+            });
+            setClientConnected(true);
+            setConnecting(false);
+        }
+    };
+
+    const disconnectFromArchipelago = () => {
+        clientManager?.resetClient();
+        setClientConnected(false);
+    };
+
+    /*
     const onChangePermalink = useCallback(
         (link: string) => {
             try {
                 if (options) {
+                    console.log(options);
                     const settings = decodePermalink(options, link);
                     dispatch({ type: 'changeSettings', settings });
                 }
@@ -499,24 +549,47 @@ function PermalinkChooser({
         },
         [dispatch, options],
     );
+    */
 
     return (
         <div className={clsx(styles.optionsCategory, styles.permalinkChooser)}>
-            <legend>Settings String</legend>
+            <legend>Archipelago Information</legend>
             <div className={styles.permalinkInput}>
                 <input
                     type="text"
                     className="tracker-input"
-                    disabled={!permalink}
+                    disabled={!server}
                     placeholder="Select a Randomizer version first"
-                    value={permalink ?? ''}
-                    onChange={(e) => onChangePermalink(e.target.value)}
+                    value={server ?? ''}
+                    onChange={(e) => setServer(e.target.value)}
+                />
+                <input
+                    type="text"
+                    className="tracker-input"
+                    placeholder="Slot name"
+                    value={slot ?? ''}
+                    onChange={(e) => setSlot(e.target.value)}
                 />
             </div>
             <div>
-                Paste the settings string from the Randomizer here. Settings
-                strings are version-specific — you must select the correct
-                release first.
+                {clientManager?.isHooked()
+                    ? `Connected to ${clientManager.getServer()} as ${clientManager.getSlotName()}`
+                    : connecting
+                      ? 'Connecting...'
+                      : 'Enter the Archipelago address and slot name here.'}
+            </div>
+            <button className="tracker-button" onClick={connectToArchipelago}>
+                Connect
+            </button>
+            <button
+                className="tracker-button"
+                onClick={disconnectFromArchipelago}
+            >
+                Disconnect
+            </button>
+            <div>
+                Note: Connecting to Archipelago will automatically load your
+                settings. You do not need to manually input them.
             </div>
         </div>
     );

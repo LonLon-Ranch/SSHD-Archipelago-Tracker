@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
+import { ClientManagerContext } from './archipelago/ClientHooks';
 import CustomizationModal from './customization/CustomizationModal';
 import { hasCustomLayoutSelector } from './customization/Selectors';
 import { DragAndDropContext } from './dragAndDrop/DragAndDrop';
@@ -11,8 +12,14 @@ import { TrackerLayout } from './layouts/TrackerLayouts';
 import { useSyncTrackerStateToLocalStorage } from './LocalStorage';
 import LocationContextMenu from './locationTracker/LocationContextMenu';
 import LocationGroupContextMenu from './locationTracker/LocationGroupContextMenu';
-import { isLogicLoadedSelector } from './logic/Selectors';
+import type { InventoryItem } from './logic/Inventory';
+import { isLogicLoadedSelector, logicSelector } from './logic/Selectors';
 import { MakeTooltipsAvailable } from './tooltips/TooltipHooks';
+import {
+    bulkEditChecks,
+    setItemCounts,
+    type TrackerState,
+} from './tracker/Slice';
 import { useTrackerInterfaceReducer } from './tracker/TrackerInterfaceReducer';
 
 export default function TrackerContainer() {
@@ -78,10 +85,39 @@ function Tracker() {
 }
 
 function TrackerContents() {
+    const logic = useSelector(logicSelector);
     const [trackerInterfaceState, trackerInterfaceDispatch] =
         useTrackerInterfaceReducer();
 
     const hasCustomLayout = useSelector(hasCustomLayoutSelector);
+    const dispatch = useDispatch();
+    const clientManager = useContext(ClientManagerContext);
+
+    useEffect(() => {
+        const shortToFull: Record<string, string> = {};
+        for (const [fullName, checkInfo] of Object.entries(logic.checks)) {
+            shortToFull[checkInfo.name] = fullName;
+        }
+        const clientLocationCallback = (locs: string[]) => {
+            dispatch(
+                bulkEditChecks({
+                    checks: locs.map((loc) => shortToFull[loc]),
+                    markChecked: true,
+                }),
+            );
+        };
+
+        const clientItemCallback = (inv: TrackerState['inventory']) => {
+            const items: { item: InventoryItem; count: number }[] = [];
+            for (const [item, count] of Object.entries(inv)) {
+                items.push({ item: item as InventoryItem, count });
+            }
+            dispatch(setItemCounts(items));
+        };
+
+        clientManager?.setLocationCallback(clientLocationCallback);
+        clientManager?.setItemCallback(clientItemCallback);
+    }, [dispatch, logic, clientManager]);
 
     return (
         <>

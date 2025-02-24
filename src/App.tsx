@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useStore } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { MakeClientAvailable } from './archipelago/ClientHooks';
 import type { ColorScheme } from './customization/ColorScheme';
 import { colorSchemeSelector } from './customization/Selectors';
 import ErrorPage from './miscPages/ErrorPage';
@@ -52,19 +53,21 @@ function App() {
     }, [store]);
 
     return (
-        <ErrorBoundary FallbackComponent={ErrorPage}>
-            <Router basename={$PUBLIC_URL}>
-                <Routes>
-                    <Route path="/" element={<Options />} />
-                    <Route path="/tracker" element={<Tracker />} />
-                    <Route
-                        path="/acknowledgement"
-                        element={<FullAcknowledgement />}
-                    />
-                    <Route path="/guide" element={<Guide />} />
-                </Routes>
-            </Router>
-        </ErrorBoundary>
+        <MakeClientAvailable>
+            <ErrorBoundary FallbackComponent={ErrorPage}>
+                <Router basename={$PUBLIC_URL}>
+                    <Routes>
+                        <Route path="/" element={<Options />} />
+                        <Route path="/tracker" element={<Tracker />} />
+                        <Route
+                            path="/acknowledgement"
+                            element={<FullAcknowledgement />}
+                        />
+                        <Route path="/guide" element={<Guide />} />
+                    </Routes>
+                </Router>
+            </ErrorBoundary>
+        </MakeClientAvailable>
     );
 }
 
