@@ -37,7 +37,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/new-logic-tracker'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/archipelago'
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 23.x
