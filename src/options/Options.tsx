@@ -31,7 +31,12 @@ import {
 import { useReleases } from '../loader/ReleasesLoader';
 import { type LogicBundle, loadLogic } from '../logic/Slice';
 // import { decodePermalink, encodePermalink } from '../permalink/Settings';
-import { ClientManagerContext } from '../archipelago/ClientHooks';
+import {
+    ClientManagerContext,
+    useApConnectionStatus,
+    useApConnectionStatusString,
+    useIsApConnected,
+} from '../archipelago/ClientHooks';
 import { getStoredArchipelagoServer } from '../LocalStorage';
 import type {
     AllTypedOptions,
@@ -157,7 +162,7 @@ export default function Options() {
     } = useOptionsState();
     const appDispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [clientConnected, setClientConnected] = useState(false);
+    const isClientConnected = useIsApConnected();
 
     const launch = useCallback(
         (shouldReset?: boolean) => {
@@ -189,7 +194,6 @@ export default function Options() {
                     dispatch={dispatch}
                     options={loaded?.options}
                     // settings={settings}
-                    setClientConnected={setClientConnected}
                 />
             </div>
             <LaunchButtons
@@ -200,7 +204,7 @@ export default function Options() {
                 dispatch={dispatch}
                 currentLogic={loaded}
                 currentSettings={settings}
-                clientConnected={clientConnected}
+                clientConnected={isClientConnected}
             />
             {loaded && (
                 <OptionsList
@@ -487,12 +491,10 @@ function PermalinkChooser({
     options,
     // settings,
     dispatch,
-    setClientConnected,
 }: {
     options: OptionDefs | undefined;
     // settings: AllTypedOptions | undefined;
     dispatch: React.Dispatch<OptionsAction>;
-    setClientConnected: (connected: boolean) => void;
 }) {
     /*
     const permalink = useMemo(
@@ -506,34 +508,24 @@ function PermalinkChooser({
     const [server, setServer] = useState(
         storedServer ?? 'archipelago.gg:XXXXX',
     );
-    const [slot, setSlot] = useState('');
-    const [connecting, setConnecting] = useState(false);
-
-    useEffect(() => {
-        if (clientManager?.isHooked()) {
-            setClientConnected(true);
-            setSlot(clientManager.getSlotName()!);
-        }
-    }, [clientManager, setClientConnected]);
+    const [inputSlot, setInputSlot] = useState('');
+    const apStatus = useApConnectionStatus();
+    const apStatusString = useApConnectionStatusString();
+    const isConnected = apStatus.state === 'loggedIn';
 
     const connectToArchipelago = () => {
-        disconnectFromArchipelago();
-        setConnecting(true);
-        clientManager?.login(server, slot, options!).then((connected) => {
-            setConnecting(false);
+        clientManager?.login(server, inputSlot, options!).then((connected) => {
             if (connected) {
                 dispatch({
                     type: 'changeSettings',
                     settings: clientManager.getLoadedSettings()!,
                 });
-                setClientConnected(true);
             }
         });
     };
 
     const disconnectFromArchipelago = () => {
         clientManager?.resetClient();
-        setClientConnected(false);
     };
 
     /*
@@ -560,7 +552,7 @@ function PermalinkChooser({
                 <input
                     type="text"
                     className="tracker-input"
-                    disabled={!server}
+                    disabled={isConnected}
                     placeholder="Select a Randomizer version first"
                     value={server ?? ''}
                     onChange={(e) => setServer(e.target.value)}
@@ -569,16 +561,19 @@ function PermalinkChooser({
                     type="text"
                     className="tracker-input"
                     placeholder="Slot name"
-                    value={slot ?? ''}
-                    onChange={(e) => setSlot(e.target.value)}
+                    disabled={isConnected}
+                    value={
+                        apStatus.state === 'loggedIn'
+                            ? apStatus.slotName
+                            : inputSlot || ''
+                    }
+                    onChange={(e) => setInputSlot(e.target.value)}
                 />
             </div>
             <div>
-                {clientManager?.isHooked()
-                    ? clientManager.getStatusString()
-                    : connecting
-                      ? 'Connecting...'
-                      : 'Enter the Archipelago address and slot name here.'}
+                {apStatus.state === 'loggedOut' && !apStatus.error
+                    ? 'Enter the Archipelago address and slot name here.'
+                    : apStatusString}
             </div>
             <button
                 type="button"

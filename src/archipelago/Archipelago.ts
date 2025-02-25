@@ -14,6 +14,7 @@ import type {
     OptionValue,
 } from '../permalink/SettingsTypes';
 import type { TrackerState } from '../tracker/Slice';
+import { convertError } from '../utils/Errors';
 
 function kebabToSnake(input: string): string {
     return input.replace(/-/g, '_');
@@ -45,10 +46,22 @@ function optionIndicesToOptions(
     return settings as AllTypedOptions;
 }
 
+export type ClientConnectionState =
+    | {
+          state: 'loggedOut';
+          error?: string;
+      }
+    | {
+          state: 'loggingIn';
+      }
+    | {
+          state: 'loggedIn';
+          serverName: string;
+          slotName: string;
+      };
+
 export class APClientManager {
     client?: Client;
-    serverName: string = '';
-    slotName: string = '';
     loadedSettings?: AllTypedOptions;
     idToLocation?: Record<number, string>;
     idToItem?: Record<number, string>;
@@ -61,6 +74,9 @@ export class APClientManager {
     resolveItems?: (items: TrackerState['inventory']) => void;
     changeStage?: (stage: string) => void;
     onMessage?: (messages: string[]) => void;
+
+    status: ClientConnectionState = { state: 'loggedOut' };
+    statusSubscriptions: Set<() => void> = new Set();
 
     add(item: InventoryItem, count: number = 1) {
         this.inventory[item] ??= 0;
@@ -100,16 +116,10 @@ export class APClientManager {
         }
     }
 
-    getMessages(): string[] {
-        return this.messages;
-    }
-
     resetClient() {
         if (this.isHooked()) {
             this.client!.socket.disconnect();
             this.client = undefined;
-            this.serverName = '';
-            this.slotName = '';
             this.loadedSettings = undefined;
             this.connectedData = undefined;
             this.inventory = {};
@@ -118,23 +128,42 @@ export class APClientManager {
             this.resolveLocations = undefined;
             this.resolveItems = undefined;
             this.changeStage = undefined;
+
+            this.status = { state: 'loggedOut' };
+            this.notifyStatusSubscribers();
         }
-    }
-
-    getServer(): string | undefined {
-        return this.serverName;
-    }
-
-    getSlotName(): string | undefined {
-        return this.slotName;
     }
 
     getStatusString(): string {
-        if (this.isHooked()) {
-            return `Connected to ${this.serverName} as ${this.slotName}`;
+        switch (this.status.state) {
+            case 'loggedOut':
+                if (this.status.error) {
+                    return `Error: ${this.status.error}`;
+                } else {
+                    return 'Disconnected, please connect.';
+                }
+            case 'loggingIn':
+                return 'Connecting...';
+            case 'loggedIn':
+                return `Connected to ${this.status.serverName} as ${this.status.slotName}`;
         }
+    }
 
-        return 'Disconnected, please reconnect.';
+    getStatus(): ClientConnectionState {
+        return this.status;
+    }
+
+    subscribeToStatus(callback: () => void): () => void {
+        this.statusSubscriptions.add(callback);
+        return () => {
+            this.statusSubscriptions.delete(callback);
+        };
+    }
+
+    private notifyStatusSubscribers() {
+        for (const subscriber of this.statusSubscriptions) {
+            subscriber();
+        }
     }
 
     async login(
@@ -142,6 +171,12 @@ export class APClientManager {
         slot: string,
         optionDefs: OptionDefs,
     ): Promise<boolean> {
+        if (this.status.state === 'loggingIn') {
+            return false;
+        } else if (this.status.state === 'loggedIn') {
+            this.resetClient();
+        }
+
         const client = new Client();
 
         client.socket.on('connected', (content) => {
@@ -219,15 +254,22 @@ export class APClientManager {
         });
 
         try {
+            this.status = { state: 'loggingIn' };
+            this.notifyStatusSubscribers();
             await client.login(server, slot, 'Skyward Sword', {
                 tags: ['Tracker'],
             });
             this.client = client;
-            this.serverName = server;
-            this.slotName = slot;
+            this.status = {
+                state: 'loggedIn',
+                serverName: server,
+                slotName: slot,
+            };
+            this.notifyStatusSubscribers();
             return true;
         } catch (error: unknown) {
-            window.alert(error);
+            this.status = { state: 'loggedOut', error: convertError(error) };
+            this.notifyStatusSubscribers();
             return false;
         }
     }
