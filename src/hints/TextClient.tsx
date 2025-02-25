@@ -1,6 +1,9 @@
 import { useContext, useEffect, useRef, useState, type FormEvent } from 'react';
 import { useSelector } from 'react-redux';
-import { ClientManagerContext, useIsApConnected } from '../archipelago/ClientHooks';
+import {
+    ClientManagerContext,
+    useIsApConnected,
+} from '../archipelago/ClientHooks';
 import { itemLocationAssignmentEnabledSelector } from '../customization/Selectors';
 import { ItemAssignmentStatus } from './ItemAssignmentStatus';
 import styles from './TextClient.module.css';
