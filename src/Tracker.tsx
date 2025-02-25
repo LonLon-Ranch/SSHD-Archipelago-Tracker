@@ -24,10 +24,13 @@ import { isLogicLoadedSelector, logicSelector } from './logic/Selectors';
 import { MakeTooltipsAvailable } from './tooltips/TooltipHooks';
 import {
     bulkEditChecks,
+    // clickDungeonName,
     setItemCounts,
     type TrackerState,
 } from './tracker/Slice';
 import { useTrackerInterfaceReducer } from './tracker/TrackerInterfaceReducer';
+// import { requiredDungeonsSelector } from './tracker/Selectors';
+// import type { RegularDungeon } from './logic/Locations';
 
 export default function TrackerContainer() {
     const logicLoaded = useSelector(isLogicLoadedSelector);
@@ -100,7 +103,9 @@ function TrackerContents() {
     const dispatch = useDispatch();
     const clientManager = useContext(ClientManagerContext);
     const autoRegionLoading = useSelector(autoRegionLoadingSelector);
+    // const reqDungeons = useSelector(requiredDungeonsSelector);
 
+    // Configure the AP client for auto-tracking
     useEffect(() => {
         const shortToFull: Record<string, string> = {};
         for (const [fullName, checkInfo] of Object.entries(logic.checks)) {
@@ -139,6 +144,15 @@ function TrackerContents() {
         clientManager?.setLocationCallback(clientLocationCallback);
         clientManager?.setItemCallback(clientItemCallback);
         clientManager?.setNewStageCallback(stageCallback);
+        /* This will have to happen somewhere else to work properly
+        if (clientManager !== undefined) {
+            for (const dungeonName of clientManager!.requiredDungeons) {
+                const dungeon = dungeonName as RegularDungeon;
+                if (dungeon !== undefined && !reqDungeons.includes(dungeon)) {
+                    dispatch(clickDungeonName({dungeonName: dungeon}));
+                }
+            }
+        } */
     }, [
         dispatch,
         logic,

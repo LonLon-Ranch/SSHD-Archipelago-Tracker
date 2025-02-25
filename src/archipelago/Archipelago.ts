@@ -24,7 +24,6 @@ function optionIndicesToOptions(
     optionDefs: OptionDefs,
     loadedOptions: Record<string, number | string[]>,
 ): AllTypedOptions {
-    console.log(loadedOptions);
     const settings: Partial<Record<OptionsCommand, OptionValue>> =
         defaultSettings(optionDefs);
     settings['excluded-locations'] = [];
@@ -61,8 +60,6 @@ export type ClientConnectionState =
           slotName: string;
       };
 
-
-
 export class APClientManager {
     client?: Client;
     loadedSettings?: AllTypedOptions;
@@ -72,11 +69,11 @@ export class APClientManager {
     inventory: TrackerState['inventory'] = {};
     checkedLocations: string[] = [];
     messages: string[] = [];
+    requiredDungeons: string[] = [];
     resolveLocations?: (locs: string[]) => void;
     resolveItems?: (items: TrackerState['inventory']) => void;
     changeStage?: (stage: string) => void;
     onMessage?: (messages: string[]) => void;
-
 
     status: ClientConnectionState = { state: 'loggedOut' };
     statusSubscriptions: Set<() => void> = new Set();
@@ -132,7 +129,7 @@ export class APClientManager {
             this.resolveItems = undefined;
             this.changeStage = undefined;
 
-            this.status = { 'state': 'loggedOut' };
+            this.status = { state: 'loggedOut' };
             this.notifyStatusSubscribers();
         }
     }
@@ -180,39 +177,39 @@ export class APClientManager {
             this.resetClient();
         }
 
-        // Create a new instance of the Client class.
         const client = new Client();
-
-        /*
-        // Set up an event listener for whenever a message arrives and print the plain-text content to the console.
-        client.messages.on("message", (content) => {
-            console.log(content);
-        });
-        */
 
         client.socket.on('connected', (content) => {
             this.connectedData = content;
-            // console.log(content);
             setStoredArchipelagoServer(server);
+            const slotData = content.slot_data as Record<
+                string,
+                number | string[]
+            >;
             this.checkedLocations = [
                 ...this.connectedData.checked_locations.map(
                     (location_id) => this.idToLocation![location_id],
                 ),
             ];
-            this.loadedSettings = optionIndicesToOptions(
-                optionDefs,
-                content.slot_data as Record<string, number | string[]>,
-            );
+            this.loadedSettings = optionIndicesToOptions(optionDefs, slotData);
             this.resolveLocations?.(this.checkedLocations);
+            this.requiredDungeons =
+                (slotData['required_dungeons'] as string[]) ?? [];
+            client.socket.send({
+                cmd: 'GetDataPackage',
+                games: ['Skyward Sword'],
+            });
         });
 
         client.socket.on('dataPackage', (content) => {
-            this.idToLocation = invert<string, number>(
-                content.data.games['Skyward Sword'].location_name_to_id,
-            );
-            this.idToItem = invert<string, number>(
-                content.data.games['Skyward Sword'].item_name_to_id,
-            );
+            const ssData = content.data.games['Skyward Sword'];
+            console.log(ssData);
+            if (ssData !== undefined) {
+                this.idToLocation = invert<string, number>(
+                    ssData.location_name_to_id,
+                );
+                this.idToItem = invert<string, number>(ssData.item_name_to_id);
+            }
         });
 
         client.messages.on('message', (content) => {
@@ -263,7 +260,11 @@ export class APClientManager {
                 tags: ['Tracker'],
             });
             this.client = client;
-            this.status = { state: 'loggedIn', serverName: server, slotName: slot };
+            this.status = {
+                state: 'loggedIn',
+                serverName: server,
+                slotName: slot,
+            };
             this.notifyStatusSubscribers();
             return true;
         } catch (error: unknown) {
