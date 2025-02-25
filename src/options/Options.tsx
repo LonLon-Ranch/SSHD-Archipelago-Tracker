@@ -10,7 +10,7 @@ import React, {
     useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import semverSatisfies from 'semver/functions/satisfies';
+// import semverSatisfies from 'semver/functions/satisfies';
 import { Checkbox } from '../additionalComponents/Checkbox';
 import DiscordButton from '../additionalComponents/DiscordButton';
 import {
@@ -129,7 +129,7 @@ const wellKnownRemotes: {
         prettyName: 'Latest Archipelago Build',
         remoteName: 'https://github.com/Battlecats59/sslib/tree/archipelago',
     },
-    {
+    /*{
         prettyName: 'Latest Stable Release',
         remoteName: LATEST_STRING,
     },
@@ -140,7 +140,7 @@ const wellKnownRemotes: {
     {
         prettyName: 'Latest Development Build',
         remoteName: 'ssrando/main',
-    },
+    },*/
 ];
 
 /**
@@ -307,7 +307,7 @@ function LaunchButtons({
     );
 }
 
-const leastSupportedRelease = '>=2.1.1';
+// const leastSupportedRelease = '>=2.1.1';
 
 function useRemoteOptions(): SelectValue<RemoteReference>[] {
     const githubReleases = useReleases();
@@ -331,7 +331,7 @@ function useRemoteOptions(): SelectValue<RemoteReference>[] {
                 label: niceRemoteName(remoteName, prettyName),
             };
         });
-
+        /*
         if (githubReleases) {
             const supportedReleases = githubReleases.releases.filter((r) =>
                 semverSatisfies(r, leastSupportedRelease),
@@ -350,6 +350,7 @@ function useRemoteOptions(): SelectValue<RemoteReference>[] {
                 }),
             );
         }
+        */
         return remotes;
     }, [githubReleases]);
 }
