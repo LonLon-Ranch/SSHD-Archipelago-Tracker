@@ -22,7 +22,10 @@ import { convertError } from '../utils/Errors';
 import { delay } from '../utils/Promises';
 
 const defaultUpstream: RemoteReference = {
-    type: 'latestRelease',
+    type: 'forkBranch',
+    author: 'Battlecats59',
+    repoName: 'sslib',
+    branch: 'archipelago',
 };
 
 /**
