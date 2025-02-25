@@ -323,7 +323,7 @@ function useRemoteOptions(): SelectValue<RemoteReference>[] {
             }
         };
 
-        const remotes = wellKnownRemotes.map(({ prettyName, remoteName }) => {
+        return wellKnownRemotes.map(({ prettyName, remoteName }) => {
             const remote = parseRemote(remoteName)!;
             return {
                 value: JSON.stringify(remote),
@@ -351,7 +351,6 @@ function useRemoteOptions(): SelectValue<RemoteReference>[] {
             );
         }
         */
-        return remotes;
     }, [githubReleases]);
 }
 
