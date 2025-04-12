@@ -509,19 +509,22 @@ function PermalinkChooser({
         storedServer ?? 'archipelago.gg:XXXXX',
     );
     const [inputSlot, setInputSlot] = useState('');
+    const [inputPassword, setInputPassword] = useState('');
     const apStatus = useApConnectionStatus();
     const apStatusString = useApConnectionStatusString();
     const isConnected = apStatus.state === 'loggedIn';
 
     const connectToArchipelago = () => {
-        clientManager?.login(server, inputSlot, options!).then((connected) => {
-            if (connected) {
-                dispatch({
-                    type: 'changeSettings',
-                    settings: clientManager.getLoadedSettings()!,
-                });
-            }
-        });
+        clientManager
+            ?.login(server, inputSlot, inputPassword, options!)
+            .then((connected) => {
+                if (connected) {
+                    dispatch({
+                        type: 'changeSettings',
+                        settings: clientManager.getLoadedSettings()!,
+                    });
+                }
+            });
     };
 
     const disconnectFromArchipelago = () => {
@@ -568,6 +571,14 @@ function PermalinkChooser({
                             : inputSlot || ''
                     }
                     onChange={(e) => setInputSlot(e.target.value)}
+                />
+                <input
+                    type="text"
+                    className="tracker-input"
+                    placeholder="Password (leave blank if no password)"
+                    disabled={isConnected}
+                    value={inputPassword}
+                    onChange={(e) => setInputPassword(e.target.value)}
                 />
             </div>
             <div>

@@ -169,6 +169,7 @@ export class APClientManager {
     async login(
         server: string,
         slot: string,
+        password: string,
         optionDefs: OptionDefs,
     ): Promise<boolean> {
         if (this.status.state === 'loggingIn') {
@@ -258,6 +259,7 @@ export class APClientManager {
             this.notifyStatusSubscribers();
             await client.login(server, slot, 'Skyward Sword', {
                 tags: ['Tracker'],
+                password: password,
             });
             this.client = client;
             this.status = {
