@@ -26,7 +26,9 @@ function optionIndicesToOptions(
 ): AllTypedOptions {
     const settings: Partial<Record<OptionsCommand, OptionValue>> =
         defaultSettings(optionDefs);
+    // Excluded locations are handled differently, and starting items are just manually sent by AP
     settings['excluded-locations'] = [];
+    settings['starting-items'] = [];
     for (const option of optionDefs) {
         const loadedVal = loadedOptions[kebabToSnake(option.command)];
         if (option.permalink !== false && loadedVal !== undefined) {
@@ -43,6 +45,7 @@ function optionIndicesToOptions(
             }
         }
     }
+    // console.log(settings);
     return settings as AllTypedOptions;
 }
 
