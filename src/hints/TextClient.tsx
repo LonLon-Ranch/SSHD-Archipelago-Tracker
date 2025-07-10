@@ -1,5 +1,7 @@
 import { useContext, useEffect, useRef, useState, type FormEvent } from 'react';
 import { useSelector } from 'react-redux';
+import Tooltip from '../additionalComponents/Tooltip';
+import type { ClientMessage } from '../archipelago/Archipelago';
 import {
     ClientManagerContext,
     useIsApConnected,
@@ -8,17 +10,19 @@ import { itemLocationAssignmentEnabledSelector } from '../customization/Selector
 import { ItemAssignmentStatus } from './ItemAssignmentStatus';
 import styles from './TextClient.module.css';
 
-// Just a basic text client for now
+// Text client with color-coded nodes and tooltips to mirror that of the CommonClient
 export function TextClient() {
     const lastItem = useRef<HTMLLIElement>(null);
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<ClientMessage[]>([]);
     const [currMsg, setCurrMsg] = useState('');
     const autoItemAssignemt = useSelector(
         itemLocationAssignmentEnabledSelector,
     );
     const clientManager = useContext(ClientManagerContext);
     useEffect(() => {
-        clientManager?.setOnMessage((msgs: string[]) => setMessages([...msgs]));
+        clientManager?.setOnMessage((msgs: ClientMessage[]) =>
+            setMessages([...msgs]),
+        );
     }, [clientManager]);
 
     useEffect(() => {
@@ -33,6 +37,26 @@ export function TextClient() {
 
     const isConnected = useIsApConnected();
 
+    const renderMessage = (msg: ClientMessage) => {
+        return msg.map((ctxt) => (
+            <Tooltip
+                disabled={ctxt.tooltip === undefined}
+                content={ctxt.tooltip}
+                placement="bottom"
+            >
+                <span
+                    style={
+                        ctxt.color
+                            ? { color: ctxt.color, cursor: 'default' }
+                            : { cursor: 'default' }
+                    }
+                >
+                    {ctxt.text}
+                </span>
+            </Tooltip>
+        ));
+    };
+
     return (
         <div className={styles.textClient}>
             <ul className={styles.apMessages}>
@@ -40,11 +64,11 @@ export function TextClient() {
                     if (idx === messages.length - 1) {
                         return (
                             <li key={idx} ref={lastItem}>
-                                {msg}
+                                {renderMessage(msg)}
                             </li>
                         );
                     }
-                    return <li key={idx}>{msg}</li>;
+                    return <li key={idx}>{renderMessage(msg)}</li>;
                 })}
             </ul>
             <form onSubmit={sendMessage}>

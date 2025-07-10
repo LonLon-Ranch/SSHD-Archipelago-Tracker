@@ -1,5 +1,7 @@
-import { Client, type ConnectedPacket } from 'archipelago.js';
+import { Client, type ConnectedPacket, type MessageNode } from 'archipelago.js';
 import { invert } from 'es-toolkit';
+import type { ReactNode } from 'react';
+import React from 'react';
 import { setStoredArchipelagoServer } from '../LocalStorage';
 import { isItem, type InventoryItem } from '../logic/Inventory';
 import {
@@ -63,6 +65,16 @@ export type ClientConnectionState =
           slotName: string;
       };
 
+export class ColoredText {
+    constructor(
+        public text: string,
+        public color?: string,
+        public tooltip?: ReactNode,
+    ) {}
+}
+
+export type ClientMessage = ColoredText[];
+
 export class APClientManager {
     client?: Client;
     loadedSettings?: AllTypedOptions;
@@ -71,12 +83,12 @@ export class APClientManager {
     connectedData?: ConnectedPacket;
     inventory: TrackerState['inventory'] = {};
     checkedLocations: string[] = [];
-    messages: string[] = [];
+    messages: ClientMessage[] = [];
     requiredDungeons: string[] = [];
     resolveLocations?: (locs: string[]) => void;
     resolveItems?: (items: TrackerState['inventory']) => void;
     changeStage?: (stage: string) => void;
-    onMessage?: (messages: string[]) => void;
+    onMessage?: (messages: ClientMessage[]) => void;
 
     status: ClientConnectionState = { state: 'loggedOut' };
     statusSubscriptions: Set<() => void> = new Set();
@@ -108,7 +120,7 @@ export class APClientManager {
         this.changeStage = func;
     }
 
-    setOnMessage(func: (messages: string[]) => void) {
+    setOnMessage(func: (messages: ClientMessage[]) => void) {
         this.onMessage = func;
         this.onMessage(this.messages);
     }
@@ -216,8 +228,79 @@ export class APClientManager {
             }
         });
 
-        client.messages.on('message', (content) => {
-            this.messages.push(content.replace(/,/g, ''));
+        client.messages.on('message', (content, messageData) => {
+            let msgElements: ReactNode[] = [];
+            const convertNode = (node: MessageNode): ColoredText => {
+                switch (node.type) {
+                    case 'item':
+                        let item_color = 'cyan';
+                        let item_class = 'normal';
+                        if (node.item.progression) {
+                            item_color = 'plum';
+                            item_class = 'progression';
+                        } else if (node.item.trap) {
+                            item_color = 'salmon';
+                            item_class = 'trap';
+                        } else if (node.item.useful) {
+                            item_color = 'slateblue';
+                            item_class = 'useful';
+                        } else if (node.item.filler) {
+                            item_class = 'filler';
+                        }
+                        return {
+                            text: node.text,
+                            color: item_color,
+                            tooltip: `Item Class: ${item_class}`,
+                        };
+                    case 'location':
+                        return {
+                            text: node.text,
+                            color: 'limegreen',
+                        };
+                    case 'color':
+                        return {
+                            text: node.text,
+                            color: node.color,
+                        };
+                    case 'text':
+                        return {
+                            text: node.text,
+                        };
+                    case 'entrance':
+                        return {
+                            text: node.text,
+                            color: 'blue',
+                        };
+                    case 'player':
+                        let player_color =
+                            this.connectedData?.slot == node.player.slot
+                                ? 'magenta'
+                                : 'lightyellow';
+                        let player_type = 'player';
+                        switch (node.player.type) {
+                            case 0:
+                                player_type = 'spectator';
+                                break;
+                            case 2:
+                                player_type = 'group';
+                                break;
+                            default:
+                                break;
+                        }
+                        let player_tooltip: React.ReactNode = [
+                            `Game: ${node.player.game}`,
+                            React.createElement('br', { key: 'break' }),
+                            `Type: ${player_type}`,
+                        ];
+                        return {
+                            text: node.text,
+                            color: player_color,
+                            tooltip: player_tooltip,
+                        };
+                }
+            };
+            let msg = messageData.map((node) => convertNode(node));
+            this.messages.push(msg);
             this.onMessage?.(this.messages);
         });
 
