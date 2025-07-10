@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState, type FormEvent } from 'react';
 import { useSelector } from 'react-redux';
 import Tooltip from '../additionalComponents/Tooltip';
-import type { ClientMessage } from '../archipelago/Archipelago';
+import type { ClientMessage, ColoredText } from '../archipelago/Archipelago';
 import {
     ClientManagerContext,
     useIsApConnected,
@@ -37,6 +37,12 @@ export function TextClient() {
 
     const isConnected = useIsApConnected();
 
+    const getColorStyle = (ctxt: ColoredText) => {
+        if (ctxt.customColor) return { color: ctxt.customColor };
+        if (ctxt.color) return { color: `var(--scheme-${ctxt.color})` };
+        return {};
+    };
+
     const renderMessage = (msg: ClientMessage) => {
         return msg.map((ctxt, idx) => (
             <Tooltip
@@ -46,11 +52,10 @@ export function TextClient() {
                 key={idx}
             >
                 <span
-                    style={
-                        ctxt.color
-                            ? { color: ctxt.color, cursor: 'default' }
-                            : { cursor: 'default' }
-                    }
+                    style={{
+                        cursor: 'default',
+                        ...getColorStyle(ctxt),
+                    }}
                 >
                     {ctxt.text}
                 </span>

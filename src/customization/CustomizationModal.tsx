@@ -74,6 +74,14 @@ const colors: { key: keyof ColorScheme; name: string }[] = [
     { key: 'unrequired', name: 'Unrequired Dungeon' },
     { key: 'required', name: 'Required Dungeon' },
     { key: 'checked', name: 'Completed Check' },
+    { key: 'apProgression', name: 'Archipelago Progression Item' },
+    { key: 'apTrap', name: 'Archipelago Trap Item' },
+    { key: 'apUseful', name: 'Archipelago Useful Item' },
+    { key: 'apFiller', name: 'Archipelago Filler Item' },
+    { key: 'apLocation', name: 'Archipelago Location' },
+    { key: 'apEntrance', name: 'Archipelago Entrance' },
+    { key: 'apThisPlayer', name: 'Archipelago This Player Slot' },
+    { key: 'apOtherPlayer', name: 'Archipelago Other Player Slot' },
 ];
 
 function importCustomLayout(): ThunkResult {

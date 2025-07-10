@@ -2,6 +2,7 @@ import { Client, type ConnectedPacket, type MessageNode } from 'archipelago.js';
 import { invert } from 'es-toolkit';
 import type { ReactNode } from 'react';
 import React from 'react';
+import type { ColorScheme } from '../customization/ColorScheme';
 import { setStoredArchipelagoServer } from '../LocalStorage';
 import { isItem, type InventoryItem } from '../logic/Inventory';
 import {
@@ -68,7 +69,8 @@ export type ClientConnectionState =
 export class ColoredText {
     constructor(
         public text: string,
-        public color?: string,
+        public color?: keyof ColorScheme,
+        public customColor?: string, // for color nodes
         public tooltip?: ReactNode,
     ) {}
 }
@@ -232,16 +234,16 @@ export class APClientManager {
             const convertNode = (node: MessageNode): ColoredText => {
                 switch (node.type) {
                     case 'item': {
-                        let item_color = 'cyan';
+                        let item_color: keyof ColorScheme = 'apFiller';
                         let item_class = 'normal';
                         if (node.item.progression) {
-                            item_color = 'plum';
+                            item_color = 'apProgression';
                             item_class = 'progression';
                         } else if (node.item.trap) {
-                            item_color = 'salmon';
+                            item_color = 'apTrap';
                             item_class = 'trap';
                         } else if (node.item.useful) {
-                            item_color = 'slateblue';
+                            item_color = 'apUseful';
                             item_class = 'useful';
                         } else if (node.item.filler) {
                             item_class = 'filler';
@@ -255,12 +257,12 @@ export class APClientManager {
                     case 'location':
                         return {
                             text: node.text,
-                            color: 'limegreen',
+                            color: 'apLocation',
                         };
                     case 'color':
                         return {
                             text: node.text,
-                            color: node.color,
+                            customColor: node.color,
                         };
                     case 'text':
                         return {
@@ -269,13 +271,13 @@ export class APClientManager {
                     case 'entrance':
                         return {
                             text: node.text,
-                            color: 'blue',
+                            color: 'apEntrance',
                         };
                     case 'player': {
                         const player_color =
                             this.connectedData?.slot === node.player.slot
-                                ? 'magenta'
-                                : 'lightyellow';
+                                ? 'apThisPlayer'
+                                : 'apOtherPlayer';
                         let player_type = 'player';
                         switch (node.player.type) {
                             case 0:

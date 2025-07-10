@@ -7,6 +7,14 @@ export type ColorScheme = { [logicalState in LogicalState]: string } & {
     required: string;
     unrequired: string;
     checked: string;
+    apFiller: string;
+    apProgression: string;
+    apTrap: string;
+    apUseful: string;
+    apLocation: string;
+    apEntrance: string;
+    apThisPlayer: string;
+    apOtherPlayer: string;
 };
 
 export const lightColorScheme: ColorScheme = {
@@ -20,6 +28,14 @@ export const lightColorScheme: ColorScheme = {
     unrequired: '#808080',
     checked: '#303030',
     trickLogic: '#0E8803',
+    apFiller: 'darkcyan',
+    apProgression: 'plum',
+    apTrap: 'salmon',
+    apUseful: 'stateblue',
+    apLocation: 'limegreen',
+    apEntrance: 'blue',
+    apThisPlayer: 'darkmagenta',
+    apOtherPlayer: 'goldenrod',
 };
 
 export const darkColorScheme: ColorScheme = {
@@ -27,4 +43,7 @@ export const darkColorScheme: ColorScheme = {
     background: '#000000',
     text: '#FFFFFF',
     checked: '#B6B6B6',
+    apFiller: 'cyan',
+    apThisPlayer: 'magenta',
+    apOtherPlayer: 'palegoldenrod',
 };
