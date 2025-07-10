@@ -38,11 +38,12 @@ export function TextClient() {
     const isConnected = useIsApConnected();
 
     const renderMessage = (msg: ClientMessage) => {
-        return msg.map((ctxt) => (
+        return msg.map((ctxt, idx) => (
             <Tooltip
                 disabled={ctxt.tooltip === undefined}
                 content={ctxt.tooltip}
                 placement="bottom"
+                key={idx}
             >
                 <span
                     style={

@@ -228,11 +228,10 @@ export class APClientManager {
             }
         });
 
-        client.messages.on('message', (content, messageData) => {
-            let msgElements: ReactNode[] = [];
+        client.messages.on('message', (_, messageData) => {
             const convertNode = (node: MessageNode): ColoredText => {
                 switch (node.type) {
-                    case 'item':
+                    case 'item': {
                         let item_color = 'cyan';
                         let item_class = 'normal';
                         if (node.item.progression) {
@@ -252,6 +251,7 @@ export class APClientManager {
                             color: item_color,
                             tooltip: `Item Class: ${item_class}`,
                         };
+                    }
                     case 'location':
                         return {
                             text: node.text,
@@ -271,9 +271,9 @@ export class APClientManager {
                             text: node.text,
                             color: 'blue',
                         };
-                    case 'player':
-                        let player_color =
-                            this.connectedData?.slot == node.player.slot
+                    case 'player': {
+                        const player_color =
+                            this.connectedData?.slot === node.player.slot
                                 ? 'magenta'
                                 : 'lightyellow';
                         let player_type = 'player';
@@ -287,7 +287,7 @@ export class APClientManager {
                             default:
                                 break;
                         }
-                        let player_tooltip: React.ReactNode = [
+                        const player_tooltip: React.ReactNode = [
                             `Game: ${node.player.game}`,
                             React.createElement('br', { key: 'break' }),
                             `Type: ${player_type}`,
@@ -297,9 +297,10 @@ export class APClientManager {
                             color: player_color,
                             tooltip: player_tooltip,
                         };
+                    }
                 }
             };
-            let msg = messageData.map((node) => convertNode(node));
+            const msg = messageData.map((node) => convertNode(node));
             this.messages.push(msg);
             this.onMessage?.(this.messages);
         });
