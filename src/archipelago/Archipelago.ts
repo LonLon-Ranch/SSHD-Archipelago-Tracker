@@ -85,11 +85,14 @@ export class APClientManager {
     connectedData?: ConnectedPacket;
     inventory: TrackerState['inventory'] = {};
     checkedLocations: string[] = [];
+    checkedCubes: number = 0;
     messages: ClientMessage[] = [];
     requiredDungeons: string[] = [];
+    cubeDataKey?: string;
     resolveLocations?: (locs: string[]) => void;
     resolveItems?: (items: TrackerState['inventory']) => void;
     changeStage?: (stage: string) => void;
+    resolveCubes?: (cubeflags: number) => void;
     onMessage?: (messages: ClientMessage[]) => void;
 
     status: ClientConnectionState = { state: 'loggedOut' };
@@ -122,6 +125,11 @@ export class APClientManager {
         this.changeStage = func;
     }
 
+    setCubeCallback(func: (cubeflags: number) => void) {
+        this.resolveCubes = func;
+        this.resolveCubes(this.checkedCubes);
+    }
+
     setOnMessage(func: (messages: ClientMessage[]) => void) {
         this.onMessage = func;
         this.onMessage(this.messages);
@@ -141,10 +149,13 @@ export class APClientManager {
             this.connectedData = undefined;
             this.inventory = {};
             this.checkedLocations = [];
+            this.checkedCubes = 0;
             this.messages = [];
+            this.cubeDataKey = undefined;
             this.resolveLocations = undefined;
             this.resolveItems = undefined;
             this.changeStage = undefined;
+            this.resolveCubes = undefined;
 
             this.status = { state: 'loggedOut' };
             this.notifyStatusSubscribers();
@@ -216,6 +227,15 @@ export class APClientManager {
             client.socket.send({
                 cmd: 'GetDataPackage',
                 games: ['Skyward Sword'],
+            });
+            this.cubeDataKey = `skyward_sword_cubes_${content.team}_${content.slot}`;
+            client.socket.send({
+                cmd: 'SetNotify',
+                keys: [this.cubeDataKey],
+            });
+            client.socket.send({
+                cmd: 'Get',
+                keys: [this.cubeDataKey],
             });
         });
 
@@ -340,6 +360,26 @@ export class APClientManager {
             const stage = content.data?.ss_stage_name;
             if (stage !== undefined) {
                 this.changeStage?.(stage as string);
+            }
+        });
+
+        client.socket.on('retrieved', (content) => {
+            if (this.cubeDataKey !== undefined) {
+                const new_cubes = content.keys[this.cubeDataKey];
+                if (new_cubes !== undefined) {
+                    this.checkedCubes = new_cubes as number;
+                    this.resolveCubes?.(new_cubes as number);
+                }
+            }
+        });
+
+        client.socket.on('setReply', (content) => {
+            if (this.cubeDataKey === content.key) {
+                const new_cubes = content.value;
+                if (new_cubes !== undefined) {
+                    this.checkedCubes = new_cubes as number;
+                    this.resolveCubes?.(new_cubes as number);
+                }
             }
         });
 

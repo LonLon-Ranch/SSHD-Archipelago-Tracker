@@ -10,6 +10,7 @@ import {
     autoRegionLoadingSelector,
     hasCustomLayoutSelector,
 } from './customization/Selectors';
+import goddessCubesList_ from './data/goddessCubes2.json';
 import stageToRegion from './data/stageToRegion.json';
 import { DragAndDropContext } from './dragAndDrop/DragAndDrop';
 import EntranceTracker from './entranceTracker/EntranceTracker';
@@ -120,6 +121,19 @@ function TrackerContents() {
             );
         };
 
+        const clientCubeCallback = (cubeflags: number) => {
+            const cubes = Array.from(goddessCubesList_);
+            const struck = cubes
+                .filter((_, index) => (cubeflags & (1 << index)) !== 0)
+                .map((cubedata) => cubedata[1]);
+            dispatch(
+                bulkEditChecks({
+                    checks: struck,
+                    markChecked: true,
+                }),
+            );
+        };
+
         const clientItemCallback = (inv: TrackerState['inventory']) => {
             const items: { item: InventoryItem; count: number }[] = [];
             for (const [item, count] of Object.entries(inv)) {
@@ -144,6 +158,7 @@ function TrackerContents() {
         clientManager?.setLocationCallback(clientLocationCallback);
         clientManager?.setItemCallback(clientItemCallback);
         clientManager?.setNewStageCallback(stageCallback);
+        clientManager?.setCubeCallback(clientCubeCallback);
         /* This will have to happen somewhere else to work properly
         if (clientManager !== undefined) {
             for (const dungeonName of clientManager!.requiredDungeons) {
