@@ -77,6 +77,8 @@ export class ColoredText {
 
 export type ClientMessage = ColoredText[];
 
+const MAX_MESSAGES = 1000;
+
 export class APClientManager {
     client?: Client;
     loadedSettings?: AllTypedOptions;
@@ -324,6 +326,10 @@ export class APClientManager {
             };
             const msg = messageData.map((node) => convertNode(node));
             this.messages.push(msg);
+            // Don't keep track of too many messages at a time
+            if (this.messages.length > MAX_MESSAGES) {
+                this.messages.shift();
+            }
             this.onMessage?.(this.messages);
         });
 
