@@ -1,0 +1,494 @@
+{
+    "skyloftSubmap": {
+        "name": "Skyloft",
+        "markerX": 48,
+        "markerY": 49,
+        "map": "skyloftMap",
+        "exitParams": {
+            "image": "leaveSkyloft",
+            "width": 15,
+            "left": 2,
+            "top": 1
+        },
+        "markers": [
+            {
+                "region": "Knight Academy",
+                "markerX": 35,
+                "markerY": 42,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Upper Skyloft",
+                "markerX": 38,
+                "markerY": 30,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Central Skyloft",
+                "markerX": 48,
+                "markerY": 52
+            },
+            {
+                "region": "Skyloft Village",
+                "markerX": 62,
+                "markerY": 65
+            },
+            {
+                "region": "Sparring Hall",
+                "markerX": 32,
+                "markerY": 55
+            },
+            {
+                "region": "Batreaux's House",
+                "markerX": 58,
+                "markerY": 82
+            },
+            {
+                "region": "Beedle's Shop",
+                "markerX": 78,
+                "markerY": 48
+            },
+            {
+                "region": "Beedle's Island",
+                "markerX": 85,
+                "markerY": 35
+            },
+            {
+                "region": "Beedle's Airshop",
+                "markerX": 82,
+                "markerY": 58
+            },
+            {
+                "region": "Lumpy Pumpkin",
+                "markerX": 25,
+                "markerY": 28
+            }
+        ],
+        "entranceMarkers": [
+            {
+                "exitPool": "dungeons",
+                "entryName": "Sky Keep",
+                "markerX": 50,
+                "markerY": 18
+            },
+            {
+                "exitPool": "silent_realms",
+                "entryName": "Din's Silent Realm",
+                "markerX": 42,
+                "markerY": 75,
+                "submarkerPlacement": "left"
+            },
+            {
+                "exitPool": "silent_realms",
+                "entryName": "Farore's Silent Realm",
+                "markerX": 55,
+                "markerY": 82
+            },
+            {
+                "exitPool": "silent_realms",
+                "entryName": "Nayru's Silent Realm",
+                "markerX": 68,
+                "markerY": 78,
+                "submarkerPlacement": "left"
+            }
+        ]
+    },
+    "faronSubmap": {
+        "name": "Faron Province",
+        "markerX": 67.6,
+        "markerY": 58,
+        "map": "faronMap",
+        "exitParams": {
+            "image": "leaveFaron",
+            "width": 12,
+            "left": 1,
+            "top": 1
+        },
+        "markers": [
+            {
+                "region": "Sealed Grounds",
+                "markerX": 20,
+                "markerY": 58
+            },
+            {
+                "region": "Sealed Temple",
+                "markerX": 18,
+                "markerY": 72,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Faron Woods",
+                "markerX": 48,
+                "markerY": 48,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Deep Woods",
+                "markerX": 55,
+                "markerY": 38
+            },
+            {
+                "region": "Lake Floria",
+                "markerX": 60,
+                "markerY": 75
+            },
+            {
+                "region": "Floria Waterfall",
+                "markerX": 68,
+                "markerY": 68
+            },
+            {
+                "region": "Flooded Faron Woods",
+                "markerX": 80,
+                "markerY": 28
+            },
+            {
+                "region": "Inside the Great Tree",
+                "markerX": 48,
+                "markerY": 60,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Inside the Flooded Great Tree",
+                "markerX": 78,
+                "markerY": 42
+            },
+            {
+                "region": "Skyview Spring",
+                "markerX": 38,
+                "markerY": 32
+            }
+        ],
+        "entranceMarkers": [
+            {
+                "exitPool": "dungeons",
+                "entryName": "Skyview",
+                "markerX": 58.5,
+                "markerY": 18,
+                "submarkerPlacement": "left"
+            },
+            {
+                "exitPool": "dungeons",
+                "entryName": "Ancient Cistern",
+                "markerX": 45,
+                "markerY": 70,
+                "submarkerPlacement": "left"
+            },
+            {
+                "exitPool": "silent_realms",
+                "entryName": "Farore's Silent Realm",
+                "markerX": 58,
+                "markerY": 35
+            }
+        ]
+    },
+    "eldinSubmap": {
+        "name": "Eldin Province",
+        "markerX": 48,
+        "markerY": 22,
+        "map": "eldinMap",
+        "exitParams": {
+            "image": "leaveEldin",
+            "width": 14,
+            "left": 0,
+            "top": 14
+        },
+        "markers": [
+            {
+                "region": "Lower Eldin Cave",
+                "markerX": 22,
+                "markerY": 48
+            },
+            {
+                "region": "Upper Eldin Cave",
+                "markerX": 28,
+                "markerY": 32
+            },
+            {
+                "region": "Eldin Volcano",
+                "markerX": 32,
+                "markerY": 72,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Mogma Turf",
+                "markerX": 45,
+                "markerY": 75
+            },
+            {
+                "region": "Volcano Summit",
+                "markerX": 60,
+                "markerY": 42,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Bokoblin Base",
+                "markerX": 80,
+                "markerY": 72,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Fire Node",
+                "markerX": 72,
+                "markerY": 52
+            },
+            {
+                "region": "Earth Spring",
+                "markerX": 48,
+                "markerY": 25
+            }
+        ],
+        "entranceMarkers": [
+            {
+                "exitPool": "dungeons",
+                "entryName": "Earth Temple",
+                "markerX": 42,
+                "markerY": 55
+            },
+            {
+                "exitPool": "dungeons",
+                "entryName": "Fire Sanctuary",
+                "markerX": 70,
+                "markerY": 28
+            },
+            {
+                "exitPool": "silent_realms",
+                "entryName": "Nayru's Silent Realm",
+                "markerX": 36,
+                "markerY": 60,
+                "submarkerPlacement": "left"
+            }
+        ]
+    },
+    "lanayruSubmap": {
+        "name": "Lanayru Province",
+        "markerX": 27,
+        "markerY": 50,
+        "map": "lanayruMap",
+        "exitParams": {
+            "image": "leaveLanayru",
+            "width": 12,
+            "left": 7,
+            "top": 1
+        },
+        "markers": [
+            {
+                "region": "Lanayru Mine",
+                "markerX": 72,
+                "markerY": 62
+            },
+            {
+                "region": "Lanayru Desert",
+                "markerX": 62,
+                "markerY": 38
+            },
+            {
+                "region": "Lanayru Caves",
+                "markerX": 55,
+                "markerY": 42,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Lanayru Sand Sea",
+                "markerX": 38,
+                "markerY": 52
+            },
+            {
+                "region": "Lanayru Gorge",
+                "markerX": 55,
+                "markerY": 68,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Lightning Node",
+                "markerX": 45,
+                "markerY": 25
+            },
+            {
+                "region": "Shipyard",
+                "markerX": 28,
+                "markerY": 65
+            },
+            {
+                "region": "Pirate Stronghold",
+                "markerX": 15,
+                "markerY": 48
+            },
+            {
+                "region": "Pirate Stronghold Interior",
+                "markerX": 12,
+                "markerY": 55,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Construction Bay",
+                "markerX": 32,
+                "markerY": 28
+            }
+        ],
+        "entranceMarkers": [
+            {
+                "exitPool": "dungeons",
+                "entryName": "Lanayru Mining Facility",
+                "markerX": 65,
+                "markerY": 22,
+                "submarkerPlacement": "left"
+            },
+            {
+                "exitPool": "dungeons",
+                "entryName": "Sandship",
+                "markerX": 28,
+                "markerY": 45,
+                "submarkerPlacement": "left"
+            },
+            {
+                "exitPool": "silent_realms",
+                "entryName": "Din's Silent Realm",
+                "markerX": 62,
+                "markerY": 12
+            }
+        ]
+    },
+    "sky": {
+        "name": "Sky",
+        "islandMarkers": [
+            {
+                "region": "The Sky",
+                "markerX": 50,
+                "markerY": 50,
+                "submarkerPlacement": "right"
+            },
+            {
+                "region": "Bamboo Island",
+                "markerX": 25,
+                "markerY": 30
+            },
+            {
+                "region": "Bamboo Island Interior",
+                "markerX": 22,
+                "markerY": 32,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Island Closest to Faron Pillar",
+                "markerX": 68,
+                "markerY": 42
+            },
+            {
+                "region": "Island near Bamboo Island",
+                "markerX": 18,
+                "markerY": 22
+            },
+            {
+                "region": "Skipper's Retreat",
+                "markerX": 72,
+                "markerY": 68
+            },
+            {
+                "region": "Skipper's Retreat Shack",
+                "markerX": 74,
+                "markerY": 70,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Fun Fun Island",
+                "markerX": 38,
+                "markerY": 78
+            },
+            {
+                "region": "Orielle's Island",
+                "markerX": 35,
+                "markerY": 68
+            },
+            {
+                "region": "Northeast Island",
+                "markerX": 78,
+                "markerY": 18
+            },
+            {
+                "region": "Triple Island",
+                "markerX": 48,
+                "markerY": 22
+            },
+            {
+                "region": "Isle of Songs",
+                "markerX": 85,
+                "markerY": 50,
+                "submarkerPlacement": "left"
+            },
+            {
+                "region": "Bug Heaven",
+                "markerX": 15,
+                "markerY": 68
+            },
+            {
+                "region": "Bazaar",
+                "markerX": 42,
+                "markerY": 48
+            }
+        ]
+    },
+    "silentRealms": {
+        "name": "Silent Realms",
+        "markers": [
+            {
+                "region": "The Goddess's Silent Realm",
+                "markerX": 50,
+                "markerY": 50
+            },
+            {
+                "region": "Hylia's Realm",
+                "markerX": 30,
+                "markerY": 60
+            },
+            {
+                "region": "Temple of Hylia",
+                "markerX": 32,
+                "markerY": 62,
+                "submarkerPlacement": "left"
+            }
+        ]
+    },
+    "specialAreas": {
+        "name": "Special Areas",
+        "markers": [
+            {
+                "region": "Inside the Thunderhead",
+                "markerX": 50,
+                "markerY": 30
+            },
+            {
+                "region": "Inside the Statue of the Goddess",
+                "markerX": 45,
+                "markerY": 45
+            },
+            {
+                "region": "Temple of Time",
+                "markerX": 55,
+                "markerY": 55
+            },
+            {
+                "region": "Thrill Digger Cave",
+                "markerX": 40,
+                "markerY": 40
+            },
+            {
+                "region": "Ancient Harbour",
+                "markerX": 70,
+                "markerY": 45
+            }
+        ]
+    },
+    "thunderhead": {
+        "region": "Thunderhead",
+        "markerX": 16,
+        "markerY": 11,
+        "submarkerPlacement": "left"
+    },
+    "skyKeep": {
+        "region": "Sky Keep",
+        "markerX": 50,
+        "markerY": 24,
+        "submarkerPlacement": "right"
+    }
+}
